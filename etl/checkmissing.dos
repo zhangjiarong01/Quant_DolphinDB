@@ -1,0 +1,27 @@
+login(`admin, `123456)
+
+// === 配置 ===
+symbols = ["BTCUSDT", "ETHUSDT", "BNBUSDT", "SOLUSDT", "XRPUSDT", "ADAUSDT", "DOGEUSDT", "AVAXUSDT"]
+startDate = 2020.01M
+endDate = 2024.12M
+
+months = startDate..endDate
+tbl = loadTable("dfs://crypto_kline_1h", "kline_1h")
+
+// === 构造所有理论组合 ===
+symbolTable = table(symbols as symbol)
+monthTable = table(months as month)
+
+// 使用 cj 函数实现交叉连接
+theoretical = cj(symbolTable, monthTable)
+
+// === 实际数据分布（去重后） ===
+actual = select distinct symbol, month(open_time) as month from tbl
+
+// === 转换理论表为symbol + month 结构
+theoreticalMonth = select symbol, month(month) as month from theoretical
+
+// === 外连接后找出 null（缺失数据）
+check = select theoreticalMonth.symbol as ts,theoreticalMonth.month  as tm ,actual.symbol as asym ,actual.month as am  from lj(theoreticalMonth, actual, `symbol`month)
+
+missing = select * from check where asym is null

@@ -1,0 +1,93 @@
+login(`admin, `123456)
+
+// ========== 定义时间分区（按月） ==========
+months = 2020.01M..2030.12M
+db = database("dfs://crypto_kline_1h", VALUE, months, engine="TSDB")
+
+// ========== 表结构 ==========
+schema = table(1:0,
+    `open_time`open`high`low`close`volume`close_time`quote_volume`n_trades`taker_base`taker_quote`symbol`update_time,
+    [DATETIME, DOUBLE, DOUBLE, DOUBLE, DOUBLE, DOUBLE, DATETIME, DOUBLE, INT, DOUBLE, DOUBLE, SYMBOL, TIMESTAMP]
+)
+
+// ========== 创建分区表 ==========
+pt = db.createPartitionedTable(schema, `kline_1h, `open_time, sortColumns=`close_time)
+print("✅ 单字段分区表创建成功：dfs://crypto_kline_1h/kline_1h")
+
+
+
+// ========== 数据表注释 ==========
+
+setTableComment(pt, "币安现货K线数据")
+
+setColumnComment(pt, {
+    open_time     : "K线开盘时间（毫秒）",
+    open          : "开盘价",
+    high          : "最高价",
+    low           : "最低价",
+    close         : "收盘价",
+    volume        : "成交量（Base资产数量）",
+    close_time    : "K线收盘时间（毫秒）",
+    quote_volume  : "成交额（Quote资产数量）",
+    n_trades      : "成交笔数",
+    taker_base    : "主动买入成交的Base资产数量",
+    taker_quote   : "主动买入成交的Quote资产数量",
+    symbol        : "交易对（如BTCUSDT）",
+    update_time   : "导入数据时记录的更新时间戳"
+})
+
+
+schema(pt).colDefs
+
+
+
+// ========== 删除重复导入数据 ==========
+
+login(`admin, `123456)
+
+// 1. 载入原始表
+old = loadTable("dfs://crypto_kline_1h", "kline_1h")
+
+// 2. 删除重复值：按 symbol + open_time 去重（保留最大 update_time）
+clean = select top 1 * from old context by symbol, open_time order by update_time desc
+
+// 3. 删除原表（谨慎操作）
+db = database("dfs://crypto_kline_1h")
+dropTable(db, `kline_1h)
+print("🗑️ 原表已删除")
+
+// 4. 重建表结构
+schema = table(1:0,
+    `open_time`open`high`low`close`volume`close_time`quote_volume`n_trades`taker_base`taker_quote`symbol`update_time,
+    [DATETIME, DOUBLE, DOUBLE, DOUBLE, DOUBLE, DOUBLE, DATETIME, DOUBLE, INT, DOUBLE, DOUBLE, SYMBOL, TIMESTAMP]
+)
+newtbl = db.createPartitionedTable(schema, `kline_1h, `open_time, sortColumns=`close_time)
+print("✅ 新表已创建")
+
+// 5. 插入干净数据
+newtbl.append!(clean)
+print("✅ 已写入去重后的数据，共行数：" + string(size(clean)))
+
+
+// ========== 数据表注释 ==========
+
+setTableComment(newtbl, "币安现货K线数据")
+
+setColumnComment(newtbl, {
+    open_time     : "K线开盘时间（毫秒）",
+    open          : "开盘价",
+    high          : "最高价",
+    low           : "最低价",
+    close         : "收盘价",
+    volume        : "成交量（Base资产数量）",
+    close_time    : "K线收盘时间（毫秒）",
+    quote_volume  : "成交额（Quote资产数量）",
+    n_trades      : "成交笔数",
+    taker_base    : "主动买入成交的Base资产数量",
+    taker_quote   : "主动买入成交的Quote资产数量",
+    symbol        : "交易对（如BTCUSDT）",
+    update_time   : "导入数据时记录的更新时间戳"
+})
+
+
+schema(newtbl).colDefs

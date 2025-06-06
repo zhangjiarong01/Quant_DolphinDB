@@ -1,0 +1,96 @@
+
+// 加载因子
+factor = loadTable("dfs://crypto_kline_1h", "hourfactor")
+
+factorwide = select factor_value from factor pivot by symbol, open_time, factor_name
+
+
+// 加载收益数据，假设你计算的是未来1小时收益
+price = select open_time, symbol, log(close / move(close, 1)) as ret1h 
+        from loadTable("dfs://crypto_kline_1h", "kline_1h") context by symbol
+
+forwardret1h = select open_time, symbol, move(ret1h,-1) as forwardret from price context by symbol
+
+data = lj(forwardret1h, factorwide, `symbol`open_time)
+
+
+ICvalue = select corr(momentum5h, forwardret) as IC from data group by open_time
+
+
+
+cols = schema(data).colDefs.name[3:]
+
+ICs = table(1:0, `open_time`factor`IC, [DATETIME, STRING, DOUBLE])
+
+for (col in cols) {
+    tmp = select open_time, col as factor, 
+                 corr(col, forwardret) as IC 
+          from data group by open_time
+    ICs.append!(tmp)
+}
+
+
+use alphalens
+
+// === Step 1: 获取 forward return 表 ===
+t = loadTable("dfs://crypto_kline_1h", "kline_1h")
+ret1h = select open_time as trade_date, symbol, log(close / move(close, 1)) as forwardRet
+         from t context by symbol
+
+// === Step 2: 加载因子宽表 ===
+factor = loadTable("dfs://crypto_kline_1h", "hourfactor")
+factorwide = select factor_value from factor pivot by symbol, open_time, factor_name
+
+factorNames = schema(factorwide).colDefs.name[3:]
+
+results = table(1:0, `factor`ICMean`ICPval`ICStd`IR`valid, [STRING, DOUBLE, DOUBLE, DOUBLE, DOUBLE, BOOL])
+fname= factorNames[0]
+
+// === Step 3: 遍历每个因子 ===
+for (fname in factorNames) {
+    print("🔍 正在测试因子：" + fname$STRING)
+    sqlText1 = "select open_time as date, symbol as sym, "
+    sqlText2 = " as value from factorwide"
+    sqlText = sqlText1 + fname + sqlText2
+    factor = parseExpr(sqlText).eval()
+    price = select close from t pivot by open_time as date, symbol as sym
+
+    try {
+        factorData = get_clean_factor_and_forward_returns(factor, price, periods=[1,5,10])
+        tear = create_information_tear_sheet(factorData, group_neutral=false, by_group=false)
+
+        icMean = tear.Information_Analysis[1,1]
+        icPval = tear.Information_Analysis[5,1]
+        icStd  = tear.Information_Analysis[4,1]
+        ir     = icMean / icStd
+
+        valid = icPval < 0.1
+
+        ictable = select fname, * from  tear.ic
+        results.append!(ictable )
+    }
+    catch(ex){
+        print("❌ 计算失败：" + fname)
+    }
+}
+
+results
+
+// 共享因子结果表，以便后续使用
+share(factorData, `factor_data)
+
+
+fullTearSheet = plot_create_full_tear_sheet(
+	factor_data=factorData, 
+	long_short=true,  
+	group_neutral=false,
+	by_group=false  // 是否对每组分别进行分析
+)
+
+use alphalens
+
+plot_quantile_statistics_table(factor_data)
+
+plot_create_returns_tear_sheet(factorData,by_group=false, long_short=true, group_neutral=false)
+
+plot_create_returns_tear_sheet(factor_data,by_group=false, long_short=true, group_neutral=false)
