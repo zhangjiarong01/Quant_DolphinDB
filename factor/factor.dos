@@ -1,0 +1,130 @@
+
+
+
+// ========== 创建分区因子表 ==========
+db = database("dfs://crypto_kline_1h")
+
+if(existsTable("dfs://crypto_kline_1h", "hourfactor")){
+    dropTable(db, "hourfactor")  // 正确语法：使用database句柄和表名
+    print("🗑️ 已删除旧表：hourfactor")
+}
+
+schema = table(1:0,
+    `symbol`open_time`factor_name`factor_value,  // 通用结构
+    [SYMBOL, DATETIME, SYMBOL, DOUBLE]           // 类型定义
+)
+hourfactor = db.createPartitionedTable(schema,`hourfactor, `open_time, sortColumns=`open_time)
+
+print("✅ 时频因子表创建成功：dfs://crypto_kline_1h/hourfactor")
+
+
+// ========== 因子计算工具函数 ==========
+use ta
+
+// 通用工具函数：计算对数收益率
+def getLogReturn(tbl, N){
+    return select open_time, symbol, log(close / prev(close)) as log_ret 
+           from tbl context by symbol
+}
+
+// ========== 具体因子定义 ==========
+
+// 动量因子
+def factor_momentum(tbl, window=6){
+    t = getLogReturn(tbl, window)
+    return select symbol, open_time, 
+                  "momentum_" + window$STRING as factor_name,
+                  moving(sum, log_ret, window) as factor_value 
+           from t context by symbol
+}
+
+// 波动率因子
+def factor_volatility(tbl, window=6){
+    t = getLogReturn(tbl, window)
+    return select symbol, open_time, 
+                  "volatility_" + window$STRING as factor_name,
+                  moving(std, log_ret, window) as factor_value 
+           from t context by symbol
+}
+
+// 反转因子
+def factor_reverse(tbl, window=6){
+    t = getLogReturn(tbl, window)
+    result = select symbol, open_time, 
+                    "reverse_" + window$STRING as factor_name,
+                    moving(sum, log_ret, window) as factor_value 
+             from t context by symbol
+    update result set factor_value = -1 * factor_value
+    return result
+}
+
+// 振幅因子
+def factor_amplitude(tbl){
+    return select symbol, open_time, 
+                  "amplitude" as factor_name,
+                  (high - low) / close as factor_value 
+           from tbl
+}
+
+// 换手率因子
+def factor_turnover(tbl, window=6){
+    return select symbol, open_time, 
+                  "turnover_" + window$STRING as factor_name,
+                  volume / moving(avg, volume, window) as factor_value 
+           from tbl context by symbol
+}
+
+// VWAP偏离度因子
+def factor_vwap_gap(tbl){
+    return select symbol, open_time, 
+                  "vwap_gap" as factor_name,
+                  close - (wavg(close, volume)) as factor_value 
+           from tbl context by symbol
+}
+
+
+// ========== 执行因子计算 ==========
+// 加载原始K线数据
+klineData = loadTable("dfs://crypto_kline_1h", "kline_1h")
+t = select open_time, symbol, close, high, low, volume 
+    from klineData 
+    where open_time >= 2022.01.01
+
+// 计算并存储动量因子
+momentum = factor_momentum(t, 6)
+hourfactor.append!(momentum)
+
+// 计算并存储波动率因子
+volatility = factor_volatility(t, 6)
+hourfactor.append!(volatility)
+
+// 计算并存储反转因子
+reverse = factor_reverse(t, 6)
+hourfactor.append!(reverse)
+
+// 计算并存储振幅因子
+amplitude = factor_amplitude(t)
+hourfactor.append!(amplitude)
+
+// 计算并存储换手率因子
+turnover = factor_turnover(t, 6)
+hourfactor.append!(turnover)
+
+// 计算并存储VWAP偏离度因子
+vwap_gap = factor_vwap_gap(t)
+hourfactor.append!(vwap_gap)
+
+
+
+// === 组合因子 ===
+hourfactor = loadTable("dfs://crypto_kline_1h", "hourfactor")
+wide = select factor_value from hourfactor pivot by symbol, open_time, factor_name
+
+// === 返回为长表格式 ===
+combo = select symbol, open_time, 
+                  "combo_reverse_amp" as factor_name,
+                  zscore(reverse_6) + zscore(-amplitude) as factor_value 
+           from wide
+
+// === 插入到因子表中
+hourfactor.append!(combo)

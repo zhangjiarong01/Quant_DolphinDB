@@ -1,0 +1,150 @@
+// === 回测参数 ===
+symbols = exec distinct symbol from loadTable("dfs://crypto_kline_1h", "kline_1h")
+holdingPeriod = 6  // 每次持仓6小时
+lookbackWindow = 6 // 观察过去6小时的跌幅
+topN = 5
+stopLossPct = -0.03  // -3%止损
+startDate = 2022.01.01
+
+
+def comboBacktest(holdingPeriod, stopLossPct, topN, startDate=2022.01.01) {
+
+    symbols = exec distinct symbol from loadTable("dfs://crypto_kline_1h", "kline_1h")
+
+    data = select open_time, symbol, close 
+           from loadTable("dfs://crypto_kline_1h", "kline_1h") 
+           where symbol in symbols and open_time >= startDate
+           order by symbol, open_time
+
+    factorwide = select factor_value from loadTable("dfs://crypto_kline_1h", "hourfactor") pivot by symbol, open_time, factor_name
+
+    // 构造调仓时间点
+    rebalanceTimes = select distinct open_time from data 
+                     where hour(open_time) % holdingPeriod == 0 
+                     order by open_time
+
+    // 初始化结果表
+    portfolio = table(1000:0, 
+        `rebalance_time`symbol`entryPrice`exitPrice`return`holdingHours, 
+        [DATETIME, SYMBOL, DOUBLE, DOUBLE, DOUBLE, INT])
+
+    for (t in rebalanceTimes.open_time) {
+        cur_factor = select symbol, `combo_reverse_amp as score from factorwide where open_time == t
+        cur_price = select symbol, close from data where open_time == t
+
+        if (size(cur_factor) == 0 or size(cur_price) == 0) continue
+
+        cur = lj(cur_factor, cur_price, `symbol)
+
+        if (size(cur) == 0) continue
+
+        // 选因子值最高的 topN 个
+        topPicks = select * from cur order by score desc limit topN
+
+        for (i in 0:size(topPicks)-1) {
+            sym = topPicks.symbol[i]
+            entryPrice = topPicks.close[i]
+
+            future = select open_time, close 
+                     from data 
+                     where symbol == sym and open_time > t and open_time <= temporalAdd(t, holdingPeriod, "h")
+                     order by open_time
+
+            if (size(future) == 0) continue
+
+            breached = select open_time, close 
+                       from future 
+                       where close / entryPrice - 1 <= stopLossPct
+                       limit 1
+
+            if (size(breached) > 0) {
+                exitTime = breached.open_time[0]
+                exitPrice = breached.close[0]
+                holdingHours = hour(exitTime) - hour(t)
+            } else {
+                exitTime = future.open_time[size(future)-1]
+                exitPrice = future.close[size(future)-1]
+                holdingHours = holdingPeriod
+            }
+
+            ret = exitPrice / entryPrice - 1
+            insert into portfolio values(t, sym, entryPrice, exitPrice, ret, holdingHours)
+        }
+    }
+
+    return portfolio
+}
+
+
+portfolio = comboBacktest(holdingPeriod=6, stopLossPct=-0.03, topN=20)
+share(portfolio, `portfolio_combo)
+
+
+// === 分析回测结果 ===
+// 计算每次调仓的平均收益率
+select avg(return)*100 as avgReturnPct, count(*) as trades from portfolio
+
+// 计算胜率
+select sum(iif(return>0,1,0))/count(*) as winRate from portfolio
+
+// 查看详细交易记录
+select * from portfolio order by rebalance_time, symbol
+
+share(portfolio, `portfolio2)
+
+
+// 超参数优化
+lookbacks = [6, 12]
+holdings = [6, 12]
+stopLosses = [-0.03]
+topNs = [3, 5]
+
+
+results = table(1000:0, 
+    `lookback`holding`stopLoss`topN`totalReturn`winRate`maxDD`avgReturn`trades,
+    [INT, INT, DOUBLE, INT, DOUBLE, DOUBLE, DOUBLE, DOUBLE, INT]
+)
+
+for (lb in lookbacks) {
+    for (hd in holdings) {
+        for (sl in stopLosses) {
+            for (top in topNs) {
+                try {
+                    // === 运行回测 ===
+                    rt = reversalBacktest(lb, hd, sl, top)
+                    
+                    // === 计算指标 ===
+                    ret = exec return from rt
+                    if (size(ret) == 0) continue  // 跳过无交易记录的组合
+                    
+                    // 累计收益率（复利计算）
+                    cumRet = cumprod(1 + ret)
+                    totalRet = last(cumRet) - 1
+                    
+                    // 胜率
+                    winRate = sum(ret > 0) / size(ret)
+                    
+                    // 最大回撤（更精确的计算）
+                    cumReturns = cumprod(1 + ret)
+                    runningMax = cummax(cumReturns)
+                    drawdowns = (runningMax - cumReturns) / runningMax
+                    maxDD = max(drawdowns)
+                    
+                    // 平均收益率
+                    avgReturn = avg(ret)
+                    
+                    // 交易次数
+                    trades = size(ret)
+                    
+                    insert into results values(lb, hd, sl, top, totalRet, winRate, maxDD, avgReturn, trades)
+                    
+                } catch (ex) {
+                    print("⚠️ 错误参数组合: lookback=" + lb + ", holding=" + hd + 
+                          ", stopLoss=" + sl + ", topN=" + top + " 错误: " + ex)
+                }
+            }
+        }
+    }
+}
+
+share(results,`opt_results)

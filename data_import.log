@@ -1,0 +1,1775 @@
+2025-06-08 18:14:08,656 - INFO - === 数据导入开始 ===
+2025-06-08 18:14:08,843 - INFO - 下载开始: BTCUSDT-2024-01
+2025-06-08 18:14:08,930 - INFO - 下载开始: BTCUSDT-2024-02
+2025-06-08 18:14:09,047 - INFO - 下载开始: BTCUSDT-2024-03
+2025-06-08 18:14:09,047 - INFO - 下载开始: BTCUSDT-2024-04
+2025-06-08 18:14:09,225 - INFO - 下载开始: BTCUSDT-2024-05
+2025-06-08 18:14:09,343 - INFO - 下载开始: BTCUSDT-2024-06
+2025-06-08 18:14:09,344 - INFO - 下载开始: BTCUSDT-2024-07
+2025-06-08 18:14:09,436 - INFO - 下载开始: BTCUSDT-2024-08
+2025-06-08 18:14:09,847 - ERROR - 检查数据存在性失败: BTCUSDT-2024-04 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7119008E12 and open_time < 1.7144928E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1711900800000.0
+            and open_time < 1714492800000.0
+        '
+2025-06-08 18:14:09,854 - ERROR - 转换失败: tmp\BTCUSDT-1h-2024-04.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:09,970 - INFO - 下载开始: BTCUSDT-2024-09
+2025-06-08 18:14:10,026 - ERROR - 检查数据存在性失败: BTCUSDT-2024-03 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7092224E12 and open_time < 1.7119008E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1709222400000.0
+            and open_time < 1711900800000.0
+        '
+2025-06-08 18:14:10,026 - ERROR - 检查数据存在性失败: BTCUSDT-2024-01 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7040384E12 and open_time < 1.7067168E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1704038400000.0
+            and open_time < 1706716800000.0
+        '
+2025-06-08 18:14:10,032 - ERROR - 转换失败: tmp\BTCUSDT-1h-2024-03.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:10,035 - ERROR - 转换失败: tmp\BTCUSDT-1h-2024-01.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:10,127 - INFO - 下载开始: BTCUSDT-2024-10
+2025-06-08 18:14:10,192 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:10,216 - INFO - 下载开始: BTCUSDT-2024-11
+2025-06-08 18:14:10,240 - ERROR - 检查数据存在性失败: BTCUSDT-2024-08 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7224416E12 and open_time < 1.72512E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1722441600000.0
+            and open_time < 1725120000000.0
+        '
+2025-06-08 18:14:10,246 - ERROR - 转换失败: tmp\BTCUSDT-1h-2024-08.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:10,246 - ERROR - 检查数据存在性失败: BTCUSDT-2024-06 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7171712E12 and open_time < 1.7197632E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1717171200000.0
+            and open_time < 1719763200000.0
+        '
+2025-06-08 18:14:10,347 - ERROR - 检查数据存在性失败: BTCUSDT-2024-07 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7197632E12 and open_time < 1.7224416E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1719763200000.0
+            and open_time < 1722441600000.0
+        '
+2025-06-08 18:14:10,347 - ERROR - 检查数据存在性失败: BTCUSDT-2024-05 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7144928E12 and open_time < 1.7171712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1714492800000.0
+            and open_time < 1717171200000.0
+        '
+2025-06-08 18:14:10,348 - INFO - 下载开始: BTCUSDT-2024-12
+2025-06-08 18:14:10,357 - ERROR - 转换失败: tmp\BTCUSDT-1h-2024-05.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:10,359 - ERROR - 转换失败: tmp\BTCUSDT-1h-2024-06.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:10,360 - ERROR - 转换失败: tmp\BTCUSDT-1h-2024-07.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:10,634 - INFO - 下载开始: ETHUSDT-2024-01
+2025-06-08 18:14:10,659 - INFO - 下载开始: ETHUSDT-2024-03
+2025-06-08 18:14:10,659 - INFO - 下载开始: ETHUSDT-2024-02
+2025-06-08 18:14:10,689 - ERROR - 检查数据存在性失败: BTCUSDT-2024-09 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.72512E12 and open_time < 1.727712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1725120000000.0
+            and open_time < 1727712000000.0
+        '
+2025-06-08 18:14:10,694 - ERROR - 转换失败: tmp\BTCUSDT-1h-2024-09.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:10,792 - INFO - 下载开始: ETHUSDT-2024-04
+2025-06-08 18:14:10,945 - ERROR - 检查数据存在性失败: BTCUSDT-2024-10 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.727712E12 and open_time < 1.7303904E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1727712000000.0
+            and open_time < 1730390400000.0
+        '
+2025-06-08 18:14:10,950 - ERROR - 转换失败: tmp\BTCUSDT-1h-2024-10.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:10,950 - ERROR - 检查数据存在性失败: BTCUSDT-2024-11 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7303904E12 and open_time < 1.7329824E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1730390400000.0
+            and open_time < 1732982400000.0
+        '
+2025-06-08 18:14:11,047 - INFO - 下载开始: ETHUSDT-2024-05
+2025-06-08 18:14:11,057 - ERROR - 转换失败: tmp\BTCUSDT-1h-2024-11.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:11,172 - INFO - 下载开始: ETHUSDT-2024-06
+2025-06-08 18:14:11,202 - ERROR - 检查数据存在性失败: BTCUSDT-2024-02 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7067168E12 and open_time < 1.7092224E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1706716800000.0
+            and open_time < 1709222400000.0
+        '
+2025-06-08 18:14:11,208 - ERROR - 转换失败: tmp\BTCUSDT-1h-2024-02.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:11,869 - INFO - 下载开始: ETHUSDT-2024-07
+2025-06-08 18:14:11,870 - ERROR - 检查数据存在性失败: ETHUSDT-2024-03 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7092224E12 and open_time < 1.7119008E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1709222400000.0
+            and open_time < 1711900800000.0
+        '
+2025-06-08 18:14:11,870 - ERROR - 检查数据存在性失败: BTCUSDT-2024-12 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7329824E12 and open_time < 1.7356608E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1732982400000.0
+            and open_time < 1735660800000.0
+        '
+2025-06-08 18:14:11,870 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:11,874 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:11,874 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:11,874 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:11,876 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:11,876 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:11,877 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:11,877 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:11,877 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:11,882 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:11,886 - ERROR - 转换失败: tmp\ETHUSDT-1h-2024-03.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:11,890 - ERROR - 转换失败: tmp\BTCUSDT-1h-2024-12.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:12,017 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:12,071 - INFO - 下载开始: ETHUSDT-2024-08
+2025-06-08 18:14:12,072 - INFO - 下载开始: ETHUSDT-2024-09
+2025-06-08 18:14:12,096 - ERROR - 检查数据存在性失败: ETHUSDT-2024-02 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7067168E12 and open_time < 1.7092224E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1706716800000.0
+            and open_time < 1709222400000.0
+        '
+2025-06-08 18:14:12,097 - ERROR - 检查数据存在性失败: ETHUSDT-2024-04 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7119008E12 and open_time < 1.7144928E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1711900800000.0
+            and open_time < 1714492800000.0
+        '
+2025-06-08 18:14:12,100 - ERROR - 检查数据存在性失败: ETHUSDT-2024-01 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7040384E12 and open_time < 1.7067168E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1704038400000.0
+            and open_time < 1706716800000.0
+        '
+2025-06-08 18:14:12,102 - ERROR - 转换失败: tmp\ETHUSDT-1h-2024-02.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:12,196 - INFO - 下载开始: ETHUSDT-2024-10
+2025-06-08 18:14:12,199 - ERROR - 转换失败: tmp\ETHUSDT-1h-2024-04.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:12,292 - INFO - 下载开始: ETHUSDT-2024-11
+2025-06-08 18:14:12,299 - ERROR - 转换失败: tmp\ETHUSDT-1h-2024-01.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:12,371 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:12,371 - ERROR - 检查数据存在性失败: ETHUSDT-2024-05 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7144928E12 and open_time < 1.7171712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1714492800000.0
+            and open_time < 1717171200000.0
+        '
+2025-06-08 18:14:12,394 - INFO - 下载开始: ETHUSDT-2024-12
+2025-06-08 18:14:12,394 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:12,397 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:12,398 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:12,401 - ERROR - 转换失败: tmp\ETHUSDT-1h-2024-05.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:12,478 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:12,503 - INFO - 下载开始: BNBUSDT-2024-01
+2025-06-08 18:14:12,531 - ERROR - 检查数据存在性失败: ETHUSDT-2024-09 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.72512E12 and open_time < 1.727712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1725120000000.0
+            and open_time < 1727712000000.0
+        '
+2025-06-08 18:14:12,534 - ERROR - 检查数据存在性失败: ETHUSDT-2024-06 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7171712E12 and open_time < 1.7197632E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1717171200000.0
+            and open_time < 1719763200000.0
+        '
+2025-06-08 18:14:12,534 - ERROR - 检查数据存在性失败: ETHUSDT-2024-07 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7197632E12 and open_time < 1.7224416E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1719763200000.0
+            and open_time < 1722441600000.0
+        '
+2025-06-08 18:14:12,542 - ERROR - 转换失败: tmp\ETHUSDT-1h-2024-09.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:12,632 - INFO - 下载开始: BNBUSDT-2024-02
+2025-06-08 18:14:12,633 - ERROR - 转换失败: tmp\ETHUSDT-1h-2024-06.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:12,734 - INFO - 下载开始: BNBUSDT-2024-03
+2025-06-08 18:14:12,735 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:12,739 - ERROR - 转换失败: tmp\ETHUSDT-1h-2024-07.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:12,800 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:12,820 - INFO - 下载开始: BNBUSDT-2024-04
+2025-06-08 18:14:12,854 - ERROR - 检查数据存在性失败: ETHUSDT-2024-08 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7224416E12 and open_time < 1.72512E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1722441600000.0
+            and open_time < 1725120000000.0
+        '
+2025-06-08 18:14:12,854 - ERROR - 检查数据存在性失败: ETHUSDT-2024-11 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7303904E12 and open_time < 1.7329824E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1730390400000.0
+            and open_time < 1732982400000.0
+        '
+2025-06-08 18:14:12,854 - ERROR - 检查数据存在性失败: ETHUSDT-2024-10 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.727712E12 and open_time < 1.7303904E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1727712000000.0
+            and open_time < 1730390400000.0
+        '
+2025-06-08 18:14:12,864 - ERROR - 转换失败: tmp\ETHUSDT-1h-2024-08.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:12,865 - ERROR - 转换失败: tmp\ETHUSDT-1h-2024-10.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:12,868 - ERROR - 转换失败: tmp\ETHUSDT-1h-2024-11.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:13,025 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:13,025 - INFO - 下载开始: BNBUSDT-2024-05
+2025-06-08 18:14:13,109 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:13,132 - INFO - 下载开始: BNBUSDT-2024-07
+2025-06-08 18:14:13,134 - INFO - 下载开始: BNBUSDT-2024-06
+2025-06-08 18:14:13,135 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:13,137 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:13,162 - ERROR - 检查数据存在性失败: BNBUSDT-2024-01 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BNBUSDT" and open_time >= 1.7040384E12 and open_time < 1.7067168E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BNBUSDT
+            and open_time >= 1704038400000.0
+            and open_time < 1706716800000.0
+        '
+2025-06-08 18:14:13,168 - ERROR - 转换失败: tmp\BNBUSDT-1h-2024-01.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:13,251 - INFO - 下载开始: BNBUSDT-2024-08
+2025-06-08 18:14:13,316 - ERROR - 检查数据存在性失败: ETHUSDT-2024-12 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7329824E12 and open_time < 1.7356608E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1732982400000.0
+            and open_time < 1735660800000.0
+        '
+2025-06-08 18:14:13,322 - ERROR - 转换失败: tmp\ETHUSDT-1h-2024-12.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:13,389 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:13,413 - INFO - 下载开始: BNBUSDT-2024-09
+2025-06-08 18:14:13,414 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:13,602 - ERROR - 检查数据存在性失败: BNBUSDT-2024-02 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BNBUSDT" and open_time >= 1.7067168E12 and open_time < 1.7092224E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BNBUSDT
+            and open_time >= 1706716800000.0
+            and open_time < 1709222400000.0
+        '
+2025-06-08 18:14:13,608 - ERROR - 转换失败: tmp\BNBUSDT-1h-2024-02.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:13,674 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:13,696 - INFO - 下载开始: BNBUSDT-2024-10
+2025-06-08 18:14:13,724 - ERROR - 检查数据存在性失败: BNBUSDT-2024-03 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BNBUSDT" and open_time >= 1.7092224E12 and open_time < 1.7119008E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BNBUSDT
+            and open_time >= 1709222400000.0
+            and open_time < 1711900800000.0
+        '
+2025-06-08 18:14:13,724 - ERROR - 检查数据存在性失败: BNBUSDT-2024-07 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BNBUSDT" and open_time >= 1.7197632E12 and open_time < 1.7224416E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BNBUSDT
+            and open_time >= 1719763200000.0
+            and open_time < 1722441600000.0
+        '
+2025-06-08 18:14:13,732 - ERROR - 转换失败: tmp\BNBUSDT-1h-2024-07.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:13,736 - ERROR - 转换失败: tmp\BNBUSDT-1h-2024-03.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:13,805 - ERROR - 检查数据存在性失败: BNBUSDT-2024-04 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BNBUSDT" and open_time >= 1.7119008E12 and open_time < 1.7144928E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BNBUSDT
+            and open_time >= 1711900800000.0
+            and open_time < 1714492800000.0
+        '
+2025-06-08 18:14:13,894 - INFO - 下载开始: BNBUSDT-2024-11
+2025-06-08 18:14:13,894 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:13,919 - INFO - 下载开始: BNBUSDT-2024-12
+2025-06-08 18:14:13,934 - ERROR - 转换失败: tmp\BNBUSDT-1h-2024-04.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:14,024 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:14,024 - INFO - 下载开始: SOLUSDT-2024-01
+2025-06-08 18:14:14,047 - ERROR - 检查数据存在性失败: BNBUSDT-2024-05 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BNBUSDT" and open_time >= 1.7144928E12 and open_time < 1.7171712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BNBUSDT
+            and open_time >= 1714492800000.0
+            and open_time < 1717171200000.0
+        '
+2025-06-08 18:14:14,050 - ERROR - 检查数据存在性失败: BNBUSDT-2024-06 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BNBUSDT" and open_time >= 1.7171712E12 and open_time < 1.7197632E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BNBUSDT
+            and open_time >= 1717171200000.0
+            and open_time < 1719763200000.0
+        '
+2025-06-08 18:14:14,055 - ERROR - 转换失败: tmp\BNBUSDT-1h-2024-05.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:14,055 - ERROR - 检查数据存在性失败: BNBUSDT-2024-08 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BNBUSDT" and open_time >= 1.7224416E12 and open_time < 1.72512E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BNBUSDT
+            and open_time >= 1722441600000.0
+            and open_time < 1725120000000.0
+        '
+2025-06-08 18:14:14,143 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:14,144 - INFO - 下载开始: SOLUSDT-2024-02
+2025-06-08 18:14:14,151 - ERROR - 转换失败: tmp\BNBUSDT-1h-2024-06.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:14,214 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:14,304 - INFO - 下载开始: SOLUSDT-2024-03
+2025-06-08 18:14:14,305 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:14,310 - ERROR - 转换失败: tmp\BNBUSDT-1h-2024-08.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:14,379 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:14,402 - INFO - 下载开始: SOLUSDT-2024-04
+2025-06-08 18:14:14,424 - ERROR - 检查数据存在性失败: BNBUSDT-2024-09 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BNBUSDT" and open_time >= 1.72512E12 and open_time < 1.727712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BNBUSDT
+            and open_time >= 1725120000000.0
+            and open_time < 1727712000000.0
+        '
+2025-06-08 18:14:14,432 - ERROR - 转换失败: tmp\BNBUSDT-1h-2024-09.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:14,514 - INFO - 下载开始: SOLUSDT-2024-05
+2025-06-08 18:14:14,514 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:14,546 - ERROR - 检查数据存在性失败: BNBUSDT-2024-10 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BNBUSDT" and open_time >= 1.727712E12 and open_time < 1.7303904E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BNBUSDT
+            and open_time >= 1727712000000.0
+            and open_time < 1730390400000.0
+        '
+2025-06-08 18:14:14,551 - ERROR - 转换失败: tmp\BNBUSDT-1h-2024-10.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:14,654 - INFO - 下载开始: SOLUSDT-2024-06
+2025-06-08 18:14:14,656 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:14,656 - ERROR - 检查数据存在性失败: BNBUSDT-2024-12 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BNBUSDT" and open_time >= 1.7329824E12 and open_time < 1.7356608E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BNBUSDT
+            and open_time >= 1732982400000.0
+            and open_time < 1735660800000.0
+        '
+2025-06-08 18:14:14,664 - ERROR - 转换失败: tmp\BNBUSDT-1h-2024-12.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:14,759 - INFO - 下载开始: SOLUSDT-2024-07
+2025-06-08 18:14:14,788 - ERROR - 检查数据存在性失败: BNBUSDT-2024-11 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BNBUSDT" and open_time >= 1.7303904E12 and open_time < 1.7329824E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BNBUSDT
+            and open_time >= 1730390400000.0
+            and open_time < 1732982400000.0
+        '
+2025-06-08 18:14:14,788 - ERROR - 检查数据存在性失败: SOLUSDT-2024-02 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SOLUSDT" and open_time >= 1.7067168E12 and open_time < 1.7092224E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SOLUSDT
+            and open_time >= 1706716800000.0
+            and open_time < 1709222400000.0
+        '
+2025-06-08 18:14:14,795 - ERROR - 转换失败: tmp\BNBUSDT-1h-2024-11.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:14,797 - ERROR - 转换失败: tmp\SOLUSDT-1h-2024-02.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:14,947 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:14,948 - ERROR - 检查数据存在性失败: SOLUSDT-2024-03 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SOLUSDT" and open_time >= 1.7092224E12 and open_time < 1.7119008E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SOLUSDT
+            and open_time >= 1709222400000.0
+            and open_time < 1711900800000.0
+        '
+2025-06-08 18:14:14,969 - INFO - 下载开始: SOLUSDT-2024-09
+2025-06-08 18:14:14,969 - INFO - 下载开始: SOLUSDT-2024-08
+2025-06-08 18:14:14,970 - ERROR - 任务执行失败: stat: path should be string, bytes, os.PathLike or integer, not NoneType
+2025-06-08 18:14:14,977 - ERROR - 转换失败: tmp\SOLUSDT-1h-2024-03.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:15,050 - ERROR - 检查数据存在性失败: SOLUSDT-2024-04 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SOLUSDT" and open_time >= 1.7119008E12 and open_time < 1.7144928E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SOLUSDT
+            and open_time >= 1711900800000.0
+            and open_time < 1714492800000.0
+        '
+2025-06-08 18:14:15,074 - INFO - 下载开始: SOLUSDT-2024-10
+2025-06-08 18:14:15,080 - ERROR - 转换失败: tmp\SOLUSDT-1h-2024-04.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:15,167 - INFO - 下载开始: SOLUSDT-2024-11
+2025-06-08 18:14:15,194 - ERROR - 检查数据存在性失败: SOLUSDT-2024-05 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SOLUSDT" and open_time >= 1.7144928E12 and open_time < 1.7171712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SOLUSDT
+            and open_time >= 1714492800000.0
+            and open_time < 1717171200000.0
+        '
+2025-06-08 18:14:15,199 - ERROR - 转换失败: tmp\SOLUSDT-1h-2024-05.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:15,288 - INFO - 下载开始: SOLUSDT-2024-12
+2025-06-08 18:14:15,288 - ERROR - 检查数据存在性失败: SOLUSDT-2024-06 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SOLUSDT" and open_time >= 1.7171712E12 and open_time < 1.7197632E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SOLUSDT
+            and open_time >= 1717171200000.0
+            and open_time < 1719763200000.0
+        '
+2025-06-08 18:14:15,294 - ERROR - 转换失败: tmp\SOLUSDT-1h-2024-06.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:15,385 - INFO - 下载开始: XRPUSDT-2024-01
+2025-06-08 18:14:15,481 - ERROR - 检查数据存在性失败: SOLUSDT-2024-07 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SOLUSDT" and open_time >= 1.7197632E12 and open_time < 1.7224416E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SOLUSDT
+            and open_time >= 1719763200000.0
+            and open_time < 1722441600000.0
+        '
+2025-06-08 18:14:15,486 - ERROR - 转换失败: tmp\SOLUSDT-1h-2024-07.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:15,583 - INFO - 下载开始: XRPUSDT-2024-02
+2025-06-08 18:14:15,613 - ERROR - 检查数据存在性失败: SOLUSDT-2024-09 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SOLUSDT" and open_time >= 1.72512E12 and open_time < 1.727712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SOLUSDT
+            and open_time >= 1725120000000.0
+            and open_time < 1727712000000.0
+        '
+2025-06-08 18:14:15,619 - ERROR - 转换失败: tmp\SOLUSDT-1h-2024-09.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:15,705 - INFO - 下载开始: XRPUSDT-2024-03
+2025-06-08 18:14:15,736 - ERROR - 检查数据存在性失败: SOLUSDT-2024-11 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SOLUSDT" and open_time >= 1.7303904E12 and open_time < 1.7329824E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SOLUSDT
+            and open_time >= 1730390400000.0
+            and open_time < 1732982400000.0
+        '
+2025-06-08 18:14:15,736 - ERROR - 检查数据存在性失败: SOLUSDT-2024-10 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SOLUSDT" and open_time >= 1.727712E12 and open_time < 1.7303904E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SOLUSDT
+            and open_time >= 1727712000000.0
+            and open_time < 1730390400000.0
+        '
+2025-06-08 18:14:15,744 - ERROR - 转换失败: tmp\SOLUSDT-1h-2024-11.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:15,829 - ERROR - 检查数据存在性失败: SOLUSDT-2024-12 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SOLUSDT" and open_time >= 1.7329824E12 and open_time < 1.7356608E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SOLUSDT
+            and open_time >= 1732982400000.0
+            and open_time < 1735660800000.0
+        '
+2025-06-08 18:14:15,829 - INFO - 下载开始: XRPUSDT-2024-04
+2025-06-08 18:14:15,830 - ERROR - 转换失败: tmp\SOLUSDT-1h-2024-10.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:15,915 - INFO - 下载开始: XRPUSDT-2024-05
+2025-06-08 18:14:15,920 - ERROR - 转换失败: tmp\SOLUSDT-1h-2024-12.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:16,008 - INFO - 下载开始: XRPUSDT-2024-06
+2025-06-08 18:14:16,038 - ERROR - 检查数据存在性失败: XRPUSDT-2024-02 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "XRPUSDT" and open_time >= 1.7067168E12 and open_time < 1.7092224E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `XRPUSDT
+            and open_time >= 1706716800000.0
+            and open_time < 1709222400000.0
+        '
+2025-06-08 18:14:16,044 - ERROR - 转换失败: tmp\XRPUSDT-1h-2024-02.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:16,109 - ERROR - 检查数据存在性失败: XRPUSDT-2024-01 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "XRPUSDT" and open_time >= 1.7040384E12 and open_time < 1.7067168E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `XRPUSDT
+            and open_time >= 1704038400000.0
+            and open_time < 1706716800000.0
+        '
+2025-06-08 18:14:16,135 - INFO - 下载开始: XRPUSDT-2024-07
+2025-06-08 18:14:16,141 - ERROR - 转换失败: tmp\XRPUSDT-1h-2024-01.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:16,236 - INFO - 下载开始: XRPUSDT-2024-08
+2025-06-08 18:14:16,373 - ERROR - 检查数据存在性失败: XRPUSDT-2024-03 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "XRPUSDT" and open_time >= 1.7092224E12 and open_time < 1.7119008E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `XRPUSDT
+            and open_time >= 1709222400000.0
+            and open_time < 1711900800000.0
+        '
+2025-06-08 18:14:16,378 - ERROR - 转换失败: tmp\XRPUSDT-1h-2024-03.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:16,469 - INFO - 下载开始: XRPUSDT-2024-09
+2025-06-08 18:14:16,520 - ERROR - 检查数据存在性失败: XRPUSDT-2024-05 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "XRPUSDT" and open_time >= 1.7144928E12 and open_time < 1.7171712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `XRPUSDT
+            and open_time >= 1714492800000.0
+            and open_time < 1717171200000.0
+        '
+2025-06-08 18:14:16,520 - ERROR - 检查数据存在性失败: XRPUSDT-2024-04 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "XRPUSDT" and open_time >= 1.7119008E12 and open_time < 1.7144928E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `XRPUSDT
+            and open_time >= 1711900800000.0
+            and open_time < 1714492800000.0
+        '
+2025-06-08 18:14:16,528 - ERROR - 转换失败: tmp\XRPUSDT-1h-2024-05.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:16,532 - ERROR - 转换失败: tmp\XRPUSDT-1h-2024-04.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:16,839 - ERROR - 检查数据存在性失败: XRPUSDT-2024-06 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "XRPUSDT" and open_time >= 1.7171712E12 and open_time < 1.7197632E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `XRPUSDT
+            and open_time >= 1717171200000.0
+            and open_time < 1719763200000.0
+        '
+2025-06-08 18:14:16,840 - INFO - 下载开始: XRPUSDT-2024-10
+2025-06-08 18:14:17,056 - INFO - 下载开始: XRPUSDT-2024-11
+2025-06-08 18:14:17,076 - ERROR - 转换失败: tmp\XRPUSDT-1h-2024-06.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:17,213 - INFO - 下载开始: XRPUSDT-2024-12
+2025-06-08 18:14:17,239 - ERROR - 检查数据存在性失败: XRPUSDT-2024-07 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "XRPUSDT" and open_time >= 1.7197632E12 and open_time < 1.7224416E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `XRPUSDT
+            and open_time >= 1719763200000.0
+            and open_time < 1722441600000.0
+        '
+2025-06-08 18:14:17,239 - ERROR - 检查数据存在性失败: SOLUSDT-2024-01 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SOLUSDT" and open_time >= 1.7040384E12 and open_time < 1.7067168E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SOLUSDT
+            and open_time >= 1704038400000.0
+            and open_time < 1706716800000.0
+        '
+2025-06-08 18:14:17,240 - ERROR - 检查数据存在性失败: XRPUSDT-2024-08 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "XRPUSDT" and open_time >= 1.7224416E12 and open_time < 1.72512E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `XRPUSDT
+            and open_time >= 1722441600000.0
+            and open_time < 1725120000000.0
+        '
+2025-06-08 18:14:17,241 - ERROR - 检查数据存在性失败: SOLUSDT-2024-08 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SOLUSDT" and open_time >= 1.7224416E12 and open_time < 1.72512E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SOLUSDT
+            and open_time >= 1722441600000.0
+            and open_time < 1725120000000.0
+        '
+2025-06-08 18:14:17,246 - ERROR - 转换失败: tmp\XRPUSDT-1h-2024-07.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:17,251 - ERROR - 转换失败: tmp\SOLUSDT-1h-2024-01.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:17,337 - INFO - 下载开始: DOGEUSDT-2024-01
+2025-06-08 18:14:17,341 - ERROR - 转换失败: tmp\XRPUSDT-1h-2024-08.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:17,442 - INFO - 下载开始: DOGEUSDT-2024-02
+2025-06-08 18:14:17,507 - ERROR - 转换失败: tmp\SOLUSDT-1h-2024-08.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:17,541 - INFO - 下载开始: DOGEUSDT-2024-03
+2025-06-08 18:14:17,686 - INFO - 下载开始: DOGEUSDT-2024-04
+2025-06-08 18:14:17,727 - ERROR - 检查数据存在性失败: XRPUSDT-2024-09 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "XRPUSDT" and open_time >= 1.72512E12 and open_time < 1.727712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `XRPUSDT
+            and open_time >= 1725120000000.0
+            and open_time < 1727712000000.0
+        '
+2025-06-08 18:14:17,728 - ERROR - 检查数据存在性失败: XRPUSDT-2024-11 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "XRPUSDT" and open_time >= 1.7303904E12 and open_time < 1.7329824E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `XRPUSDT
+            and open_time >= 1730390400000.0
+            and open_time < 1732982400000.0
+        '
+2025-06-08 18:14:17,728 - ERROR - 检查数据存在性失败: XRPUSDT-2024-10 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "XRPUSDT" and open_time >= 1.727712E12 and open_time < 1.7303904E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `XRPUSDT
+            and open_time >= 1727712000000.0
+            and open_time < 1730390400000.0
+        '
+2025-06-08 18:14:17,736 - ERROR - 转换失败: tmp\XRPUSDT-1h-2024-09.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:17,831 - INFO - 下载开始: DOGEUSDT-2024-05
+2025-06-08 18:14:17,834 - ERROR - 转换失败: tmp\XRPUSDT-1h-2024-11.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:17,932 - INFO - 下载开始: DOGEUSDT-2024-06
+2025-06-08 18:14:17,935 - ERROR - 转换失败: tmp\XRPUSDT-1h-2024-10.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:18,036 - INFO - 下载开始: DOGEUSDT-2024-07
+2025-06-08 18:14:18,061 - ERROR - 检查数据存在性失败: XRPUSDT-2024-12 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "XRPUSDT" and open_time >= 1.7329824E12 and open_time < 1.7356608E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `XRPUSDT
+            and open_time >= 1732982400000.0
+            and open_time < 1735660800000.0
+        '
+2025-06-08 18:14:18,067 - ERROR - 转换失败: tmp\XRPUSDT-1h-2024-12.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:18,150 - INFO - 下载开始: DOGEUSDT-2024-08
+2025-06-08 18:14:18,180 - ERROR - 检查数据存在性失败: DOGEUSDT-2024-02 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOGEUSDT" and open_time >= 1.7067168E12 and open_time < 1.7092224E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOGEUSDT
+            and open_time >= 1706716800000.0
+            and open_time < 1709222400000.0
+        '
+2025-06-08 18:14:18,186 - ERROR - 转换失败: tmp\DOGEUSDT-1h-2024-02.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:18,263 - ERROR - 检查数据存在性失败: DOGEUSDT-2024-03 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOGEUSDT" and open_time >= 1.7092224E12 and open_time < 1.7119008E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOGEUSDT
+            and open_time >= 1709222400000.0
+            and open_time < 1711900800000.0
+        '
+2025-06-08 18:14:18,288 - INFO - 下载开始: DOGEUSDT-2024-09
+2025-06-08 18:14:18,297 - ERROR - 转换失败: tmp\DOGEUSDT-1h-2024-03.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:18,389 - INFO - 下载开始: DOGEUSDT-2024-10
+2025-06-08 18:14:18,430 - ERROR - 检查数据存在性失败: DOGEUSDT-2024-04 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOGEUSDT" and open_time >= 1.7119008E12 and open_time < 1.7144928E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOGEUSDT
+            and open_time >= 1711900800000.0
+            and open_time < 1714492800000.0
+        '
+2025-06-08 18:14:18,439 - ERROR - 转换失败: tmp\DOGEUSDT-1h-2024-04.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:18,524 - INFO - 下载开始: DOGEUSDT-2024-11
+2025-06-08 18:14:18,548 - ERROR - 检查数据存在性失败: DOGEUSDT-2024-01 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOGEUSDT" and open_time >= 1.7040384E12 and open_time < 1.7067168E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOGEUSDT
+            and open_time >= 1704038400000.0
+            and open_time < 1706716800000.0
+        '
+2025-06-08 18:14:18,554 - ERROR - 转换失败: tmp\DOGEUSDT-1h-2024-01.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:18,638 - INFO - 下载开始: DOGEUSDT-2024-12
+2025-06-08 18:14:18,639 - ERROR - 检查数据存在性失败: DOGEUSDT-2024-05 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOGEUSDT" and open_time >= 1.7144928E12 and open_time < 1.7171712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOGEUSDT
+            and open_time >= 1714492800000.0
+            and open_time < 1717171200000.0
+        '
+2025-06-08 18:14:18,646 - ERROR - 转换失败: tmp\DOGEUSDT-1h-2024-05.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:18,740 - INFO - 下载开始: ADAUSDT-2024-01
+2025-06-08 18:14:18,774 - ERROR - 检查数据存在性失败: DOGEUSDT-2024-06 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOGEUSDT" and open_time >= 1.7171712E12 and open_time < 1.7197632E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOGEUSDT
+            and open_time >= 1717171200000.0
+            and open_time < 1719763200000.0
+        '
+2025-06-08 18:14:18,774 - ERROR - 检查数据存在性失败: DOGEUSDT-2024-07 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOGEUSDT" and open_time >= 1.7197632E12 and open_time < 1.7224416E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOGEUSDT
+            and open_time >= 1719763200000.0
+            and open_time < 1722441600000.0
+        '
+2025-06-08 18:14:18,780 - ERROR - 转换失败: tmp\DOGEUSDT-1h-2024-06.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:18,869 - INFO - 下载开始: ADAUSDT-2024-02
+2025-06-08 18:14:18,872 - ERROR - 转换失败: tmp\DOGEUSDT-1h-2024-07.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:18,969 - INFO - 下载开始: ADAUSDT-2024-03
+2025-06-08 18:14:19,001 - ERROR - 检查数据存在性失败: DOGEUSDT-2024-09 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOGEUSDT" and open_time >= 1.72512E12 and open_time < 1.727712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOGEUSDT
+            and open_time >= 1725120000000.0
+            and open_time < 1727712000000.0
+        '
+2025-06-08 18:14:19,007 - ERROR - 转换失败: tmp\DOGEUSDT-1h-2024-09.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:19,008 - ERROR - 检查数据存在性失败: DOGEUSDT-2024-08 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOGEUSDT" and open_time >= 1.7224416E12 and open_time < 1.72512E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOGEUSDT
+            and open_time >= 1722441600000.0
+            and open_time < 1725120000000.0
+        '
+2025-06-08 18:14:19,104 - INFO - 下载开始: ADAUSDT-2024-04
+2025-06-08 18:14:19,115 - ERROR - 转换失败: tmp\DOGEUSDT-1h-2024-08.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:19,232 - INFO - 下载开始: ADAUSDT-2024-05
+2025-06-08 18:14:19,266 - ERROR - 检查数据存在性失败: DOGEUSDT-2024-10 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOGEUSDT" and open_time >= 1.727712E12 and open_time < 1.7303904E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOGEUSDT
+            and open_time >= 1727712000000.0
+            and open_time < 1730390400000.0
+        '
+2025-06-08 18:14:19,268 - ERROR - 检查数据存在性失败: ADAUSDT-2024-01 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ADAUSDT" and open_time >= 1.7040384E12 and open_time < 1.7067168E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ADAUSDT
+            and open_time >= 1704038400000.0
+            and open_time < 1706716800000.0
+        '
+2025-06-08 18:14:19,268 - ERROR - 检查数据存在性失败: DOGEUSDT-2024-11 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOGEUSDT" and open_time >= 1.7303904E12 and open_time < 1.7329824E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOGEUSDT
+            and open_time >= 1730390400000.0
+            and open_time < 1732982400000.0
+        '
+2025-06-08 18:14:19,276 - ERROR - 转换失败: tmp\ADAUSDT-1h-2024-01.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:19,278 - ERROR - 转换失败: tmp\DOGEUSDT-1h-2024-10.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:19,366 - INFO - 下载开始: ADAUSDT-2024-06
+2025-06-08 18:14:19,454 - INFO - 下载开始: ADAUSDT-2024-07
+2025-06-08 18:14:19,456 - ERROR - 转换失败: tmp\DOGEUSDT-1h-2024-11.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:19,546 - INFO - 下载开始: ADAUSDT-2024-08
+2025-06-08 18:14:19,574 - ERROR - 检查数据存在性失败: DOGEUSDT-2024-12 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOGEUSDT" and open_time >= 1.7329824E12 and open_time < 1.7356608E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOGEUSDT
+            and open_time >= 1732982400000.0
+            and open_time < 1735660800000.0
+        '
+2025-06-08 18:14:19,577 - ERROR - 检查数据存在性失败: ADAUSDT-2024-02 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ADAUSDT" and open_time >= 1.7067168E12 and open_time < 1.7092224E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ADAUSDT
+            and open_time >= 1706716800000.0
+            and open_time < 1709222400000.0
+        '
+2025-06-08 18:14:19,584 - ERROR - 转换失败: tmp\DOGEUSDT-1h-2024-12.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:19,694 - INFO - 下载开始: ADAUSDT-2024-09
+2025-06-08 18:14:19,699 - ERROR - 转换失败: tmp\ADAUSDT-1h-2024-02.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:19,794 - INFO - 下载开始: ADAUSDT-2024-10
+2025-06-08 18:14:19,822 - ERROR - 检查数据存在性失败: ADAUSDT-2024-03 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ADAUSDT" and open_time >= 1.7092224E12 and open_time < 1.7119008E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ADAUSDT
+            and open_time >= 1709222400000.0
+            and open_time < 1711900800000.0
+        '
+2025-06-08 18:14:19,827 - ERROR - 转换失败: tmp\ADAUSDT-1h-2024-03.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:19,922 - INFO - 下载开始: ADAUSDT-2024-11
+2025-06-08 18:14:19,959 - ERROR - 检查数据存在性失败: ADAUSDT-2024-06 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ADAUSDT" and open_time >= 1.7171712E12 and open_time < 1.7197632E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ADAUSDT
+            and open_time >= 1717171200000.0
+            and open_time < 1719763200000.0
+        '
+2025-06-08 18:14:19,965 - ERROR - 转换失败: tmp\ADAUSDT-1h-2024-06.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:20,075 - INFO - 下载开始: ADAUSDT-2024-12
+2025-06-08 18:14:20,164 - ERROR - 检查数据存在性失败: ADAUSDT-2024-07 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ADAUSDT" and open_time >= 1.7197632E12 and open_time < 1.7224416E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ADAUSDT
+            and open_time >= 1719763200000.0
+            and open_time < 1722441600000.0
+        '
+2025-06-08 18:14:20,170 - ERROR - 转换失败: tmp\ADAUSDT-1h-2024-07.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:20,257 - INFO - 下载开始: AVAXUSDT-2024-01
+2025-06-08 18:14:20,257 - ERROR - 检查数据存在性失败: ADAUSDT-2024-04 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ADAUSDT" and open_time >= 1.7119008E12 and open_time < 1.7144928E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ADAUSDT
+            and open_time >= 1711900800000.0
+            and open_time < 1714492800000.0
+        '
+2025-06-08 18:14:20,268 - ERROR - 转换失败: tmp\ADAUSDT-1h-2024-04.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:20,337 - ERROR - 检查数据存在性失败: ADAUSDT-2024-05 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ADAUSDT" and open_time >= 1.7144928E12 and open_time < 1.7171712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ADAUSDT
+            and open_time >= 1714492800000.0
+            and open_time < 1717171200000.0
+        '
+2025-06-08 18:14:20,337 - ERROR - 检查数据存在性失败: ADAUSDT-2024-08 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ADAUSDT" and open_time >= 1.7224416E12 and open_time < 1.72512E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ADAUSDT
+            and open_time >= 1722441600000.0
+            and open_time < 1725120000000.0
+        '
+2025-06-08 18:14:20,359 - INFO - 下载开始: AVAXUSDT-2024-02
+2025-06-08 18:14:20,368 - ERROR - 转换失败: tmp\ADAUSDT-1h-2024-08.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:20,370 - ERROR - 转换失败: tmp\ADAUSDT-1h-2024-05.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:20,456 - INFO - 下载开始: AVAXUSDT-2024-03
+2025-06-08 18:14:20,560 - ERROR - 检查数据存在性失败: ADAUSDT-2024-10 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ADAUSDT" and open_time >= 1.727712E12 and open_time < 1.7303904E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ADAUSDT
+            and open_time >= 1727712000000.0
+            and open_time < 1730390400000.0
+        '
+2025-06-08 18:14:20,560 - INFO - 下载开始: AVAXUSDT-2024-04
+2025-06-08 18:14:20,573 - ERROR - 转换失败: tmp\ADAUSDT-1h-2024-10.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:20,660 - INFO - 下载开始: AVAXUSDT-2024-05
+2025-06-08 18:14:20,661 - ERROR - 检查数据存在性失败: ADAUSDT-2024-09 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ADAUSDT" and open_time >= 1.72512E12 and open_time < 1.727712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ADAUSDT
+            and open_time >= 1725120000000.0
+            and open_time < 1727712000000.0
+        '
+2025-06-08 18:14:20,673 - ERROR - 转换失败: tmp\ADAUSDT-1h-2024-09.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:20,742 - ERROR - 检查数据存在性失败: ADAUSDT-2024-11 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ADAUSDT" and open_time >= 1.7303904E12 and open_time < 1.7329824E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ADAUSDT
+            and open_time >= 1730390400000.0
+            and open_time < 1732982400000.0
+        '
+2025-06-08 18:14:20,768 - INFO - 下载开始: AVAXUSDT-2024-06
+2025-06-08 18:14:20,779 - ERROR - 转换失败: tmp\ADAUSDT-1h-2024-11.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:20,844 - ERROR - 检查数据存在性失败: ADAUSDT-2024-12 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ADAUSDT" and open_time >= 1.7329824E12 and open_time < 1.7356608E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ADAUSDT
+            and open_time >= 1732982400000.0
+            and open_time < 1735660800000.0
+        '
+2025-06-08 18:14:20,871 - INFO - 下载开始: AVAXUSDT-2024-07
+2025-06-08 18:14:20,882 - ERROR - 转换失败: tmp\ADAUSDT-1h-2024-12.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:20,980 - INFO - 下载开始: AVAXUSDT-2024-08
+2025-06-08 18:14:21,009 - ERROR - 检查数据存在性失败: AVAXUSDT-2024-01 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "AVAXUSDT" and open_time >= 1.7040384E12 and open_time < 1.7067168E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `AVAXUSDT
+            and open_time >= 1704038400000.0
+            and open_time < 1706716800000.0
+        '
+2025-06-08 18:14:21,012 - ERROR - 检查数据存在性失败: AVAXUSDT-2024-02 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "AVAXUSDT" and open_time >= 1.7067168E12 and open_time < 1.7092224E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `AVAXUSDT
+            and open_time >= 1706716800000.0
+            and open_time < 1709222400000.0
+        '
+2025-06-08 18:14:21,015 - ERROR - 转换失败: tmp\AVAXUSDT-1h-2024-01.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:21,111 - ERROR - 检查数据存在性失败: AVAXUSDT-2024-04 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "AVAXUSDT" and open_time >= 1.7119008E12 and open_time < 1.7144928E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `AVAXUSDT
+            and open_time >= 1711900800000.0
+            and open_time < 1714492800000.0
+        '
+2025-06-08 18:14:21,111 - INFO - 下载开始: AVAXUSDT-2024-09
+2025-06-08 18:14:21,112 - ERROR - 检查数据存在性失败: AVAXUSDT-2024-03 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "AVAXUSDT" and open_time >= 1.7092224E12 and open_time < 1.7119008E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `AVAXUSDT
+            and open_time >= 1709222400000.0
+            and open_time < 1711900800000.0
+        '
+2025-06-08 18:14:21,123 - ERROR - 转换失败: tmp\AVAXUSDT-1h-2024-02.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:21,222 - INFO - 下载开始: AVAXUSDT-2024-10
+2025-06-08 18:14:21,227 - ERROR - 转换失败: tmp\AVAXUSDT-1h-2024-04.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:21,318 - INFO - 下载开始: AVAXUSDT-2024-11
+2025-06-08 18:14:21,322 - ERROR - 转换失败: tmp\AVAXUSDT-1h-2024-03.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:21,438 - INFO - 下载开始: AVAXUSDT-2024-12
+2025-06-08 18:14:21,470 - ERROR - 检查数据存在性失败: AVAXUSDT-2024-06 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "AVAXUSDT" and open_time >= 1.7171712E12 and open_time < 1.7197632E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `AVAXUSDT
+            and open_time >= 1717171200000.0
+            and open_time < 1719763200000.0
+        '
+2025-06-08 18:14:21,470 - ERROR - 检查数据存在性失败: AVAXUSDT-2024-05 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "AVAXUSDT" and open_time >= 1.7144928E12 and open_time < 1.7171712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `AVAXUSDT
+            and open_time >= 1714492800000.0
+            and open_time < 1717171200000.0
+        '
+2025-06-08 18:14:21,470 - ERROR - 检查数据存在性失败: AVAXUSDT-2024-07 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "AVAXUSDT" and open_time >= 1.7197632E12 and open_time < 1.7224416E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `AVAXUSDT
+            and open_time >= 1719763200000.0
+            and open_time < 1722441600000.0
+        '
+2025-06-08 18:14:21,484 - ERROR - 转换失败: tmp\AVAXUSDT-1h-2024-05.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:21,487 - ERROR - 转换失败: tmp\AVAXUSDT-1h-2024-06.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:21,577 - INFO - 下载开始: DOTUSDT-2024-01
+2025-06-08 18:14:21,666 - INFO - 下载开始: DOTUSDT-2024-02
+2025-06-08 18:14:21,666 - ERROR - 检查数据存在性失败: AVAXUSDT-2024-08 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "AVAXUSDT" and open_time >= 1.7224416E12 and open_time < 1.72512E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `AVAXUSDT
+            and open_time >= 1722441600000.0
+            and open_time < 1725120000000.0
+        '
+2025-06-08 18:14:21,668 - ERROR - 转换失败: tmp\AVAXUSDT-1h-2024-07.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:21,751 - INFO - 下载开始: DOTUSDT-2024-03
+2025-06-08 18:14:21,757 - ERROR - 转换失败: tmp\AVAXUSDT-1h-2024-08.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:21,848 - INFO - 下载开始: DOTUSDT-2024-04
+2025-06-08 18:14:21,874 - ERROR - 检查数据存在性失败: AVAXUSDT-2024-09 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "AVAXUSDT" and open_time >= 1.72512E12 and open_time < 1.727712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `AVAXUSDT
+            and open_time >= 1725120000000.0
+            and open_time < 1727712000000.0
+        '
+2025-06-08 18:14:21,880 - ERROR - 转换失败: tmp\AVAXUSDT-1h-2024-09.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:21,973 - INFO - 下载开始: DOTUSDT-2024-05
+2025-06-08 18:14:21,974 - ERROR - 检查数据存在性失败: AVAXUSDT-2024-12 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "AVAXUSDT" and open_time >= 1.7329824E12 and open_time < 1.7356608E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `AVAXUSDT
+            and open_time >= 1732982400000.0
+            and open_time < 1735660800000.0
+        '
+2025-06-08 18:14:21,982 - ERROR - 转换失败: tmp\AVAXUSDT-1h-2024-12.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:22,072 - INFO - 下载开始: DOTUSDT-2024-06
+2025-06-08 18:14:22,095 - ERROR - 检查数据存在性失败: AVAXUSDT-2024-11 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "AVAXUSDT" and open_time >= 1.7303904E12 and open_time < 1.7329824E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `AVAXUSDT
+            and open_time >= 1730390400000.0
+            and open_time < 1732982400000.0
+        '
+2025-06-08 18:14:22,102 - ERROR - 转换失败: tmp\AVAXUSDT-1h-2024-11.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:22,195 - INFO - 下载开始: DOTUSDT-2024-07
+2025-06-08 18:14:22,230 - ERROR - 检查数据存在性失败: DOTUSDT-2024-01 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOTUSDT" and open_time >= 1.7040384E12 and open_time < 1.7067168E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOTUSDT
+            and open_time >= 1704038400000.0
+            and open_time < 1706716800000.0
+        '
+2025-06-08 18:14:22,236 - ERROR - 转换失败: tmp\DOTUSDT-1h-2024-01.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:22,236 - ERROR - 检查数据存在性失败: AVAXUSDT-2024-10 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "AVAXUSDT" and open_time >= 1.727712E12 and open_time < 1.7303904E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `AVAXUSDT
+            and open_time >= 1727712000000.0
+            and open_time < 1730390400000.0
+        '
+2025-06-08 18:14:22,319 - INFO - 下载开始: DOTUSDT-2024-08
+2025-06-08 18:14:22,327 - ERROR - 转换失败: tmp\AVAXUSDT-1h-2024-10.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:22,418 - INFO - 下载开始: DOTUSDT-2024-09
+2025-06-08 18:14:22,443 - ERROR - 检查数据存在性失败: DOTUSDT-2024-03 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOTUSDT" and open_time >= 1.7092224E12 and open_time < 1.7119008E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOTUSDT
+            and open_time >= 1709222400000.0
+            and open_time < 1711900800000.0
+        '
+2025-06-08 18:14:22,448 - ERROR - 转换失败: tmp\DOTUSDT-1h-2024-03.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:22,449 - ERROR - 检查数据存在性失败: DOTUSDT-2024-02 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOTUSDT" and open_time >= 1.7067168E12 and open_time < 1.7092224E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOTUSDT
+            and open_time >= 1706716800000.0
+            and open_time < 1709222400000.0
+        '
+2025-06-08 18:14:22,544 - ERROR - 检查数据存在性失败: DOTUSDT-2024-04 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOTUSDT" and open_time >= 1.7119008E12 and open_time < 1.7144928E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOTUSDT
+            and open_time >= 1711900800000.0
+            and open_time < 1714492800000.0
+        '
+2025-06-08 18:14:22,544 - INFO - 下载开始: DOTUSDT-2024-10
+2025-06-08 18:14:22,569 - ERROR - 转换失败: tmp\DOTUSDT-1h-2024-02.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:22,667 - ERROR - 转换失败: tmp\DOTUSDT-1h-2024-04.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:22,667 - INFO - 下载开始: DOTUSDT-2024-11
+2025-06-08 18:14:22,754 - INFO - 下载开始: DOTUSDT-2024-12
+2025-06-08 18:14:22,782 - ERROR - 检查数据存在性失败: DOTUSDT-2024-05 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOTUSDT" and open_time >= 1.7144928E12 and open_time < 1.7171712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOTUSDT
+            and open_time >= 1714492800000.0
+            and open_time < 1717171200000.0
+        '
+2025-06-08 18:14:22,788 - ERROR - 检查数据存在性失败: DOTUSDT-2024-07 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOTUSDT" and open_time >= 1.7197632E12 and open_time < 1.7224416E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOTUSDT
+            and open_time >= 1719763200000.0
+            and open_time < 1722441600000.0
+        '
+2025-06-08 18:14:22,788 - ERROR - 检查数据存在性失败: DOTUSDT-2024-06 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOTUSDT" and open_time >= 1.7171712E12 and open_time < 1.7197632E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOTUSDT
+            and open_time >= 1717171200000.0
+            and open_time < 1719763200000.0
+        '
+2025-06-08 18:14:22,791 - ERROR - 转换失败: tmp\DOTUSDT-1h-2024-05.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:22,791 - ERROR - 检查数据存在性失败: DOTUSDT-2024-08 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOTUSDT" and open_time >= 1.7224416E12 and open_time < 1.72512E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOTUSDT
+            and open_time >= 1722441600000.0
+            and open_time < 1725120000000.0
+        '
+2025-06-08 18:14:22,891 - INFO - 下载开始: MATICUSDT-2024-01
+2025-06-08 18:14:22,902 - ERROR - 转换失败: tmp\DOTUSDT-1h-2024-08.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:22,904 - ERROR - 转换失败: tmp\DOTUSDT-1h-2024-06.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:22,906 - ERROR - 转换失败: tmp\DOTUSDT-1h-2024-07.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:23,056 - INFO - 下载开始: MATICUSDT-2024-02
+2025-06-08 18:14:23,077 - INFO - 下载开始: MATICUSDT-2024-03
+2025-06-08 18:14:23,179 - INFO - 下载开始: MATICUSDT-2024-04
+2025-06-08 18:14:23,206 - ERROR - 检查数据存在性失败: DOTUSDT-2024-09 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOTUSDT" and open_time >= 1.72512E12 and open_time < 1.727712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOTUSDT
+            and open_time >= 1725120000000.0
+            and open_time < 1727712000000.0
+        '
+2025-06-08 18:14:23,208 - ERROR - 检查数据存在性失败: DOTUSDT-2024-10 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOTUSDT" and open_time >= 1.727712E12 and open_time < 1.7303904E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOTUSDT
+            and open_time >= 1727712000000.0
+            and open_time < 1730390400000.0
+        '
+2025-06-08 18:14:23,213 - ERROR - 转换失败: tmp\DOTUSDT-1h-2024-09.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:23,304 - ERROR - 转换失败: tmp\DOTUSDT-1h-2024-10.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:23,304 - INFO - 下载开始: MATICUSDT-2024-05
+2025-06-08 18:14:23,408 - INFO - 下载开始: MATICUSDT-2024-06
+2025-06-08 18:14:23,572 - ERROR - 检查数据存在性失败: DOTUSDT-2024-11 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOTUSDT" and open_time >= 1.7303904E12 and open_time < 1.7329824E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOTUSDT
+            and open_time >= 1730390400000.0
+            and open_time < 1732982400000.0
+        '
+2025-06-08 18:14:23,579 - ERROR - 转换失败: tmp\DOTUSDT-1h-2024-11.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:23,837 - INFO - 下载开始: MATICUSDT-2024-07
+2025-06-08 18:14:23,838 - ERROR - 检查数据存在性失败: DOTUSDT-2024-12 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "DOTUSDT" and open_time >= 1.7329824E12 and open_time < 1.7356608E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `DOTUSDT
+            and open_time >= 1732982400000.0
+            and open_time < 1735660800000.0
+        '
+2025-06-08 18:14:23,847 - ERROR - 转换失败: tmp\DOTUSDT-1h-2024-12.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:23,943 - INFO - 下载开始: MATICUSDT-2024-08
+2025-06-08 18:14:23,966 - ERROR - 检查数据存在性失败: MATICUSDT-2024-04 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "MATICUSDT" and open_time >= 1.7119008E12 and open_time < 1.7144928E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `MATICUSDT
+            and open_time >= 1711900800000.0
+            and open_time < 1714492800000.0
+        '
+2025-06-08 18:14:23,970 - ERROR - 检查数据存在性失败: MATICUSDT-2024-01 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "MATICUSDT" and open_time >= 1.7040384E12 and open_time < 1.7067168E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `MATICUSDT
+            and open_time >= 1704038400000.0
+            and open_time < 1706716800000.0
+        '
+2025-06-08 18:14:23,973 - ERROR - 转换失败: tmp\MATICUSDT-1h-2024-04.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:24,066 - INFO - 下载开始: MATICUSDT-2024-09
+2025-06-08 18:14:24,073 - ERROR - 转换失败: tmp\MATICUSDT-1h-2024-01.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:24,163 - INFO - 下载开始: MATICUSDT-2024-10
+2025-06-08 18:14:24,191 - ERROR - 检查数据存在性失败: MATICUSDT-2024-03 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "MATICUSDT" and open_time >= 1.7092224E12 and open_time < 1.7119008E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `MATICUSDT
+            and open_time >= 1709222400000.0
+            and open_time < 1711900800000.0
+        '
+2025-06-08 18:14:24,192 - ERROR - 检查数据存在性失败: MATICUSDT-2024-05 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "MATICUSDT" and open_time >= 1.7144928E12 and open_time < 1.7171712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `MATICUSDT
+            and open_time >= 1714492800000.0
+            and open_time < 1717171200000.0
+        '
+2025-06-08 18:14:24,197 - ERROR - 转换失败: tmp\MATICUSDT-1h-2024-03.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:24,294 - INFO - 下载开始: MATICUSDT-2024-11
+2025-06-08 18:14:24,297 - ERROR - 转换失败: tmp\MATICUSDT-1h-2024-05.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:24,397 - INFO - 下载开始: MATICUSDT-2024-12
+2025-06-08 18:14:24,427 - ERROR - 检查数据存在性失败: MATICUSDT-2024-02 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "MATICUSDT" and open_time >= 1.7067168E12 and open_time < 1.7092224E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `MATICUSDT
+            and open_time >= 1706716800000.0
+            and open_time < 1709222400000.0
+        '
+2025-06-08 18:14:24,427 - ERROR - 检查数据存在性失败: MATICUSDT-2024-06 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "MATICUSDT" and open_time >= 1.7171712E12 and open_time < 1.7197632E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `MATICUSDT
+            and open_time >= 1717171200000.0
+            and open_time < 1719763200000.0
+        '
+2025-06-08 18:14:24,430 - ERROR - 检查数据存在性失败: MATICUSDT-2024-08 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "MATICUSDT" and open_time >= 1.7224416E12 and open_time < 1.72512E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `MATICUSDT
+            and open_time >= 1722441600000.0
+            and open_time < 1725120000000.0
+        '
+2025-06-08 18:14:24,433 - ERROR - 转换失败: tmp\MATICUSDT-1h-2024-02.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:24,437 - ERROR - 转换失败: tmp\MATICUSDT-1h-2024-06.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:24,529 - INFO - 下载开始: TRXUSDT-2024-01
+2025-06-08 18:14:24,613 - INFO - 下载开始: TRXUSDT-2024-02
+2025-06-08 18:14:24,620 - ERROR - 转换失败: tmp\MATICUSDT-1h-2024-08.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:24,703 - INFO - 下载开始: TRXUSDT-2024-03
+2025-06-08 18:14:24,736 - ERROR - 检查数据存在性失败: MATICUSDT-2024-09 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "MATICUSDT" and open_time >= 1.72512E12 and open_time < 1.727712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `MATICUSDT
+            and open_time >= 1725120000000.0
+            and open_time < 1727712000000.0
+        '
+2025-06-08 18:14:24,736 - ERROR - 检查数据存在性失败: MATICUSDT-2024-07 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "MATICUSDT" and open_time >= 1.7197632E12 and open_time < 1.7224416E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `MATICUSDT
+            and open_time >= 1719763200000.0
+            and open_time < 1722441600000.0
+        '
+2025-06-08 18:14:24,741 - ERROR - 转换失败: tmp\MATICUSDT-1h-2024-09.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:24,825 - INFO - 下载开始: TRXUSDT-2024-04
+2025-06-08 18:14:24,829 - ERROR - 转换失败: tmp\MATICUSDT-1h-2024-07.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:24,829 - ERROR - 下载失败: https://data.binance.vision/data/spot/monthly/klines/MATICUSDT/1h/MATICUSDT-1h-2024-11.zip - 404 Client Error: Not Found for url: https://data.binance.vision/data/spot/monthly/klines/MATICUSDT/1h/MATICUSDT-1h-2024-11.zip
+2025-06-08 18:14:25,001 - INFO - 下载开始: TRXUSDT-2024-05
+2025-06-08 18:14:25,002 - ERROR - 下载失败: https://data.binance.vision/data/spot/monthly/klines/MATICUSDT/1h/MATICUSDT-1h-2024-12.zip - 404 Client Error: Not Found for url: https://data.binance.vision/data/spot/monthly/klines/MATICUSDT/1h/MATICUSDT-1h-2024-12.zip
+2025-06-08 18:14:25,002 - INFO - 下载开始: TRXUSDT-2024-06
+2025-06-08 18:14:25,088 - INFO - 下载开始: TRXUSDT-2024-07
+2025-06-08 18:14:25,117 - ERROR - 检查数据存在性失败: TRXUSDT-2024-01 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "TRXUSDT" and open_time >= 1.7040384E12 and open_time < 1.7067168E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `TRXUSDT
+            and open_time >= 1704038400000.0
+            and open_time < 1706716800000.0
+        '
+2025-06-08 18:14:25,124 - ERROR - 转换失败: tmp\TRXUSDT-1h-2024-01.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:25,210 - INFO - 下载开始: TRXUSDT-2024-08
+2025-06-08 18:14:25,258 - ERROR - 检查数据存在性失败: TRXUSDT-2024-02 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "TRXUSDT" and open_time >= 1.7067168E12 and open_time < 1.7092224E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `TRXUSDT
+            and open_time >= 1706716800000.0
+            and open_time < 1709222400000.0
+        '
+2025-06-08 18:14:25,264 - ERROR - 转换失败: tmp\TRXUSDT-1h-2024-02.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:25,351 - INFO - 下载开始: TRXUSDT-2024-09
+2025-06-08 18:14:25,379 - ERROR - 检查数据存在性失败: TRXUSDT-2024-04 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "TRXUSDT" and open_time >= 1.7119008E12 and open_time < 1.7144928E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `TRXUSDT
+            and open_time >= 1711900800000.0
+            and open_time < 1714492800000.0
+        '
+2025-06-08 18:14:25,384 - ERROR - 转换失败: tmp\TRXUSDT-1h-2024-04.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:25,480 - INFO - 下载开始: TRXUSDT-2024-10
+2025-06-08 18:14:25,510 - ERROR - 检查数据存在性失败: TRXUSDT-2024-03 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "TRXUSDT" and open_time >= 1.7092224E12 and open_time < 1.7119008E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `TRXUSDT
+            and open_time >= 1709222400000.0
+            and open_time < 1711900800000.0
+        '
+2025-06-08 18:14:25,510 - ERROR - 检查数据存在性失败: TRXUSDT-2024-05 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "TRXUSDT" and open_time >= 1.7144928E12 and open_time < 1.7171712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `TRXUSDT
+            and open_time >= 1714492800000.0
+            and open_time < 1717171200000.0
+        '
+2025-06-08 18:14:25,510 - ERROR - 下载失败: https://data.binance.vision/data/spot/monthly/klines/MATICUSDT/1h/MATICUSDT-1h-2024-10.zip - 404 Client Error: Not Found for url: https://data.binance.vision/data/spot/monthly/klines/MATICUSDT/1h/MATICUSDT-1h-2024-10.zip
+2025-06-08 18:14:25,602 - INFO - 下载开始: TRXUSDT-2024-11
+2025-06-08 18:14:25,611 - ERROR - 转换失败: tmp\TRXUSDT-1h-2024-03.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:25,613 - ERROR - 转换失败: tmp\TRXUSDT-1h-2024-05.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:25,705 - INFO - 下载开始: TRXUSDT-2024-12
+2025-06-08 18:14:25,793 - INFO - 下载开始: SHIBUSDT-2024-01
+2025-06-08 18:14:25,819 - ERROR - 检查数据存在性失败: TRXUSDT-2024-06 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "TRXUSDT" and open_time >= 1.7171712E12 and open_time < 1.7197632E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `TRXUSDT
+            and open_time >= 1717171200000.0
+            and open_time < 1719763200000.0
+        '
+2025-06-08 18:14:25,823 - ERROR - 检查数据存在性失败: TRXUSDT-2024-08 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "TRXUSDT" and open_time >= 1.7224416E12 and open_time < 1.72512E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `TRXUSDT
+            and open_time >= 1722441600000.0
+            and open_time < 1725120000000.0
+        '
+2025-06-08 18:14:25,824 - ERROR - 转换失败: tmp\TRXUSDT-1h-2024-06.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:25,824 - ERROR - 检查数据存在性失败: TRXUSDT-2024-07 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "TRXUSDT" and open_time >= 1.7197632E12 and open_time < 1.7224416E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `TRXUSDT
+            and open_time >= 1719763200000.0
+            and open_time < 1722441600000.0
+        '
+2025-06-08 18:14:25,912 - INFO - 下载开始: SHIBUSDT-2024-02
+2025-06-08 18:14:25,951 - ERROR - 转换失败: tmp\TRXUSDT-1h-2024-07.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:25,955 - ERROR - 转换失败: tmp\TRXUSDT-1h-2024-08.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:26,044 - INFO - 下载开始: SHIBUSDT-2024-03
+2025-06-08 18:14:26,130 - INFO - 下载开始: SHIBUSDT-2024-04
+2025-06-08 18:14:26,159 - ERROR - 检查数据存在性失败: TRXUSDT-2024-09 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "TRXUSDT" and open_time >= 1.72512E12 and open_time < 1.727712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `TRXUSDT
+            and open_time >= 1725120000000.0
+            and open_time < 1727712000000.0
+        '
+2025-06-08 18:14:26,159 - ERROR - 检查数据存在性失败: TRXUSDT-2024-10 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "TRXUSDT" and open_time >= 1.727712E12 and open_time < 1.7303904E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `TRXUSDT
+            and open_time >= 1727712000000.0
+            and open_time < 1730390400000.0
+        '
+2025-06-08 18:14:26,166 - ERROR - 转换失败: tmp\TRXUSDT-1h-2024-09.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:26,252 - INFO - 下载开始: SHIBUSDT-2024-05
+2025-06-08 18:14:26,258 - ERROR - 转换失败: tmp\TRXUSDT-1h-2024-10.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:26,366 - INFO - 下载开始: SHIBUSDT-2024-06
+2025-06-08 18:14:26,392 - ERROR - 检查数据存在性失败: TRXUSDT-2024-11 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "TRXUSDT" and open_time >= 1.7303904E12 and open_time < 1.7329824E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `TRXUSDT
+            and open_time >= 1730390400000.0
+            and open_time < 1732982400000.0
+        '
+2025-06-08 18:14:26,393 - ERROR - 检查数据存在性失败: TRXUSDT-2024-12 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "TRXUSDT" and open_time >= 1.7329824E12 and open_time < 1.7356608E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `TRXUSDT
+            and open_time >= 1732982400000.0
+            and open_time < 1735660800000.0
+        '
+2025-06-08 18:14:26,398 - ERROR - 转换失败: tmp\TRXUSDT-1h-2024-11.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:26,399 - ERROR - 检查数据存在性失败: SHIBUSDT-2024-02 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SHIBUSDT" and open_time >= 1.7067168E12 and open_time < 1.7092224E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SHIBUSDT
+            and open_time >= 1706716800000.0
+            and open_time < 1709222400000.0
+        '
+2025-06-08 18:14:26,482 - INFO - 下载开始: SHIBUSDT-2024-07
+2025-06-08 18:14:26,486 - ERROR - 转换失败: tmp\TRXUSDT-1h-2024-12.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:26,491 - ERROR - 转换失败: tmp\SHIBUSDT-1h-2024-02.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:26,581 - INFO - 下载开始: SHIBUSDT-2024-08
+2025-06-08 18:14:26,666 - INFO - 下载开始: SHIBUSDT-2024-09
+2025-06-08 18:14:26,691 - ERROR - 检查数据存在性失败: SHIBUSDT-2024-01 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SHIBUSDT" and open_time >= 1.7040384E12 and open_time < 1.7067168E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SHIBUSDT
+            and open_time >= 1704038400000.0
+            and open_time < 1706716800000.0
+        '
+2025-06-08 18:14:26,697 - ERROR - 转换失败: tmp\SHIBUSDT-1h-2024-01.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:26,697 - ERROR - 检查数据存在性失败: SHIBUSDT-2024-04 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SHIBUSDT" and open_time >= 1.7119008E12 and open_time < 1.7144928E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SHIBUSDT
+            and open_time >= 1711900800000.0
+            and open_time < 1714492800000.0
+        '
+2025-06-08 18:14:26,785 - INFO - 下载开始: SHIBUSDT-2024-10
+2025-06-08 18:14:26,792 - ERROR - 转换失败: tmp\SHIBUSDT-1h-2024-04.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:26,883 - INFO - 下载开始: SHIBUSDT-2024-11
+2025-06-08 18:14:26,909 - ERROR - 检查数据存在性失败: SHIBUSDT-2024-05 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SHIBUSDT" and open_time >= 1.7144928E12 and open_time < 1.7171712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SHIBUSDT
+            and open_time >= 1714492800000.0
+            and open_time < 1717171200000.0
+        '
+2025-06-08 18:14:26,916 - ERROR - 转换失败: tmp\SHIBUSDT-1h-2024-05.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:27,003 - INFO - 下载开始: SHIBUSDT-2024-12
+2025-06-08 18:14:27,029 - ERROR - 检查数据存在性失败: SHIBUSDT-2024-07 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SHIBUSDT" and open_time >= 1.7197632E12 and open_time < 1.7224416E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SHIBUSDT
+            and open_time >= 1719763200000.0
+            and open_time < 1722441600000.0
+        '
+2025-06-08 18:14:27,036 - ERROR - 转换失败: tmp\SHIBUSDT-1h-2024-07.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:27,036 - ERROR - 检查数据存在性失败: SHIBUSDT-2024-06 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SHIBUSDT" and open_time >= 1.7171712E12 and open_time < 1.7197632E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SHIBUSDT
+            and open_time >= 1717171200000.0
+            and open_time < 1719763200000.0
+        '
+2025-06-08 18:14:27,046 - ERROR - 转换失败: tmp\SHIBUSDT-1h-2024-06.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:27,149 - ERROR - 检查数据存在性失败: SHIBUSDT-2024-09 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SHIBUSDT" and open_time >= 1.72512E12 and open_time < 1.727712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SHIBUSDT
+            and open_time >= 1725120000000.0
+            and open_time < 1727712000000.0
+        '
+2025-06-08 18:14:27,154 - ERROR - 转换失败: tmp\SHIBUSDT-1h-2024-09.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:27,222 - ERROR - 检查数据存在性失败: SHIBUSDT-2024-08 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SHIBUSDT" and open_time >= 1.7224416E12 and open_time < 1.72512E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SHIBUSDT
+            and open_time >= 1722441600000.0
+            and open_time < 1725120000000.0
+        '
+2025-06-08 18:14:27,229 - ERROR - 转换失败: tmp\SHIBUSDT-1h-2024-08.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:27,296 - ERROR - 检查数据存在性失败: SHIBUSDT-2024-03 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SHIBUSDT" and open_time >= 1.7092224E12 and open_time < 1.7119008E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SHIBUSDT
+            and open_time >= 1709222400000.0
+            and open_time < 1711900800000.0
+        '
+2025-06-08 18:14:27,302 - ERROR - 转换失败: tmp\SHIBUSDT-1h-2024-03.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:27,502 - ERROR - 检查数据存在性失败: SHIBUSDT-2024-12 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SHIBUSDT" and open_time >= 1.7329824E12 and open_time < 1.7356608E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SHIBUSDT
+            and open_time >= 1732982400000.0
+            and open_time < 1735660800000.0
+        '
+2025-06-08 18:14:27,507 - ERROR - 转换失败: tmp\SHIBUSDT-1h-2024-12.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:27,529 - ERROR - 检查数据存在性失败: SHIBUSDT-2024-11 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SHIBUSDT" and open_time >= 1.7303904E12 and open_time < 1.7329824E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SHIBUSDT
+            and open_time >= 1730390400000.0
+            and open_time < 1732982400000.0
+        '
+2025-06-08 18:14:27,536 - ERROR - 转换失败: tmp\SHIBUSDT-1h-2024-11.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:14:27,536 - WARNING - 用户中断执行
+2025-06-08 18:14:27,687 - ERROR - 检查数据存在性失败: SHIBUSDT-2024-10 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "SHIBUSDT" and open_time >= 1.727712E12 and open_time < 1.7303904E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `SHIBUSDT
+            and open_time >= 1727712000000.0
+            and open_time < 1730390400000.0
+        '
+2025-06-08 18:14:27,693 - ERROR - 转换失败: tmp\SHIBUSDT-1h-2024-10.csv - 列数不匹配: 预期12列，实际13列
+2025-06-08 18:17:03,725 - INFO - === 数据导入开始 ===
+2025-06-08 18:17:03,727 - ERROR - 处理失败: BTCUSDT-2024-01 - name 'create_session' is not defined
+2025-06-08 18:17:03,728 - ERROR - 处理失败: BTCUSDT-2024-02 - name 'create_session' is not defined
+2025-06-08 18:17:03,728 - ERROR - 处理失败: BTCUSDT-2024-03 - name 'create_session' is not defined
+2025-06-08 18:17:03,728 - ERROR - 处理失败: BTCUSDT-2024-04 - name 'create_session' is not defined
+2025-06-08 18:17:03,728 - ERROR - 处理失败: BTCUSDT-2024-05 - name 'create_session' is not defined
+2025-06-08 18:17:03,728 - ERROR - 处理失败: BTCUSDT-2024-06 - name 'create_session' is not defined
+2025-06-08 18:17:03,729 - ERROR - 处理失败: BTCUSDT-2024-07 - name 'create_session' is not defined
+2025-06-08 18:17:03,729 - ERROR - 处理失败: BTCUSDT-2024-08 - name 'create_session' is not defined
+2025-06-08 18:17:03,729 - ERROR - 处理失败: BTCUSDT-2024-09 - name 'create_session' is not defined
+2025-06-08 18:17:03,729 - ERROR - 处理失败: BTCUSDT-2024-11 - name 'create_session' is not defined
+2025-06-08 18:17:03,729 - ERROR - 处理失败: BTCUSDT-2024-12 - name 'create_session' is not defined
+2025-06-08 18:17:03,729 - ERROR - 处理失败: BTCUSDT-2024-10 - name 'create_session' is not defined
+2025-06-08 18:17:03,729 - ERROR - 处理失败: ETHUSDT-2024-01 - name 'create_session' is not defined
+2025-06-08 18:17:03,729 - ERROR - 处理失败: ETHUSDT-2024-02 - name 'create_session' is not defined
+2025-06-08 18:17:03,730 - ERROR - 处理失败: ETHUSDT-2024-03 - name 'create_session' is not defined
+2025-06-08 18:17:03,730 - ERROR - 处理失败: ETHUSDT-2024-04 - name 'create_session' is not defined
+2025-06-08 18:17:03,730 - ERROR - 处理失败: ETHUSDT-2024-05 - name 'create_session' is not defined
+2025-06-08 18:17:03,730 - ERROR - 处理失败: ETHUSDT-2024-06 - name 'create_session' is not defined
+2025-06-08 18:17:03,731 - ERROR - 处理失败: ETHUSDT-2024-07 - name 'create_session' is not defined
+2025-06-08 18:17:03,731 - ERROR - 处理失败: ETHUSDT-2024-08 - name 'create_session' is not defined
+2025-06-08 18:17:03,731 - ERROR - 处理失败: ETHUSDT-2024-09 - name 'create_session' is not defined
+2025-06-08 18:17:03,731 - ERROR - 处理失败: ETHUSDT-2024-10 - name 'create_session' is not defined
+2025-06-08 18:17:03,731 - ERROR - 处理失败: ETHUSDT-2024-11 - name 'create_session' is not defined
+2025-06-08 18:17:03,731 - ERROR - 处理失败: ETHUSDT-2024-12 - name 'create_session' is not defined
+2025-06-08 18:17:03,733 - INFO - === 数据导入完成 ===
+2025-06-08 18:17:26,864 - INFO - === 数据导入开始 ===
+2025-06-08 18:17:27,014 - INFO - 下载开始: BTCUSDT-2024-01
+2025-06-08 18:17:27,036 - INFO - 下载开始: BTCUSDT-2024-02
+2025-06-08 18:17:27,188 - INFO - 下载开始: BTCUSDT-2024-03
+2025-06-08 18:17:27,218 - INFO - 下载开始: BTCUSDT-2024-04
+2025-06-08 18:17:27,422 - INFO - 下载开始: BTCUSDT-2024-05
+2025-06-08 18:17:27,522 - INFO - 下载开始: BTCUSDT-2024-06
+2025-06-08 18:17:27,544 - INFO - 下载开始: BTCUSDT-2024-07
+2025-06-08 18:17:27,662 - INFO - 下载开始: BTCUSDT-2024-08
+2025-06-08 18:17:28,203 - ERROR - 检查数据存在性失败: BTCUSDT-2024-02 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7067168E12 and open_time < 1.7092224E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1706716800000.0
+            and open_time < 1709222400000.0
+        '
+2025-06-08 18:17:28,203 - ERROR - 检查数据存在性失败: BTCUSDT-2024-06 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7171712E12 and open_time < 1.7197632E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1717171200000.0
+            and open_time < 1719763200000.0
+        '
+2025-06-08 18:17:28,797 - INFO - 写入成功: BTCUSDT-2024-02 记录数: 696
+2025-06-08 18:17:28,797 - INFO - 写入成功: BTCUSDT-2024-06 记录数: 720
+2025-06-08 18:17:29,160 - INFO - 下载开始: BTCUSDT-2024-09
+2025-06-08 18:17:29,283 - INFO - 下载开始: BTCUSDT-2024-10
+2025-06-08 18:17:29,458 - ERROR - 检查数据存在性失败: BTCUSDT-2024-05 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7144928E12 and open_time < 1.7171712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1714492800000.0
+            and open_time < 1717171200000.0
+        '
+2025-06-08 18:17:29,471 - ERROR - 检查数据存在性失败: BTCUSDT-2024-04 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7119008E12 and open_time < 1.7144928E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1711900800000.0
+            and open_time < 1714492800000.0
+        '
+2025-06-08 18:17:29,472 - ERROR - 检查数据存在性失败: BTCUSDT-2024-08 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7224416E12 and open_time < 1.72512E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1722441600000.0
+            and open_time < 1725120000000.0
+        '
+2025-06-08 18:17:29,472 - ERROR - 检查数据存在性失败: BTCUSDT-2024-03 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7092224E12 and open_time < 1.7119008E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1709222400000.0
+            and open_time < 1711900800000.0
+        '
+2025-06-08 18:17:29,495 - ERROR - 检查数据存在性失败: BTCUSDT-2024-07 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7197632E12 and open_time < 1.7224416E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1719763200000.0
+            and open_time < 1722441600000.0
+        '
+2025-06-08 18:17:29,589 - INFO - 写入成功: BTCUSDT-2024-05 记录数: 744
+2025-06-08 18:17:29,687 - INFO - 下载开始: BTCUSDT-2024-11
+2025-06-08 18:17:29,849 - ERROR - 检查数据存在性失败: BTCUSDT-2024-01 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7040384E12 and open_time < 1.7067168E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1704038400000.0
+            and open_time < 1706716800000.0
+        '
+2025-06-08 18:17:29,849 - INFO - 写入成功: BTCUSDT-2024-04 记录数: 720
+2025-06-08 18:17:30,179 - INFO - 写入成功: BTCUSDT-2024-03 记录数: 744
+2025-06-08 18:17:30,180 - INFO - 写入成功: BTCUSDT-2024-08 记录数: 744
+2025-06-08 18:17:30,273 - INFO - 下载开始: BTCUSDT-2024-12
+2025-06-08 18:17:30,723 - INFO - 下载开始: ETHUSDT-2024-01
+2025-06-08 18:17:30,724 - INFO - 下载开始: ETHUSDT-2024-02
+2025-06-08 18:17:30,816 - INFO - 写入成功: BTCUSDT-2024-07 记录数: 744
+2025-06-08 18:17:30,927 - INFO - 下载开始: ETHUSDT-2024-03
+2025-06-08 18:17:31,067 - ERROR - 检查数据存在性失败: BTCUSDT-2024-10 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.727712E12 and open_time < 1.7303904E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1727712000000.0
+            and open_time < 1730390400000.0
+        '
+2025-06-08 18:17:31,067 - ERROR - 检查数据存在性失败: BTCUSDT-2024-11 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7303904E12 and open_time < 1.7329824E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1730390400000.0
+            and open_time < 1732982400000.0
+        '
+2025-06-08 18:17:31,068 - ERROR - 检查数据存在性失败: BTCUSDT-2024-09 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.72512E12 and open_time < 1.727712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1725120000000.0
+            and open_time < 1727712000000.0
+        '
+2025-06-08 18:17:31,068 - INFO - 写入成功: BTCUSDT-2024-01 记录数: 744
+2025-06-08 18:17:31,156 - INFO - 下载开始: ETHUSDT-2024-04
+2025-06-08 18:17:31,521 - INFO - 写入成功: BTCUSDT-2024-11 记录数: 720
+2025-06-08 18:17:31,524 - INFO - 写入成功: BTCUSDT-2024-10 记录数: 744
+2025-06-08 18:17:31,605 - INFO - 写入成功: BTCUSDT-2024-09 记录数: 720
+2025-06-08 18:17:31,688 - INFO - 下载开始: ETHUSDT-2024-05
+2025-06-08 18:17:31,862 - INFO - 下载开始: ETHUSDT-2024-06
+2025-06-08 18:17:31,888 - INFO - 下载开始: ETHUSDT-2024-07
+2025-06-08 18:17:31,918 - ERROR - 检查数据存在性失败: ETHUSDT-2024-01 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7040384E12 and open_time < 1.7067168E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1704038400000.0
+            and open_time < 1706716800000.0
+        '
+2025-06-08 18:17:31,918 - ERROR - 检查数据存在性失败: ETHUSDT-2024-02 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7067168E12 and open_time < 1.7092224E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1706716800000.0
+            and open_time < 1709222400000.0
+        '
+2025-06-08 18:17:31,926 - ERROR - 检查数据存在性失败: ETHUSDT-2024-03 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7092224E12 and open_time < 1.7119008E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1709222400000.0
+            and open_time < 1711900800000.0
+        '
+2025-06-08 18:17:31,927 - ERROR - 检查数据存在性失败: BTCUSDT-2024-12 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 1.7329824E12 and open_time < 1.7356608E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 1732982400000.0
+            and open_time < 1735660800000.0
+        '
+2025-06-08 18:17:32,045 - INFO - 写入成功: ETHUSDT-2024-01 记录数: 744
+2025-06-08 18:17:32,152 - INFO - 下载开始: ETHUSDT-2024-08
+2025-06-08 18:17:32,287 - INFO - 写入成功: ETHUSDT-2024-02 记录数: 696
+2025-06-08 18:17:32,448 - INFO - 写入成功: ETHUSDT-2024-03 记录数: 744
+2025-06-08 18:17:32,537 - INFO - 下载开始: ETHUSDT-2024-09
+2025-06-08 18:17:32,621 - INFO - 下载开始: ETHUSDT-2024-10
+2025-06-08 18:17:32,759 - INFO - 写入成功: BTCUSDT-2024-12 记录数: 744
+2025-06-08 18:17:32,825 - ERROR - 检查数据存在性失败: ETHUSDT-2024-04 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7119008E12 and open_time < 1.7144928E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1711900800000.0
+            and open_time < 1714492800000.0
+        '
+2025-06-08 18:17:32,847 - INFO - 下载开始: ETHUSDT-2024-11
+2025-06-08 18:17:32,982 - INFO - 写入成功: ETHUSDT-2024-04 记录数: 720
+2025-06-08 18:17:32,982 - ERROR - 检查数据存在性失败: ETHUSDT-2024-05 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7144928E12 and open_time < 1.7171712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1714492800000.0
+            and open_time < 1717171200000.0
+        '
+2025-06-08 18:17:32,982 - ERROR - 检查数据存在性失败: ETHUSDT-2024-07 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7197632E12 and open_time < 1.7224416E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1719763200000.0
+            and open_time < 1722441600000.0
+        '
+2025-06-08 18:17:32,983 - ERROR - 检查数据存在性失败: ETHUSDT-2024-06 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7171712E12 and open_time < 1.7197632E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1717171200000.0
+            and open_time < 1719763200000.0
+        '
+2025-06-08 18:17:33,086 - INFO - 下载开始: ETHUSDT-2024-12
+2025-06-08 18:17:33,258 - ERROR - 检查数据存在性失败: ETHUSDT-2024-08 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7224416E12 and open_time < 1.72512E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1722441600000.0
+            and open_time < 1725120000000.0
+        '
+2025-06-08 18:17:33,259 - INFO - 写入成功: ETHUSDT-2024-06 记录数: 720
+2025-06-08 18:17:33,337 - INFO - 写入成功: ETHUSDT-2024-05 记录数: 744
+2025-06-08 18:17:33,436 - INFO - 写入成功: ETHUSDT-2024-07 记录数: 744
+2025-06-08 18:17:33,548 - ERROR - 检查数据存在性失败: ETHUSDT-2024-09 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.72512E12 and open_time < 1.727712E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1725120000000.0
+            and open_time < 1727712000000.0
+        '
+2025-06-08 18:17:33,548 - INFO - 写入成功: ETHUSDT-2024-08 记录数: 744
+2025-06-08 18:17:33,638 - ERROR - 检查数据存在性失败: ETHUSDT-2024-10 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.727712E12 and open_time < 1.7303904E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1727712000000.0
+            and open_time < 1730390400000.0
+        '
+2025-06-08 18:17:33,639 - INFO - 写入成功: ETHUSDT-2024-09 记录数: 720
+2025-06-08 18:17:33,735 - INFO - 写入成功: ETHUSDT-2024-10 记录数: 744
+2025-06-08 18:17:33,870 - ERROR - 检查数据存在性失败: ETHUSDT-2024-11 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7303904E12 and open_time < 1.7329824E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1730390400000.0
+            and open_time < 1732982400000.0
+        '
+2025-06-08 18:17:33,969 - INFO - 写入成功: ETHUSDT-2024-11 记录数: 720
+2025-06-08 18:17:34,194 - ERROR - 检查数据存在性失败: ETHUSDT-2024-12 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 1.7329824E12 and open_time < 1.7356608E12 => The temporal partitioning column [kline_1h.open_time] must be compared with a temporal object in the WHERE clause. RefId:S02040' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 1732982400000.0
+            and open_time < 1735660800000.0
+        '
+2025-06-08 18:17:34,292 - INFO - 写入成功: ETHUSDT-2024-12 记录数: 744
+2025-06-08 18:17:34,294 - INFO - === 数据导入完成 ===
+2025-06-08 18:19:42,820 - INFO - === 数据导入开始 ===
+2025-06-08 18:19:42,970 - INFO - 下载开始: BTCUSDT-2024-01
+2025-06-08 18:19:43,003 - INFO - 下载开始: BTCUSDT-2024-02
+2025-06-08 18:19:43,225 - INFO - 下载开始: BTCUSDT-2024-03
+2025-06-08 18:19:43,225 - INFO - 下载开始: BTCUSDT-2024-04
+2025-06-08 18:19:43,463 - INFO - 下载开始: BTCUSDT-2024-06
+2025-06-08 18:19:43,514 - INFO - 下载开始: BTCUSDT-2024-07
+2025-06-08 18:19:43,576 - INFO - 下载开始: BTCUSDT-2024-05
+2025-06-08 18:19:43,601 - INFO - 下载开始: BTCUSDT-2024-08
+2025-06-08 18:19:44,026 - ERROR - 检查数据存在性失败: BTCUSDT-2024-03 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 2024 - 3 - [1,00:00:00] and open_time < 2024 - 4 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 2024-03-01 00:00:00
+            and open_time < 2024-04-01 00:00:00
+        '
+2025-06-08 18:19:44,176 - INFO - 写入成功: BTCUSDT-2024-03 记录数: 744
+2025-06-08 18:19:44,287 - INFO - 下载开始: BTCUSDT-2024-09
+2025-06-08 18:19:44,363 - ERROR - 检查数据存在性失败: BTCUSDT-2024-06 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 2024 - 6 - [1,00:00:00] and open_time < 2024 - 7 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 2024-06-01 00:00:00
+            and open_time < 2024-07-01 00:00:00
+        '
+2025-06-08 18:19:44,363 - ERROR - 检查数据存在性失败: BTCUSDT-2024-01 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 2024 - 1 - [1,00:00:00] and open_time < 2024 - 2 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 2024-01-01 00:00:00
+            and open_time < 2024-02-01 00:00:00
+        '
+2025-06-08 18:19:44,363 - ERROR - 检查数据存在性失败: BTCUSDT-2024-04 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 2024 - 4 - [1,00:00:00] and open_time < 2024 - 5 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 2024-04-01 00:00:00
+            and open_time < 2024-05-01 00:00:00
+        '
+2025-06-08 18:19:44,364 - ERROR - 检查数据存在性失败: BTCUSDT-2024-05 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 2024 - 5 - [1,00:00:00] and open_time < 2024 - 6 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 2024-05-01 00:00:00
+            and open_time < 2024-06-01 00:00:00
+        '
+2025-06-08 18:19:44,482 - INFO - 写入成功: BTCUSDT-2024-04 记录数: 720
+2025-06-08 18:19:44,577 - INFO - 写入成功: BTCUSDT-2024-06 记录数: 720
+2025-06-08 18:19:44,744 - INFO - 写入成功: BTCUSDT-2024-05 记录数: 744
+2025-06-08 18:19:44,744 - INFO - 下载开始: BTCUSDT-2024-10
+2025-06-08 18:19:44,830 - INFO - 下载开始: BTCUSDT-2024-11
+2025-06-08 18:19:44,947 - INFO - 写入成功: BTCUSDT-2024-01 记录数: 744
+2025-06-08 18:19:45,049 - INFO - 下载开始: BTCUSDT-2024-12
+2025-06-08 18:19:45,151 - INFO - 下载开始: ETHUSDT-2024-01
+2025-06-08 18:19:45,178 - ERROR - 检查数据存在性失败: BTCUSDT-2024-08 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 2024 - 8 - [1,00:00:00] and open_time < 2024 - 9 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 2024-08-01 00:00:00
+            and open_time < 2024-09-01 00:00:00
+        '
+2025-06-08 18:19:45,178 - ERROR - 检查数据存在性失败: BTCUSDT-2024-07 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 2024 - 7 - [1,00:00:00] and open_time < 2024 - 8 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 2024-07-01 00:00:00
+            and open_time < 2024-08-01 00:00:00
+        '
+2025-06-08 18:19:45,354 - INFO - 写入成功: BTCUSDT-2024-07 记录数: 744
+2025-06-08 18:19:45,442 - INFO - 写入成功: BTCUSDT-2024-08 记录数: 744
+2025-06-08 18:19:45,529 - INFO - 下载开始: ETHUSDT-2024-02
+2025-06-08 18:19:45,640 - INFO - 下载开始: ETHUSDT-2024-03
+2025-06-08 18:19:45,669 - ERROR - 检查数据存在性失败: BTCUSDT-2024-09 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 2024 - 9 - [1,00:00:00] and open_time < 2024 - 10 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 2024-09-01 00:00:00
+            and open_time < 2024-10-01 00:00:00
+        '
+2025-06-08 18:19:45,672 - ERROR - 检查数据存在性失败: BTCUSDT-2024-10 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 2024 - 10 - [1,00:00:00] and open_time < 2024 - 11 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 2024-10-01 00:00:00
+            and open_time < 2024-11-01 00:00:00
+        '
+2025-06-08 18:19:45,777 - INFO - 写入成功: BTCUSDT-2024-09 记录数: 720
+2025-06-08 18:19:45,860 - INFO - 写入成功: BTCUSDT-2024-10 记录数: 744
+2025-06-08 18:19:45,946 - INFO - 下载开始: ETHUSDT-2024-04
+2025-06-08 18:19:46,038 - INFO - 下载开始: ETHUSDT-2024-05
+2025-06-08 18:19:46,070 - ERROR - 检查数据存在性失败: BTCUSDT-2024-02 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 2024 - 2 - [1,00:00:00] and open_time < 2024 - 3 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 2024-02-01 00:00:00
+            and open_time < 2024-03-01 00:00:00
+        '
+2025-06-08 18:19:46,070 - ERROR - 检查数据存在性失败: BTCUSDT-2024-12 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 2024 - 12 - [1,00:00:00] and open_time < 2025 - 1 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 2024-12-01 00:00:00
+            and open_time < 2025-01-01 00:00:00
+        '
+2025-06-08 18:19:46,070 - ERROR - 检查数据存在性失败: ETHUSDT-2024-01 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 2024 - 1 - [1,00:00:00] and open_time < 2024 - 2 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 2024-01-01 00:00:00
+            and open_time < 2024-02-01 00:00:00
+        '
+2025-06-08 18:19:46,181 - INFO - 写入成功: BTCUSDT-2024-12 记录数: 744
+2025-06-08 18:19:46,260 - INFO - 写入成功: ETHUSDT-2024-01 记录数: 744
+2025-06-08 18:19:46,494 - INFO - 写入成功: BTCUSDT-2024-02 记录数: 696
+2025-06-08 18:19:46,583 - INFO - 下载开始: ETHUSDT-2024-06
+2025-06-08 18:19:46,790 - INFO - 下载开始: ETHUSDT-2024-07
+2025-06-08 18:19:46,813 - INFO - 下载开始: ETHUSDT-2024-08
+2025-06-08 18:19:46,842 - ERROR - 检查数据存在性失败: BTCUSDT-2024-11 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "BTCUSDT" and open_time >= 2024 - 11 - [1,00:00:00] and open_time < 2024 - 12 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `BTCUSDT
+            and open_time >= 2024-11-01 00:00:00
+            and open_time < 2024-12-01 00:00:00
+        '
+2025-06-08 18:19:46,846 - ERROR - 检查数据存在性失败: ETHUSDT-2024-02 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 2024 - 2 - [1,00:00:00] and open_time < 2024 - 3 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 2024-02-01 00:00:00
+            and open_time < 2024-03-01 00:00:00
+        '
+2025-06-08 18:19:46,850 - ERROR - 检查数据存在性失败: ETHUSDT-2024-03 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 2024 - 3 - [1,00:00:00] and open_time < 2024 - 4 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 2024-03-01 00:00:00
+            and open_time < 2024-04-01 00:00:00
+        '
+2025-06-08 18:19:46,850 - ERROR - 检查数据存在性失败: ETHUSDT-2024-05 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 2024 - 5 - [1,00:00:00] and open_time < 2024 - 6 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 2024-05-01 00:00:00
+            and open_time < 2024-06-01 00:00:00
+        '
+2025-06-08 18:19:46,991 - INFO - 写入成功: BTCUSDT-2024-11 记录数: 720
+2025-06-08 18:19:47,081 - INFO - 下载开始: ETHUSDT-2024-09
+2025-06-08 18:19:47,269 - INFO - 写入成功: ETHUSDT-2024-02 记录数: 696
+2025-06-08 18:19:47,441 - INFO - 写入成功: ETHUSDT-2024-03 记录数: 744
+2025-06-08 18:19:47,441 - INFO - 写入成功: ETHUSDT-2024-05 记录数: 744
+2025-06-08 18:19:47,526 - INFO - 下载开始: ETHUSDT-2024-10
+2025-06-08 18:19:47,526 - ERROR - 检查数据存在性失败: ETHUSDT-2024-04 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 2024 - 4 - [1,00:00:00] and open_time < 2024 - 5 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 2024-04-01 00:00:00
+            and open_time < 2024-05-01 00:00:00
+        '
+2025-06-08 18:19:47,672 - INFO - 下载开始: ETHUSDT-2024-11
+2025-06-08 18:19:47,694 - INFO - 下载开始: ETHUSDT-2024-12
+2025-06-08 18:19:47,797 - INFO - 写入成功: ETHUSDT-2024-04 记录数: 720
+2025-06-08 18:19:47,797 - ERROR - 检查数据存在性失败: ETHUSDT-2024-08 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 2024 - 8 - [1,00:00:00] and open_time < 2024 - 9 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 2024-08-01 00:00:00
+            and open_time < 2024-09-01 00:00:00
+        '
+2025-06-08 18:19:47,798 - ERROR - 检查数据存在性失败: ETHUSDT-2024-06 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 2024 - 6 - [1,00:00:00] and open_time < 2024 - 7 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 2024-06-01 00:00:00
+            and open_time < 2024-07-01 00:00:00
+        '
+2025-06-08 18:19:47,798 - ERROR - 检查数据存在性失败: ETHUSDT-2024-07 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 2024 - 7 - [1,00:00:00] and open_time < 2024 - 8 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 2024-07-01 00:00:00
+            and open_time < 2024-08-01 00:00:00
+        '
+2025-06-08 18:19:47,932 - ERROR - 检查数据存在性失败: ETHUSDT-2024-09 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 2024 - 9 - [1,00:00:00] and open_time < 2024 - 10 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 2024-09-01 00:00:00
+            and open_time < 2024-10-01 00:00:00
+        '
+2025-06-08 18:19:47,932 - INFO - 写入成功: ETHUSDT-2024-08 记录数: 744
+2025-06-08 18:19:48,022 - INFO - 写入成功: ETHUSDT-2024-06 记录数: 720
+2025-06-08 18:19:48,104 - INFO - 写入成功: ETHUSDT-2024-07 记录数: 744
+2025-06-08 18:19:48,194 - INFO - 写入成功: ETHUSDT-2024-09 记录数: 720
+2025-06-08 18:19:48,254 - ERROR - 检查数据存在性失败: ETHUSDT-2024-12 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 2024 - 12 - [1,00:00:00] and open_time < 2025 - 1 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 2024-12-01 00:00:00
+            and open_time < 2025-01-01 00:00:00
+        '
+2025-06-08 18:19:48,368 - INFO - 写入成功: ETHUSDT-2024-12 记录数: 744
+2025-06-08 18:19:48,398 - ERROR - 检查数据存在性失败: ETHUSDT-2024-11 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 2024 - 11 - [1,00:00:00] and open_time < 2024 - 12 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 2024-11-01 00:00:00
+            and open_time < 2024-12-01 00:00:00
+        '
+2025-06-08 18:19:48,530 - INFO - 写入成功: ETHUSDT-2024-11 记录数: 720
+2025-06-08 18:19:48,583 - ERROR - 检查数据存在性失败: ETHUSDT-2024-10 - <Exception> in run: Server response: 'select count(*) as count from loadTable("dfs://crypto_kline_1h", "kline_1h") where symbol == "ETHUSDT" and open_time >= 2024 - 10 - [1,00:00:00] and open_time < 2024 - 11 - [1,00:00:00] => A vector cannot be used when compared with partitioning columns.' script: '
+            select count(*) as count 
+            from loadTable("dfs://crypto_kline_1h", "kline_1h")
+            where symbol == `ETHUSDT
+            and open_time >= 2024-10-01 00:00:00
+            and open_time < 2024-11-01 00:00:00
+        '
+2025-06-08 18:19:48,674 - INFO - 写入成功: ETHUSDT-2024-10 记录数: 744
+2025-06-08 18:19:48,676 - INFO - === 数据导入完成 ===

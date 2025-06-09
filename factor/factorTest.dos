@@ -1,0 +1,99 @@
+login(`admin,`123456)
+
+use alphalens
+
+// === Step 1: 获取原始数据表 ===
+t = loadTable("dfs://crypto_kline_1h", "kline_1h")
+
+// === Step 2: 加载因子宽表 ===
+factor = loadTable("dfs://crypto_kline_1h", "hourfactor")
+factorwide = select factor_value from factor pivot by symbol, open_time, factor_name
+
+// === Step 3: 遍历每个因子 ===
+factorNames = schema(factorwide).colDefs.name[2:]
+singleFactorTBs = array(any)
+
+
+for (fname in factorNames) {
+    print("🔍 正在测试因子：" + fname$STRING)
+    sqlText1 = "select open_time as date, symbol as sym, "
+    sqlText2 = " as value from factorwide"
+    sqlText = sqlText1 + fname + sqlText2
+    factor = parseExpr(sqlText).eval()
+    price = select close from t pivot by open_time as date, symbol as sym
+
+    try {
+        factorData = get_clean_factor_and_forward_returns(factor, price, quantiles=5, periods=[1,5,10])
+        
+        // 将 factorData 保存到字典中，key 是 fname 的字符串形式
+        singleFactorTBs.append!(factorData)  
+    } catch (ex) {
+        print("❌ 因子失败：" + fname$STRING)
+    }
+}
+
+
+// === 创建因子评价指标表 ===
+factorReport = table(100:0, `factor`ic_mean`ic_std`ic_sharpe, [STRING, DOUBLE, DOUBLE, DOUBLE])
+
+for (i in 0:(size(singleFactorTBs))) {
+    fData = singleFactorTBs[i]
+    name = factorNames[i]
+    ICSheet= create_information_tear_sheet(factor_data=fData, group_neutral=false, by_group=false)
+    try {
+        ic_mean = ICSheet.Information_Analysis[1,2]
+        ic_std = ICSheet.Information_Analysis[4,2]
+        ic_sharpe = ICSheet.Information_Analysis[2,2]
+        print("插入因子报告：" + name)
+        insert into factorReport values(name, ic_mean, ic_std, ic_sharpe)
+    } catch (ex) {
+        print("⚠️ 跳过因子：" + name)
+    }
+}
+
+// 共享供 Python 调用
+share(factorReport, `factor_report1)
+
+// === 为每个因子共享核心分析表 ===
+for (i in 0:(size(singleFactorTBs))) {
+    fData = singleFactorTBs[i]
+    name = factorNames[i]
+    returns_tear_sheet= create_returns_tear_sheet(fData, by_group=false, long_short=true, group_neutral=false)
+    try {
+        share(returns_tear_sheet.cumulative_returns_by_quantile_1, `ic_ts_ + name)
+    } catch (ex) {
+        print("❌ 共享失败：" + name)
+    }
+}
+
+
+undef(obj="momentum5h", objType=SHARED)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fData = factorData
+name =`combo_reverse_amp
+
+
+ICSheet= create_information_tear_sheet(factor_data=factorData, group_neutral=false, by_group=false)
+try {
+    ic_mean = ICSheet.Information_Analysis[1,2]
+    ic_std = ICSheet.Information_Analysis[4,2]
+    ic_sharpe = ICSheet.Information_Analysis[2,2]
+    print("插入因子报告：" + fname)
+    insert into factorReport values(fname, ic_mean, ic_std, ic_sharpe)
+} catch (ex) {
+    print("⚠️ 跳过因子：" + fname)
+}
