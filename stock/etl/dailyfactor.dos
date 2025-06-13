@@ -1,0 +1,1007 @@
+stock_daily_prev = loadTable("dfs://stock_daily_prev", "stock_daily_prev")
+stock_daily_basic = loadTable("dfs://stock_daily_basic", "stock_daily_basic")
+
+// 设置起止时间
+startDate = 2015.01.01
+endDate = 2025.01.01
+
+// 构造prepared表
+dataTmp = select
+ts_code, trade_date, close, pct_chg, (next(close) - close) / close as forward_returns,//基本
+turnover_rate, turnover_rate_f, volume_ratio, // 流动性
+pe_ttm, pb, // 估值
+float_share, total_mv // 规模
+from ej(stock_daily_prev, stock_daily_basic, `ts_code`trade_date)
+where trade_date between startDate and endDate, close > 0, total_mv > 10
+context by ts_code
+csort trade_date
+order by ts_code, trade_date;
+
+
+// 存储prepared表
+// 正确写法：检查数据库是否存在，存在则删除
+if(existsDatabase("dfs://stock_daily_prepared")) {
+    dropDatabase("dfs://stock_daily_prepared")
+}
+years = 1990..2090 
+jan1Dates = date(string(years) + ".01.01")  // 转换为日期类型
+create database "dfs://stock_daily_prepared" PARTITIONED BY VALUE(jan1Dates)
+
+
+colnames = ["ts_code","trade_date","close","pct_chg","forward_returns","turnover_rate","turnover_rate_f","volume_ratio","pe_ttm","pb","float_share","total_mv"]
+coltypes = ["SYMBOL","DATE","DOUBLE","DOUBLE","DOUBLE","DOUBLE","DOUBLE","DOUBLE","DOUBLE","DOUBLE","DOUBLE","DOUBLE"]
+Schema = table(1:0,colnames, coltypes)
+db = database("dfs://stock_daily_prepared")
+stock_daily_prepared = createPartitionedTable(dbHandle=db, table=Schema, tableName=`stock_daily_prepared, partitionColumns=`trade_date)
+
+
+setColumnComment( stock_daily_prepared, {
+    ts_code           : "股票代码（格式：XXXXXX.SZ/SH）",
+    trade_date        : "交易日期（格式：YYYYMMDD）",
+    close             : "收盘价",
+    pct_chg           : "涨跌幅（%）",
+    forward_returns   : "未来收益率（如1日：next(close)/close - 1）",
+    turnover_rate     : "换手率（%），反映成交活跃度",
+    turnover_rate_f   : "换手率（自由流通股口径）",
+    volume_ratio      : "量比（当前成交量与过去均量比值）",
+    pe_ttm            : "市盈率（TTM，动态）",
+    pb                : "市净率（Price / Book）",
+    float_share       : "流通股本（万股）",
+    total_mv          : "总市值（万元）"
+})
+
+
+// Get unique years from the data
+uniqueYears = exec distinct year(trade_date) from dataTmp order by year(trade_date)
+
+// Append data by year
+for(year in uniqueYears) {
+    yearData = select * from dataTmp where year(trade_date) == year
+    loadTable("dfs://stock_daily_prepared", "stock_daily_prepared").append!(yearData)
+}
+
+
+
+
+
+
+
+
+// ====================================因子计算部分
+// 简单N个月收益率因子
+def return_Nm(close, N){
+    // 计算N个月收益率
+    // 假设数据是日频的，每月大约21个交易日
+    tradingDays = 21 * N
+    return (close - move(close, tradingDays)) / move(close, tradingDays)
+}
+
+// 换手率加权收益率因子
+def wgt_return_Nm(close, turnover_rate, N){
+    // 计算N个月换手率加权收益率
+    tradingDays = 21 * N
+    daily_ret = ratios(close) - 1  // 计算每日收益率
+    wgt_ret = mavg(daily_ret * turnover_rate, tradingDays) / mavg(turnover_rate, tradingDays)
+    return wgt_ret
+}
+
+// 指数衰减加权收益率因子
+def exp_wgt_return_Nm(close, turnover_rate, N){
+    // 使用DolphinDB内置的ewma函数优化实现
+    tradingDays = 21 * N
+    daily_ret = ratios(close) - 1
+    // 计算指数衰减权重 (alpha=1/N)
+    alpha = 1.0 / N
+    weighted_ret = ewmMean(daily_ret * turnover_rate, alpha) / ewmMean(turnover_rate, alpha)
+    
+    return weighted_ret
+}
+
+// 1. BP因子 (账面市值比) - 可直接实现
+def BP(pb){
+    // BP = 1/PB (净资产/总市值)
+    return 1.0 / pb
+}
+
+// 2. EP因子 (盈利市值比) - 变通实现
+def EP(pe_ttm){
+    // EP = 1/PE (净利润(TTM)/总市值)
+    return 1.0 / pe_ttm
+}
+
+// 3. 综合估值因子
+def Value_Composite(pe_ttm, pb){
+    // 结合EP和BP的综合估值因子
+    ep = 1.0 / pe_ttm
+    bp = 1.0 / pb
+    return (ep + bp) / 2
+}
+
+
+// N个月日均换手率因子
+def turn_Nm(turnover_rate, N){
+    // 计算最近N个月(约21*N个交易日)的日均换手率
+    tradingDays = 21 * N
+    return mavg(turnover_rate, tradingDays)
+}
+
+// N个月换手率标准差因子
+def std_turn_Nm(turnover_rate, N){
+    tradingDays = 21 * N
+    return mstd(turnover_rate, tradingDays)
+}
+
+// N个月收益率标准差因子
+def std_Nm(pct_chg, N){
+    // 计算最近N个月(约21*N个交易日)的收益率标准差
+    tradingDays = 21 * N
+    return mstd(pct_chg, tradingDays)
+}
+
+
+
+
+
+
+
+
+def factorcalculate(data, factorName, factorParameter, startDate, endDate){
+    /*
+    * Description: An example of how to create factor template through meta programming
+
+    * :param data: TABLE or Table Handler, data source 
+    * :param factorName: STRING, factor's name
+    * :param factorParameter: STRING, factor's parameters, "open,close,high,low"
+    * :param startDate: DATE, start date of data
+    * :param endDate: DATE, end date of data
+
+    * :return ret: TABLE, calculated factor value
+    */
+
+    //step1: Split factor parameter into string vector
+    args = ((factorParameter.strReplace(" ","")).split(","))
+
+    //step2: Create sql columns of parameters
+    args = each(sqlCol, args)
+
+    //step3: Create 'select' part
+    selects = (sqlCol( `ts_code), sqlCol(`trade_date),
+                sqlColAlias(makeUnifiedCall(funcByName("string"), factorName), "factorname"),
+                sqlColAlias(makeUnifiedCall(funcByName(factorName), args),"value"))
+    
+    //step4: Create 'from' part
+    from_tb = data
+
+    //step5: Create 'where' part
+    whereConditions = expr(startDate, <=, sqlCol(`trade_date), <=, endDate)
+    
+    //step6: Create 'context by' part
+    groupcols = sqlCol(`ts_code)
+
+    //step7: Create sql statement and execute it
+    ret = sql(
+        select = selects,
+        from = from_tb,
+        where = whereConditions,
+        groupBy = groupcols,
+        groupFlag = 0 //context by
+        ).eval()
+    
+    return ret
+}
+
+
+
+// 灵活分析因子值
+
+factorvalue = 
+select
+    ts_code,
+    trade_date,
+
+    return_Nm(pct_chg, 1) as return_1m,
+    return_Nm(pct_chg, 3) as return_3m,
+    wgt_return_Nm(close, turnover_rate, 1) as wgt_return_1m,
+    wgt_return_Nm(close, turnover_rate, 3) as wgt_return_3m,
+
+    exp_wgt_return_Nm(close, turnover_rate, 1) as exp_wgt_return_1m,
+    exp_wgt_return_Nm(close, turnover_rate, 3) as exp_wgt_return_3m,
+
+    turn_Nm(turnover_rate, 1) as turn_1m,
+    turn_Nm(turnover_rate, 3) as turn_3m,
+
+    std_turn_Nm(turnover_rate, 1) as std_turn_1m,
+    std_turn_Nm(turnover_rate, 3) as std_turn_3m,
+
+    std_Nm(pct_chg, 1) as std_1m,
+    std_Nm(pct_chg, 3) as std_3m,
+
+    1.0 / pb as BP,
+    1.0 / pe_ttm as EP,
+    (1.0 / pb + 1.0 / pe_ttm) / 2 as BPnEP
+
+from loadTable("dfs://stock_daily_prepared", "stock_daily_prepared")
+where trade_date between startDate and endDate
+context by ts_code;
+
+
+// // 首先计算每个因子在每个日期的缺失数量
+// missingStats = select 
+//     trade_date,
+//     count(*) as total_count,
+//     sum(iif(isNull(return_1m), 1, 0)) as missing_return_1m,
+//     sum(iif(isNull(return_3m), 1, 0)) as missing_return_3m,
+//     sum(iif(isNull(wgt_return_1m), 1, 0)) as missing_wgt_return_1m,
+//     sum(iif(isNull(wgt_return_3m), 1, 0)) as missing_wgt_return_3m,
+//     sum(iif(isNull(exp_wgt_return_1m), 1, 0)) as missing_exp_wgt_return_1m,
+//     sum(iif(isNull(exp_wgt_return_3m), 1, 0)) as missing_exp_wgt_return_3m,
+//     sum(iif(isNull(turn_1m), 1, 0)) as missing_turn_1m,
+//     sum(iif(isNull(turn_3m), 1, 0)) as missing_turn_3m,
+//     sum(iif(isNull(std_turn_1m), 1, 0)) as missing_std_turn_1m,
+//     sum(iif(isNull(std_turn_3m), 1, 0)) as missing_std_turn_3m,
+//     sum(iif(isNull(std_1m), 1, 0)) as missing_std_1m,
+//     sum(iif(isNull(std_3m), 1, 0)) as missing_std_3m,
+//     sum(iif(isNull(BP), 1, 0)) as missing_BP,
+//     sum(iif(isNull(EP), 1, 0)) as missing_EP,
+//     sum(iif(isNull(BPnEP), 1, 0)) as missing_BPnEP
+// from factorvalue
+// group by trade_date
+
+// // 计算缺失比例(%)并格式化输出
+// missingRatio = select 
+//     trade_date,
+//     total_count,
+//     missing_return_1m * 100.0 / total_count as return_1m_missing_ratio,
+//     missing_return_3m * 100.0 / total_count as return_3m_missing_ratio,
+//     missing_wgt_return_1m * 100.0 / total_count as wgt_return_1m_missing_ratio,
+//     missing_wgt_return_3m * 100.0 / total_count as wgt_return_3m_missing_ratio,
+//     missing_exp_wgt_return_1m * 100.0 / total_count as exp_wgt_return_1m_missing_ratio,
+//     missing_exp_wgt_return_3m * 100.0 / total_count as exp_wgt_return_3m_missing_ratio,
+//     missing_turn_1m * 100.0 / total_count as turn_1m_missing_ratio,
+//     missing_turn_3m * 100.0 / total_count as turn_3m_missing_ratio,
+//     missing_std_turn_1m * 100.0 / total_count as std_turn_1m_missing_ratio,
+//     missing_std_turn_3m * 100.0 / total_count as std_turn_3m_missing_ratio,
+//     missing_std_1m * 100.0 / total_count as std_1m_missing_ratio,
+//     missing_std_3m * 100.0 / total_count as std_3m_missing_ratio,
+//     missing_BP * 100.0 / total_count as BP_missing_ratio,
+//     missing_EP * 100.0 / total_count as EP_missing_ratio,
+//     missing_BPnEP * 100.0 / total_count as BPnEP_missing_ratio
+// from missingStats
+
+// missingRatio.columnNames()
+// // 绘制缺失比例随时间变化图
+// plot(
+//     missingRatio[missingRatio.columnNames()[2:]],
+// )
+
+
+
+
+
+//用 当日中位数 填充 EP NULL 值
+factorTB =  factorvalue
+update factorTB set
+    EP = iif(isNull(EP), median(EP), EP),
+    BPnEP = iif(isNull(BPnEP), median(BPnEP), BPnEP)
+context by trade_date
+
+// 检验每个因子在每个日期的缺失数量
+missingStats = select 
+    trade_date,
+    count(*) as total_count,
+    sum(iif(isNull(return_1m), 1, 0)) as missing_return_1m,
+    sum(iif(isNull(return_3m), 1, 0)) as missing_return_3m,
+    sum(iif(isNull(wgt_return_1m), 1, 0)) as missing_wgt_return_1m,
+    sum(iif(isNull(wgt_return_3m), 1, 0)) as missing_wgt_return_3m,
+    sum(iif(isNull(exp_wgt_return_1m), 1, 0)) as missing_exp_wgt_return_1m,
+    sum(iif(isNull(exp_wgt_return_3m), 1, 0)) as missing_exp_wgt_return_3m,
+    sum(iif(isNull(turn_1m), 1, 0)) as missing_turn_1m,
+    sum(iif(isNull(turn_3m), 1, 0)) as missing_turn_3m,
+    sum(iif(isNull(std_turn_1m), 1, 0)) as missing_std_turn_1m,
+    sum(iif(isNull(std_turn_3m), 1, 0)) as missing_std_turn_3m,
+    sum(iif(isNull(std_1m), 1, 0)) as missing_std_1m,
+    sum(iif(isNull(std_3m), 1, 0)) as missing_std_3m,
+    sum(iif(isNull(BP), 1, 0)) as missing_BP,
+    sum(iif(isNull(EP), 1, 0)) as missing_EP,
+    sum(iif(isNull(BPnEP), 1, 0)) as missing_BPnEP
+from factorTB
+group by trade_date
+
+// 计算缺失比例(%)并格式化输出
+missingRatio = select 
+    trade_date,
+    total_count,
+    missing_return_1m * 100.0 / total_count as return_1m_missing_ratio,
+    missing_return_3m * 100.0 / total_count as return_3m_missing_ratio,
+    missing_wgt_return_1m * 100.0 / total_count as wgt_return_1m_missing_ratio,
+    missing_wgt_return_3m * 100.0 / total_count as wgt_return_3m_missing_ratio,
+    missing_exp_wgt_return_1m * 100.0 / total_count as exp_wgt_return_1m_missing_ratio,
+    missing_exp_wgt_return_3m * 100.0 / total_count as exp_wgt_return_3m_missing_ratio,
+    missing_turn_1m * 100.0 / total_count as turn_1m_missing_ratio,
+    missing_turn_3m * 100.0 / total_count as turn_3m_missing_ratio,
+    missing_std_turn_1m * 100.0 / total_count as std_turn_1m_missing_ratio,
+    missing_std_turn_3m * 100.0 / total_count as std_turn_3m_missing_ratio,
+    missing_std_1m * 100.0 / total_count as std_1m_missing_ratio,
+    missing_std_3m * 100.0 / total_count as std_3m_missing_ratio,
+    missing_BP * 100.0 / total_count as BP_missing_ratio,
+    missing_EP * 100.0 / total_count as EP_missing_ratio,
+    missing_BPnEP * 100.0 / total_count as BPnEP_missing_ratio
+from missingStats
+
+missingRatio.columnNames()
+// 绘制缺失比例随时间变化图
+plot(
+    missingRatio[missingRatio.columnNames()[2:]],
+)
+
+
+
+// medianStats = select
+//     trade_date,
+//     median(return_1m) as median_return_1m,
+//     median(return_3m) as median_return_3m,
+//     median(wgt_return_1m) as median_wgt_return_1m,
+//     median(wgt_return_3m) as median_wgt_return_3m,
+//     median(exp_wgt_return_1m) as median_exp_wgt_return_1m,
+//     median(exp_wgt_return_3m) as median_exp_wgt_return_3m,
+//     median(turn_1m) as median_turn_1m,
+//     median(turn_3m) as median_turn_3m,
+//     median(std_turn_1m) as median_std_turn_1m,
+//     median(std_turn_3m) as median_std_turn_3m,
+//     median(std_1m) as median_std_1m,
+//     median(std_3m) as median_std_3m,
+//     median(BP) as median_BP,
+//     median(EP) as median_EP,
+//     median(BPnEP) as median_BPnEP
+// from factorvalue
+// group by trade_date
+
+// plot(
+//     medianStats[medianStats.columnNames()[2:]],
+// )
+
+// maxStats = select
+//     trade_date,
+//     max(return_1m) as max_return_1m,
+//     max(return_3m) as max_return_3m,
+//     max(wgt_return_1m) as max_wgt_return_1m,
+//     max(wgt_return_3m) as max_wgt_return_3m,
+//     max(exp_wgt_return_1m) as max_exp_wgt_return_1m,
+//     max(exp_wgt_return_3m) as max_exp_wgt_return_3m,
+//     max(turn_1m) as max_turn_1m,
+//     max(turn_3m) as max_turn_3m,
+//     max(std_turn_1m) as max_std_turn_1m,
+//     max(std_turn_3m) as max_std_turn_3m,
+//     max(std_1m) as max_std_1m,
+//     max(std_3m) as max_std_3m,
+//     max(BP) as max_BP,
+//     max(EP) as max_EP,
+//     max(BPnEP) as max_BPnEP
+// from factorvalue
+// group by trade_date
+
+
+// plot(
+//     maxStats[maxStats.columnNames()[2:]],
+// )
+
+
+
+// minStats = select
+//     trade_date,
+//     min(return_1m) as min_return_1m,
+//     min(return_3m) as min_return_3m,
+//     min(wgt_return_1m) as min_wgt_return_1m,
+//     min(wgt_return_3m) as min_wgt_return_3m,
+//     min(exp_wgt_return_1m) as min_exp_wgt_return_1m,
+//     min(exp_wgt_return_3m) as min_exp_wgt_return_3m,
+//     min(turn_1m) as min_turn_1m,
+//     min(turn_3m) as min_turn_3m,
+//     min(std_turn_1m) as min_std_turn_1m,
+//     min(std_turn_3m) as min_std_turn_3m,
+//     min(std_1m) as min_std_1m,
+//     min(std_3m) as min_std_3m,
+//     min(BP) as min_BP,
+//     min(EP) as min_EP,
+//     min(BPnEP) as min_BPnEP
+// from factorvalue
+// group by trade_date
+
+// plot(
+//     minStats[minStats.columnNames()[2:]],
+// )
+
+
+//去极值
+def removeOutlier(x){
+    l = quantile(x, 0.01)
+    u = min(quantile(x, 0.99), 10)  // 硬限制
+    return iif(x > u, u, iif(x < l, l, x))
+}
+
+def generateOutlierSQL(colName){
+    return "removeOutlier(" + colName + ") as " + colName
+}
+
+def factorRemoveOutlier(factorTB){
+    factorNames = factorTB.columnNames()[2:]
+    selectText1 = "select ts_code,trade_date,"
+    selectText2 = concat(each(generateOutlierSQL, factorNames), ", ")
+    selectText3 = " from factorTB context by trade_date" 
+    sqlText = selectText1 + selectText2 +selectText3
+    result = parseExpr(sqlText).eval()
+    return result
+}
+
+//调用函数
+factorTB = factorRemoveOutlier(factorTB)
+
+//标准化
+def generateStdSQL(colName){
+    return "zscore(" + colName + ") as " + colName
+}
+
+def factorStandardize(factorTB){
+    factorNames = factorTB.columnNames()[2:]
+    selectText1 = "select ts_code,trade_date,"
+    selectText2 = concat(each(generateStdSQL, factorNames), ", ")
+    selectText3 = " from factorTB context by trade_date" 
+    sqlText = selectText1 + selectText2 +selectText3
+    result = parseExpr(sqlText).eval()
+    return result
+}
+
+//调用函数
+factorTB = factorStandardize(factorTB)
+
+
+
+// 检查标准化的效果
+maxStats = select
+    trade_date,
+    max(return_1m) as max_return_1m,
+    max(return_3m) as max_return_3m,
+    max(wgt_return_1m) as max_wgt_return_1m,
+    max(wgt_return_3m) as max_wgt_return_3m,
+    max(exp_wgt_return_1m) as max_exp_wgt_return_1m,
+    max(exp_wgt_return_3m) as max_exp_wgt_return_3m,
+    max(turn_1m) as max_turn_1m,
+    max(turn_3m) as max_turn_3m,
+    max(std_turn_1m) as max_std_turn_1m,
+    max(std_turn_3m) as max_std_turn_3m,
+    max(std_1m) as max_std_1m,
+    max(std_3m) as max_std_3m,
+    max(BP) as max_BP,
+    max(EP) as max_EP,
+    max(BPnEP) as max_BPnEP
+from factorTB
+group by trade_date
+
+
+plot(
+    maxStats[maxStats.columnNames()[2:]],
+    maxStats[maxStats.columnNames()[0]]
+)
+
+
+minStats = select
+    trade_date,
+    min(return_1m) as min_return_1m,
+    min(return_3m) as min_return_3m,
+    min(wgt_return_1m) as min_wgt_return_1m,
+    min(wgt_return_3m) as min_wgt_return_3m,
+    min(exp_wgt_return_1m) as min_exp_wgt_return_1m,
+    min(exp_wgt_return_3m) as min_exp_wgt_return_3m,
+    min(turn_1m) as min_turn_1m,
+    min(turn_3m) as min_turn_3m,
+    min(std_turn_1m) as min_std_turn_1m,
+    min(std_turn_3m) as min_std_turn_3m,
+    min(std_1m) as min_std_1m,
+    min(std_3m) as min_std_3m,
+    min(BP) as min_BP,
+    min(EP) as min_EP,
+    min(BPnEP) as min_BPnEP
+from factorTB
+group by trade_date
+
+plot(
+    minStats[minStats.columnNames()[2:]],
+)
+
+medianStats = select
+    trade_date,
+    median(return_1m) as median_return_1m,
+    median(return_3m) as median_return_3m,
+    median(wgt_return_1m) as median_wgt_return_1m,
+    median(wgt_return_3m) as median_wgt_return_3m,
+    median(exp_wgt_return_1m) as median_exp_wgt_return_1m,
+    median(exp_wgt_return_3m) as median_exp_wgt_return_3m,
+    median(turn_1m) as median_turn_1m,
+    median(turn_3m) as median_turn_3m,
+    median(std_turn_1m) as median_std_turn_1m,
+    median(std_turn_3m) as median_std_turn_3m,
+    median(std_1m) as median_std_1m,
+    median(std_3m) as median_std_3m,
+    median(BP) as median_BP,
+    median(EP) as median_EP,
+    median(BPnEP) as median_BPnEP
+from factorTB
+group by trade_date
+
+plot(
+    medianStats[medianStats.columnNames()[2:]],
+)
+
+
+// == 建因子库表 ==
+if(existsDatabase("dfs://stock_daily_factor")) {
+    dropDatabase("dfs://stock_daily_factor")
+}
+years = 1990..2090 
+jan1Dates = date(string(years) + ".01.01")  // 转换为日期类型
+create database "dfs://stock_daily_factor" PARTITIONED BY VALUE(jan1Dates)
+
+
+colnames = ["ts_code","trade_date","factorname","value"]
+coltypes = ["SYMBOL","DATE","STRING","DOUBLE"]
+Schema = table(1:0,colnames, coltypes)
+db = database("dfs://stock_daily_factor")
+factortb = createPartitionedTable(dbHandle=db, table=Schema, tableName=`stock_daily_factor, partitionColumns=`trade_date)
+
+
+// 存储到窄表
+factorTB.columnNames()[2:]
+factorTBnarrow = unpivot(factorTB, `ts_code`trade_date, factorTB.columnNames()[2:])
+
+// 分批存储
+uniqueMonths = select distinct year(trade_date) as year, month(trade_date) as month 
+              from factorTBnarrow 
+              order by year, month
+
+for(row in uniqueMonths) {
+    year = row.year
+    month = row.month
+    monthData = select * from factorTBnarrow where 
+                year(trade_date) == year and 
+                month(trade_date) == month
+    loadTable("dfs://stock_daily_factor", "stock_daily_factor").append!(monthData)
+}
+
+
+//相关性
+factorTB = select value from loadTable("dfs://stock_daily_factor","stock_daily_factor") pivot by ts_code,trade_date,factorname
+
+factorCorrMatrix = corrMatrix(matrix(factorTB[:,2:]))
+
+
+
+//导入 Alphalens 单因子评价功能模块
+use alphalens
+
+//单独分析
+factor =
+    select trade_date as date, ts_code.string() as sym, value
+    from loadTable("dfs://stock_daily_factor","stock_daily_factor")
+    where factorname = `return_1m;
+
+
+price =
+    select close
+    from loadTable("dfs://stock_daily_prepared","stock_daily_prepared")
+    pivot by trade_date as date, ts_code.string() as sym;
+
+
+factorData = get_clean_factor_and_forward_returns(factor,price,periods=[1,5,10])
+
+infTearSheet = create_information_tear_sheet(
+                factorData,
+                group_neutral=false,
+                by_group=false)
+icMean = rowAvg(infTearSheet.Information_Analysis[1,1:])
+icPvalue = rowAvg(infTearSheet.Information_Analysis[5,1:])
+
+ReturnSheet = create_returns_tear_sheet(
+                factorData,
+                group_neutral=false,
+                by_group=false)
+ReturnSheet.cumulative_returns_by_quantile_1
+
+
+// === 批量分析 ===
+factorNames = schema(factorTB).colDefs.name[2:]
+factorNames = `turn_1m
+// === 创建因子评价指标表 ===
+factorReport = table(100:0, `factor`ic_mean`ic_std`ic_sharpe, [STRING, DOUBLE, DOUBLE, DOUBLE])
+factor5Return = table(100:0, `date`factor`C1`C2`C3`C4`C5`C6, [DATE, STRING, DOUBLE, DOUBLE, DOUBLE,DOUBLE, DOUBLE, DOUBLE])
+
+
+for (fname in factorNames) {
+    print("🔍 正在测试因子：" + fname$STRING)
+    sqlText1 = "select trade_date as date, ts_code as sym, "
+    sqlText2 = " as value from factorTB"
+    sqlText = sqlText1 + fname + sqlText2
+    factor = parseExpr(sqlText).eval()
+
+    try {
+        factorData = get_clean_factor_and_forward_returns(factor, price, quantiles=5, periods=[1,5,10])
+        ICSheet= create_information_tear_sheet(factor_data=factorData, group_neutral=false, by_group=false)
+        ic_mean = ICSheet.Information_Analysis[1,2]
+        ic_std = ICSheet.Information_Analysis[4,2]
+        ic_sharpe = ICSheet.Information_Analysis[2,2]
+        print("插入因子报告：" + fname)
+        insert into factorReport values(fname, ic_mean, ic_std, ic_sharpe)
+        ReturnSheet = create_returns_tear_sheet(
+                factorData,
+                group_neutral=false,
+                by_group=false)
+        cumulative_returns_by_quantile_1 = select  date, fname, C1,C2,C3,C4,C5,C6 from ReturnSheet.cumulative_returns_by_quantile_1
+        print("插入分层统计：" + fname)
+        factor5Return.append!(cumulative_returns_by_quantile_1)
+    } catch (ex) {
+        print("❌ 因子失败：" + fname$STRING)
+    }
+}
+
+
+
+
+
+
+share(factorReport,`factorReportshare)
+share(factor5Return,`factor5Returnshare)
+
+plotwgt_return_1m = select * from factor5Returnshare where factor = `wgt_return_1m
+plotBP = select * from factor5Returnshare where factor = `BP
+plotstd_turn_1m = select * from factor5Returnshare where factor = `std_turn_1m
+plotturn_1m = select * from factor5Returnshare where factor = `turn_1m
+
+plot(plotBP[`C1`C2`C3`C4`C5],plotBP[`date]  )
+plot(plotstd_turn_1m[`C1`C2`C3`C4`C5],plotstd_turn_1m[`date]  )
+plot(plotwgt_return_1m[`C1`C2`C3`C4`C5],plotwgt_return_1m[`date]  )
+plot(plotturn_1m[`C1`C2`C3`C4`C5],plotturn_1m[`date]  )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 线性预测
+testDate = 2024.01.01
+traindata = select * from multifactorTB where trade_date<testDate
+testdata = select * from multifactorTB where trade_date>testDate
+poWeights = ols(traindata.forward_returns, traindata[:, 5:])
+signalTBOLS = select ts_code, trade_date, close, forward_returns, dot(matrix(testdata[:, 5:]),poWeights[1:]).flatten() as signal_port from testdata
+corr(signalTBOLS.forward_returns, signalTBOLS.signal_port)
+share signalTBOLS as signalTBOLSS
+
+
+// xgboost预测
+try{loadPlugin("xgboost")}catch(ex){}
+Y = exec forward_returns from traindata
+X = traindata[:, 5:]
+// 设置参数
+params = {
+    "objective": "reg:squarederror", // 回归任务，使用平方误差目标函数
+    "max_depth": 7,                  // 树的最大深度
+    "eta": 0.05,                      // 学习率
+    "subsample": 0.9,                // 每棵树使用的样本比例
+    "colsample_bytree": 0.8,         // 每棵树使用的特征比例
+    "min_child_weight": 1,           // 叶子节点最小样本权重和
+    "gamma": 0,                      // 节点分裂所需的最小损失减少值
+    "lambda": 1,                     // L2 正则化项
+    "alpha": 0,                      // L1 正则化项
+    "eval_metric": "rmse"            // 回归任务的评估指标（均方根误差）
+}
+
+// 训练模型，预测并计算准确率：
+model = xgboost::train(Y, X, params)
+// 支持将模型持久化（便于之后加载已有模型）
+xgboost::saveModel(model, "AStockXgboost001.mdl")
+// 加载已有模型
+model = xgboost::loadModel("AStockXgboost001.mdl")
+// 合成因子值
+signal_port = xgboost::predict(model, testdata[:, 5:])
+// 因子值标准化
+signal_port = (signal_port - mean(signal_port)) / (std(signal_port))
+// 合并因子值
+signalTBXG = select ts_code, trade_date, close, forward_returns, 
+    signal_port as signal_port from testdata
+
+corr(signalTBXG.forward_returns, signalTBXG.signal_port)
+share signalTBXG as signalTBXGS
+
+
+
+
+// 策略回测模块
+try{loadPlugin("MatchingEngineSimulator")
+loadPlugin("Backtest")}
+catch(ex){}
+go
+
+stockAdj = select * from loadTable('dfs://stock_daily_prev', 'stock_daily_prev') where trade_date>=2018.01.01
+
+data0 = lj(signalTBXGS,stockAdj,`ts_code`trade_date)
+
+
+// 选取原始数据，并生成每一天每只票因子值的排名（由大到小）
+m = select *,signal_port as factor_value, rank(signal_port, false) as rank from data0 
+where (ts_code like '%.SZ' or ts_code like '%.SH') and trade_date <= 2025.02.01
+context by trade_date 
+// 假设股票持仓个数为 30 
+holdingNum = 30
+// 剔除不涉及的股票
+stockList = exec distinct(ts_code) from m where rank < holdingNum
+m = select * from m where ts_code in stockList
+// 构建每日的行情+信号表messageBar
+messageBar = select ts_code as symbol, concatDateTime(trade_date, 15:00:00.000) as tradeTime, open as open, low as low, high as high, close as close,
+100*vol$LONG as volume, 100*int(vol/close)$DOUBLE as amount, 0.0 as upLimitPrice, 0.0 as downLimitPrice, 
+open as prevClose, fixedLengthArrayVector([rank,factor_value]).double() as signal
+from m
+
+
+// 用于onbar函数内将msg由dict转为table
+def flattenmsg(msgdict){
+    symbolList = each(x -> x["symbol"], values(msgdict))
+    timeList = each(x -> x["tradeTime"], values(msgdict))
+    openList = each(x -> x["open"], values(msgdict))
+    lowList = each(x -> x["low"], values(msgdict))
+    highList = each(x -> x["high"], values(msgdict))
+    closeList = each(x -> x["close"], values(msgdict))
+    volumeList = each(x -> x["volume"], values(msgdict))
+    amountList = each(x -> x["amount"], values(msgdict))
+    uplimitList = each(x -> x["upLimitPrice"], values(msgdict))
+    downlimitList = each(x -> x["downLimitPrice"], values(msgdict))
+    prevCloseList = each(x -> x["prevClosePrice"], values(msgdict))
+    signal1List = each(x -> x["signal"][0], values(msgdict))
+    signal2List = each(x -> x["signal"][1], values(msgdict))
+    // 构造表
+    msgtable = table(
+        symbolList as `symbol,
+        timeList as `tradeTime,
+        openList as `open,
+        lowList as `low,
+        highList as `high,
+        closeList as `close,
+        volumeList as `volume,
+        amountList as `amount,
+        uplimitList as `upLimitPrice,
+        downlimitList as `downLimitPrice,
+        prevCloseList as `prevClosePrice,
+        signal1List as `signal1,
+        signal2List as `signal2
+    )
+    return msgtable
+}
+
+// 初始化函数，创建引擎时执行
+def initialize(mutable context){
+    context['signalTableExist'] = 0
+    context['holdingTableExist'] = 0
+}
+
+// 每日行情前执行
+def beforeTrading(mutable context){
+    print ("beforeTrading: "+context["tradeDate"])
+}
+
+// 每到达日频数据时间点执行（15：00）
+def onBar(mutable context, msg, indicator=null){
+    msgTable = flattenmsg(msg)
+    // print("msg转化为table")
+    thisDate = context["tradeDate"]
+    // print("今天日期"+thisDate)
+    
+    // 1.根据操作表，结合开盘，执行信号
+    if(context['signalTableExist'] == 1 and dayOfMonth(thisDate)== 1){
+        signalTable = context['signalTable']
+        //print("Exist Signal table")
+        if(context['holdingTableExist'] == 1){
+            // 根据（上一天）信号表，结合当前持仓，先把当前持有的信号小于0的股票卖出
+            holdingTable = Backtest::getPosition(context["engine"])
+            //print("Exist holding table")
+            holdingTable = select context["tradeTime"], symbol, longPosition from holdingTable where longPosition > 0;
+            // 得到持有股票的列
+            holdingStock = exec symbol from holdingTable
+            // 得到需要卖出的股票列
+            allShort = exec symbol from signalTable where rank > context['holdingNum']
+            // 得到需要平仓的股票列
+            toCloseList = holdingStock[holdingStock in allShort]
+            // 平仓个数
+            toCloseNum = size(allShort)
+            // print("准备平仓个数"+toCloseNum)
+            if(toCloseNum > 0){
+                // 平仓
+                toCloseTable = select symbol, longPosition from holdingTable where symbol in toCloseList
+                orderMsg = select symbol, concatDateTime(thisDate, 09:00:00.000), 0, open, longPosition, 3 from lj(copy(toCloseTable), copy(msgTable), `symbol) where  longPosition >= 100 and date(tradeTime) == thisDate and open is not null and open != close
+                Backtest::submitOrder(context["engine"], orderMsg,"sell")
+                // print("实际平仓个数"+size(orderMsg))
+            }
+            availableCash = Backtest::getAvailableCash(context["engine"])
+            holdingTable = Backtest::getPosition(context["engine"])
+            toBuyTable = select * from signalTable where  rank < context['holdingNum']
+            toLongNum = size(toBuyTable)
+            //print("准备买入个数"+toLongNum)
+            if(toLongNum > 0){
+                // 买入
+                toBuyTable = select symbol, 100*int((availableCash*value)\sum(value)\close\1000) as amount, open, close from lj(toBuyTable, msgTable, `symbol) where date(tradeTime) = thisDate;
+                orderMsg = select symbol, concatDateTime(thisDate, 10:00:00.000), 0, open, amount, 1 from toBuyTable where amount >=100 and open is not null and open != close
+                Backtest::submitOrder(context["engine"], orderMsg,"buy")
+                //print("实际买入个数"+size(orderMsg))
+            
+            }
+
+            holdingTable = Backtest::getPosition(context["engine"])
+            holdingStock = exec symbol from holdingTable
+            holdgNum = size(holdingStock)
+            //print("目前持有"+holdgNum)
+        }
+        else{
+            // 无持仓的初始情况，买入
+            // print("Not Exist holding table")
+            availableCash = Backtest::getAvailableCash(context["engine"])
+            // print(availableCash)
+            signalTable = context['signalTable']
+            toBuyList = exec symbol, value from signalTable where rank < context['holdingNum']
+            toLongNum = size(toBuyList)
+            //print("准备买入个数"+toLongNum)
+            toBuyList = select symbol, 100*int((availableCash*value)\sum(value)\close\1000) as amount, open, close from lj(toBuyList, msgTable, `symbol) where date(tradeTime) = thisDate;
+            orderMsg = select symbol, concatDateTime(thisDate, 10:00:00.000), 0, open, amount, 1 from toBuyList where amount >=100 and open is not null and open != close
+            // 需要加入open != close，没有考虑涨停板不可买入的问题，回测收益会虚高。
+            Backtest::submitOrder(context["engine"], orderMsg,"buy")
+            //print("实际买入个数"+size(orderMsg))
+
+            // 更新持仓表（下一天提供给beforeTrading）
+            holdingTable = Backtest::getPosition(context["engine"])
+            holdingTable = select context["tradeDate"], symbol, longPosition from holdingTable where longPosition > 0;
+            context['holdingTableExist'] = 1
+
+            holdingStock = exec symbol from holdingTable
+            holdgNum = size(holdingStock)
+            //print("目前持有"+holdgNum)
+        }
+    }
+
+    // 2.更新信号表（提供给下一天的beforeTrading）
+    signalTable = table(100:5, `date`symbol`rank`value, [DATE,SYMBOL,DOUBLE,DOUBLE]);
+    istockInfo = select date(tradeTime) as date, symbol as symbol, signal1 as rank, signal2 as value from msgTable
+    signalTable.append!(istockInfo)
+    // print("已更新信号")
+    context['signalTable'] = signalTable
+    context['signalTableExist'] = 1
+}
+
+def onOrder(mutable context,orders){}
+def onTrade(mutable context,trades){}
+def afterTrading(mutable context){
+    holdingTable = Backtest::getPosition(context["engine"])
+    // print('当天num')
+    // print(size(holdingTable))
+}
+
+def finalize(mutable context){
+    // print(context['signalTable'])
+    // holdingTable = Backtest::getPosition(context["engine"])
+    // print(holdingTable)
+    // print('num')
+    // print(size(holdingTable))
+    // print(context['holdingTable'])
+    // availableCash = Backtest::getAvailableCash(context["engine"])
+    // print(availableCash)
+}
+
+// 创建callbacks函数映射关系字典
+callbacks = {
+    initialize: initialize,
+    beforeTrading: beforeTrading,
+    onBar: onBar,
+    onOrder: onOrder,
+    onTrade: onTrade,
+    afterTrading: afterTrading,
+    finalize: finalize
+}
+
+
+// 设置回测引擎所需参数
+config = {
+        startDate: 2024.01.01, //回测开始日期
+        endDate: 2025.01.08, //回测结束日期
+        strategyGroup: `stock, //股票类数据
+        dataType: 4, //日频
+        frequency: 0, // 不把逐笔合成快照
+        cash: 1000000,  //策略初始资金1000万
+        commission: 0.00015, // 手续费率
+        tax: 0.001, // 印花税千分之1
+        msgAsTable: true //批量订阅
+}
+context = dict(STRING,ANY)
+context['holdingNum'] = holdingNum
+config[`context] = context
+
+// 创建回测引擎
+strategyName="stockDailyStrategy"
+try{Backtest::dropBacktestEngine(strategyName)}catch(ex){print ex}
+engine = Backtest::createBacktester(strategyName, config, callbacks, false)
+go
+
+// 插入行情数据（此例信号数据与行情一起）
+msg= select * from messageBar where tradeTime between 2024.01.01 15:00:00.000 and 2025.01.01 15:00:00.000
+Backtest::appendQuotationMsg(engine,msg)
+
+
+
+//插入末尾数据
+messageend=select top 1* from messageBar where tradeTime=max(tradeTime)
+update messageend set symbol="END"
+update messageend set tradeTime=concatDateTime(tradeTime.date(),16:00:00)
+Backtest::appendQuotationMsg(engine,messageend)
+
+// step 4：获取回测结果
+//成交明细
+tradeDetails=Backtest::getTradeDetails(engine)
+//查询当前的未成交（未完成）订单列表
+openOrders=Backtest::getOpenOrders(long(engine))
+//每日持仓
+dailyPosition=Backtest::getDailyPosition(long(engine))
+//可用资金
+enableCash=Backtest::getAvailableCash(long(engine))
+//未成交订单明细
+openOrders=tradeDetails[tradeDetails.orderStatus==-3]
+//日组合指标展示
+totalPortfolios=Backtest::getTotalPortfolios(long(engine))
+//回测结果综合展示
+returnSummary=Backtest::getReturnSummary(long(engine))
+//获取策略每日权益指标
+totalPortfolios = Backtest::getDailyTotalPortfolios(engine)
+//获取此时的引擎context变量字典
+context = Backtest::getContextDict(engine)
+
+// 净值曲线
+plot(totalPortfolios[`netValue])
+
+// 买卖曲线
+tradesummary = select tradeTime, sum (iif(direction==1, tradePrice*tradeQty, iif(direction==3, -tradePrice*tradeQty, NULL))) from tradeDetails group by tradeTime
+plot(tradesummary[`sum],date(tradesummary[`tradeTime]))
+
+// 收益率曲线
+plot(totalPortfolios[`totalReturn]*100)
+
+// 与沪深300指数对比
+index = loadText("/home/appadmin/zhangjiarong/daily_index.csv")
+indexreturn = exec trade_date, pct_chg as index from index order by trade_date
+comparetable = table(indexreturn, totalPortfolios[`ratio]*100 as `portfolio)
+plot(comparetable[,1:])
+
+
+// 指标对比表
+ret_stats1 = exec annualReturn,  annualVolatility,sharpeRatio, maxDrawdown from returnSummary
+ret_stats2 = exec 
+    avg(pct_chg/100) * 252 as annual_return, 
+    std(pct_chg/100) * sqrt(252.0) as annual_volatility,
+    (avg(pct_chg/100) * 252) / (std(pct_chg/100) * sqrt(252.0)) as sharpe_ratio,
+    -min(close / cummax(close) - 1) as drawdown
+from index
+comparetable2 = table(ret_stats1[0].values()$DOUBLE as `portfolio, ret_stats2[0].values()$DOUBLE as `index)
+plot (comparetable2,`annualReturn`annualVolatility`sharpeRatio`maxDrawdown,,COLUMN)
+
+
+
+
+
+
