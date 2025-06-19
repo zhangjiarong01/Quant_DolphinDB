@@ -1,0 +1,261 @@
+
+// =========== 成交量筛选50个半导体股票标的 ==============
+stock_basic = loadTable("dfs://stock_basic", "stock_basic")
+bandaotilist = exec ts_code from stock_basic where industry = "半导体"
+
+stock_daily_info = loadTable("dfs://stock_daily_info", "stock_daily_info")
+stock_daily_info2022 = select * from stock_daily_info where ts_code in bandaotilist and trade_date > 2022.01.01 and trade_date < 2023.01.01
+
+selected_stock = exec ts_code, last(name), avg(amount) as avgm from stock_daily_info2022 where avg(amount) >5000 and avg(turn_over) >2 and avg(swing) >3 and avg(abs(pct_change)) >2 group by ts_code order by avgm
+
+selected_stock = exec top 50 ts_code from selected_stock 
+selected_stock = regexReplace(selected_stock, ".SH", "").regexReplace(".SZ", "")
+
+
+// =========== 检查tick数据 =================
+snapshotMulti = loadTable("dfs://l2StockDB", "snapshotMulti") 
+entrust = loadTable("dfs://l2StockDB", "entrust")
+trade = loadTable("dfs://l2StockDB", "trade")
+
+
+
+entrust1 = select distinct OrderType  from entrust where TradeDate = 2022.01.06 and  SecurityID= `688766 and OrderType = `A
+snap1 = select top 1000 *  from snapshotMulti where TradeDate = 2022.01.06 and TradeTime < 10:30:00 and  SecurityID= `688766
+trade1 = select top 1000 *  from trade where TradeDate = 2022.01.06 and TradeTime < 10:30:00 and  SecurityID= `688766
+snap_trade = select count  aj(trade,snap,`SecurityID`TradeDate`TradeTime)
+
+
+select WindID, TradeDate, TradeTime,TradeBSFlag, TradePrice,TradeQty,LastPrice,Volume,Amount,NumTrades,OfferPrice1 ,OfferPrice2,OfferQty1, OfferQty2,BidPrice1,BidPrice2, BidQty1,BidQty2 from aj(trade1,snap,`SecurityID`TradeDate`TradeTime)
+
+// ==============深度不平衡因子========
+def calPress(BidPrice0,BidPrice1,BidPrice2,BidPrice3,BidPrice4,BidPrice5,BidPrice6,BidPrice7,BidPrice8,BidPrice9,BidQty0,BidQty1,BidQty2,BidQty3,BidQty4,BidQty5,BidQty6,BidQty7,BidQty8,BidQty9,OfferPrice0,OfferPrice1,OfferPrice2,OfferPrice3,OfferPrice4,OfferPrice5,OfferPrice6,OfferPrice7,OfferPrice8,OfferPrice9,OfferQty0,OfferQty1,OfferQty2,OfferQty3,OfferQty4,OfferQty5,OfferQty6,OfferQty7,OfferQty8,OfferQty9){
+ WAP = (BidPrice0*OfferQty0+OfferPrice0*BidQty0)\(BidQty0+OfferQty0)
+ Bid_1_P_WAP_SUM = 1\(BidPrice0-WAP) + 1\(BidPrice1-WAP) + 1\(BidPrice2-WAP) + 1\(BidPrice3-WAP) + 1\(BidPrice4-WAP) + 1\(BidPrice5-WAP) + 1\(BidPrice6-WAP) + 1\(BidPrice7-WAP) + 1\(BidPrice8-WAP) + 1\(BidPrice9-WAP)
+ Offer_1_P_WAP_SUM = 1\(OfferPrice0-WAP)+1\(OfferPrice1-WAP)+1\(OfferPrice2-WAP)+1\(OfferPrice3-WAP)+1\(OfferPrice4-WAP)+1\(OfferPrice5-WAP)+1\(OfferPrice6-WAP)+1\(OfferPrice7-WAP)+1\(OfferPrice8-WAP)+1\(OfferPrice9-WAP)
+ BidPress = BidQty0*((1\(BidPrice0-WAP))\Bid_1_P_WAP_SUM) + BidQty1*((1\(BidPrice1-WAP))\Bid_1_P_WAP_SUM) + BidQty2*((1\(BidPrice2-WAP))\Bid_1_P_WAP_SUM) + BidQty3*((1\(BidPrice3-WAP))\Bid_1_P_WAP_SUM) + BidQty4*((1\(BidPrice4-WAP))\Bid_1_P_WAP_SUM) + BidQty5*((1\(BidPrice5-WAP))\Bid_1_P_WAP_SUM) + BidQty6*((1\(BidPrice6-WAP))\Bid_1_P_WAP_SUM) + BidQty7*((1\(BidPrice7-WAP))\Bid_1_P_WAP_SUM) + BidQty8*((1\(BidPrice8-WAP))\Bid_1_P_WAP_SUM) + BidQty9*((1\(BidPrice9-WAP))\Bid_1_P_WAP_SUM)
+ OfferPress = OfferQty0*((1\(OfferPrice0-WAP))\Offer_1_P_WAP_SUM) + OfferQty1*((1\(OfferPrice1-WAP))\Offer_1_P_WAP_SUM) + OfferQty2*((1\(OfferPrice2-WAP))\Offer_1_P_WAP_SUM) + OfferQty3*((1\(OfferPrice3-WAP))\Offer_1_P_WAP_SUM) + OfferQty4*((1\(OfferPrice4-WAP))\Offer_1_P_WAP_SUM) + OfferQty5*((1\(OfferPrice5-WAP))\Offer_1_P_WAP_SUM) + OfferQty6*((1\(OfferPrice6-WAP))\Offer_1_P_WAP_SUM) + OfferQty7*((1\(OfferPrice7-WAP))\Offer_1_P_WAP_SUM) + OfferQty8*((1\(OfferPrice8-WAP))\Offer_1_P_WAP_SUM) + OfferQty9*((1\(OfferPrice9-WAP))\Offer_1_P_WAP_SUM)
+ return log(BidPress)-log(OfferPress)
+}
+
+
+result = select
+            avg((OfferPrice1\BidPrice1-1)) as BAS,
+            avg((BidQty1-OfferQty1)\(BidQty1+OfferQty1)) as DI1,
+            avg((BidQty2-OfferQty2)\(BidQty2+OfferQty2)) as DI2,
+            avg((BidQty3-OfferQty3)\(BidQty3+OfferQty3)) as DI3,
+            avg((BidQty4-OfferQty4)\(BidQty4+OfferQty4)) as DI4,
+            avg((BidQty5-OfferQty5)\(BidQty5+OfferQty5)) as DI5,
+            avg((BidQty6-OfferQty6)\(BidQty6+OfferQty6)) as DI6,
+            avg((BidQty7-OfferQty7)\(BidQty7+OfferQty7)) as DI7,
+            avg((BidQty8-OfferQty8)\(BidQty8+OfferQty8)) as DI8,
+            avg((BidQty9-OfferQty9)\(BidQty9+OfferQty9)) as DI9,
+            avg((BidQty10-OfferQty10)\(BidQty10+OfferQty10)) as DI0
+
+from snapshotMulti
+where TradeDate > 2022.01.05 and TradeDate < 2022.12.31 and SecurityID in selected_stock
+group by SecurityID, TradeDate, interval( TradeTime, 10m, "none" ) as TradeTime
+order by TradeDate
+
+ds = sqlDS(<select DI1,DI2,DI3,DI4,DI5,DI6,DI7,DI8,DI9,DI0 from result>);
+pcaResult = pca(ds, , 1, true)
+comp = pcaResult["components"]
+
+
+result[`PCA1] = result[`DI1] * comp[0,0] +
+                result[`DI2] * comp[0,1] +
+                result[`DI3] * comp[0,2] +
+                result[`DI4] * comp[0,3] +
+                result[`DI5] * comp[0,4] +
+                result[`DI6] * comp[0,5] +
+                result[`DI7] * comp[0,6] +
+                result[`DI8] * comp[0,7] +
+                result[`DI9] * comp[0,8] +
+                result[`DI0] * comp[0,9]
+
+
+
+ofiLong = unpivot(result, `TradeDate`TradeTime`SecurityID, `PCA1 )
+
+ofiStat = select
+    avg(value) as mean,
+    std(value) as std,
+    skew(value) as skew,
+    kurtosis(value) as kurt
+from ofiLong
+where valueType = `PCA1
+group by TradeDate, SecurityID
+
+dailyFactor6 = select TradeDate, SecurityID, kurt as value from ofiStat
+// ===============大单买入因子===========
+
+// 1. 添加 Amount 列
+t = select SecurityID, TradeDate,TradeTime, TradeBSFlag,TradePrice,TradeQty, TradePrice * TradeQty as Amount from trade where TradeDate > 2022.01.05 and TradeDate < 2022.12.31 and SecurityID in selected_stock order by TradeDate
+
+// 2. 所有股票所有日的大单成交金额
+t_total = select sum(Amount) as TotalAmt ,sum(iif(TradeBSFlag == "B" and  Amount >= 200000, Amount,0)) as BigBuyAmt, sum(iif(TradeBSFlag == "S" and  Amount >= 200000, Amount,0)) as BigSellAmt 
+          from t 
+          group by TradeDate, SecurityID
+
+// 3. 计算因子值（空值填0）
+t_total[`value] = iif(t_total.TotalAmt > 0, 
+                           (t_total.BigBuyAmt - t_total.BigSellAmt) / t_total.TotalAmt, 
+                           NULL)
+
+// 4. 只保留必要字段，按时间排序
+dailyFactor1 = select TradeDate, SecurityID, value 
+              from t_total 
+              order by TradeDate, SecurityID
+              
+// ============单笔成交金额分位数因子======
+// 2. 按股票、日期分组计算 95 分位数
+dailyFactor5 = select percentile(Amount, 0.95) as value 
+                  from t 
+                  group by TradeDate, SecurityID 
+                  order by TradeDate, SecurityID
+
+
+// ============主动买入金额因子=======
+t_active = select 
+    sum(Amount) as TotalAmt, 
+    sum(iif(TradeBSFlag == "B", Amount, 0)) as BuyAmt 
+    from t 
+    group by TradeDate, SecurityID
+
+// 3. 计算主动买入占比
+t_active[`value] = iif(t_active.TotalAmt > 0, 
+                               t_active.BuyAmt / t_active.TotalAmt, 
+                               NULL)
+
+// 4. 只保留所需字段
+dailyFactor2 = select TradeDate, SecurityID, value 
+                  from t_active 
+                  order by TradeDate, SecurityID
+
+// =========== 尾盘买入因子 ======================
+// 每分钟净流入 = 买入 - 卖出
+minuteFlow = select 
+    sum(iif(TradeBSFlag == "B", Amount, -Amount)) as NetAmt 
+    from t 
+    group by TradeDate, SecurityID, minute(TradeTime) as minute_TradeTime
+
+// 4. 划分尾盘 vs 非尾盘（14:55:00 ~ 15:00:00）
+
+tailPart = select sum(NetAmt) as TailFlow 
+           from minuteFlow 
+           where minute_TradeTime >= 14:55m
+           group by TradeDate, SecurityID
+
+avgPart = select avg(NetAmt) as AvgFlow 
+          from minuteFlow 
+          where minute_TradeTime < 14:55m
+          group by TradeDate, SecurityID
+
+// 5. 合并结果并计算尾盘异动强度
+tailFactor = ej(tailPart, avgPart, `TradeDate`SecurityID, `TradeDate`SecurityID)
+tailFactor[`value] = iif(tailFactor.AvgFlow != 0, tailFactor.TailFlow / tailFactor.AvgFlow, NULL)
+
+// 6. 最终输出字段
+dailyFactor3 = select TradeDate, SecurityID, value
+                    from tailFactor 
+                    order by TradeDate, SecurityID
+
+// =========== 假挂单因子 ===============
+fake_df = select 
+    TradeDate, SecurityID, 
+    sum(iif(TradePrice == BidPrice1 or TradePrice == BidPrice2, TradeQty, 0)) as TotalMatchedQty, 
+    sum(BidQty1+ BidQty2) as TotalBidQty
+from aj(trade,snapshotMulti,`SecurityID`TradeDate`TradeTime)
+where TradeDate > 2022.01.01 and TradeDate < 2022.01.31 and SecurityID in selected_stock
+group by TradeDate, SecurityID
+
+
+dailyFactor4 = select TradeDate, SecurityID, TotalMatchedQty\TotalBidQty*100 as value
+from fake_df
+
+
+
+
+
+// ========== 测试单因子IC =================
+use alphalens
+
+//单独分析
+factor = select TradeDate as date, SecurityID as sym, value from dailyFactor6
+
+price =
+    select trade_date as date, regexReplace(ts_code, ".SH", "").regexReplace(".SZ", "") as sym, close, pct_chg/100 as pct_chg
+    from loadTable("dfs://stock_daily_prev","stock_daily_prev") 
+WHERE trade_date > 2022.01.05 and trade_date < 2022.12.31 and regexReplace(ts_code, ".SH", "").regexReplace(".SZ", "") in selected_stock order by date
+
+
+
+// 手动计算分层收益 
+price1 = select * ,move(pct_chg,-1) as forward_ret from price context by sym
+
+factorData_m = select date, sym as asset, forward_ret as forward_returns_1D, value as factor, asof(quantileSeries(value,
+[0,0.2,0.4,0.6,0.8],interpolation='midpoint'),value)+1 as factor_quantile from lj(factor,price1,`date`sym) context by date
+
+// 等权分层组合
+layer_ret = select avg(forward_returns_1D) as ret_1D, avg(iif(factor_quantile == 1,forward_returns_1D,NULL)) as mean_ret_1D_1L, avg(iif(factor_quantile == 5,forward_returns_1D,NULL)) as mean_ret_1D_5L from factorData_m group by date
+layer_ret = select *, cumprod(1 + ret_1D) as cum_ret_1D, cumprod(1 + mean_ret_1D_1L) as cum_ret_1D_1L, cumprod(1 + mean_ret_1D_5L) as cum_ret_1D_5L from layer_ret
+
+// 因子加权分层
+layer_ret = select wavg(forward_returns_1D,factor) as ret_1D, wavg(iif(factor_quantile == 1,forward_returns_1D,NULL),factor) as mean_ret_1D_1L, wavg(iif(factor_quantile == 5,forward_returns_1D,NULL),factor) as mean_ret_1D_5L from factorData_m group by date
+layer_ret = select *, cumprod(1 + ret_1D) as cum_ret_1D, cumprod(1 + mean_ret_1D_1L) as cum_ret_1D_1L, cumprod(1 + mean_ret_1D_5L) as cum_ret_1D_5L from layer_ret
+
+plot( layer_ret[`cum_ret_1D_1L`cum_ret_1D_5L], layer_ret[`date])
+
+
+
+
+
+
+
+// alphalens IC 分析
+price2 = select close from price pivot by date, sym
+
+factorData = get_clean_factor_and_forward_returns(factor,price2,periods=[1,5,10])
+
+ic_t = select corr(factor, forward_returns_1D) as ic, ols(factor, forward_returns_1D,,1)[1,3] as t from factorData group by date
+
+stats = exec 
+    count(ic) as dates,
+    avg(ic) as mean,
+    std(ic) as std_dev,
+    avg(ic) / std(ic) as ir,                        // 信息比率
+    sum(ic > 0) * 1.0 / count(ic) as ic_pos_ratio,  // IC > 0 占比
+    avg(abs(t)) as avg_t, // |t| 均值
+    sum(t > 2) * 1.0 / count(t) as t_gt2_ratio,     // t > 2 占比
+    sum(abs(t) > 2) * 1.0 / count(t) as t_abs_gt2_ratio // |t| > 2 占比
+from ic_t
+
+// 打印描述性结果
+print "=== IC统计指标汇总 ==="
+print "IC均值（mean）                 : ", stats.mean[0]
+print "信息比率（IR）                 : ", stats.ir[0]
+print "IC为正的比例（IC > 0）         : ", stats.ic_pos_ratio[0]
+print "|t| 的平均值（avg |t|）         : ", stats.avg_t[0]
+print "|t| > 2 的比例（显著性强判断）  : ", stats.t_abs_gt2_ratio[0]
+
+
+
+
+// alphalens IC 和 分层 结果
+
+
+// infTearSheet = create_information_tear_sheet(
+//                 factorData,
+//                 group_neutral=false,
+//                 by_group=false)
+
+ReturnSheet = create_returns_tear_sheet(
+                factorData,
+                group_neutral=false,
+                by_group=false)
+
+plot (ReturnSheet.cumulative_returns_by_quantile_1[[`C1`C2`C3`C4`C5]],ReturnSheet.cumulative_returns_by_quantile_1[`date])
+
+
+
+
+

@@ -1,0 +1,165 @@
+try{loadPlugin("MatchingEngineSimulator")
+loadPlugin("Backtest")}
+catch(ex){}
+go
+//首先准备回测用到的bar数据
+// pt = loadTable('dfs://k_day_level', 'dayFactor')
+conn = xdb('192.198.1.41',8013,"yangyitian","123456")
+signalTB = remoteRun(conn, "signalTBS")
+data = remoteRun(conn, "select * from loadTable('dfs://stock_daily_prev', 'stock_daily_prev') where trade_date>=2018.01.01")
+data0 = lj(signalTB,data,`ts_code`trade_date)
+// 选取原始数据，并生成每一天每只票因子值的排名（由大到小）
+m = select *,signal_port as factor_value, rank(signal_port, false) as rank from data0 
+where (ts_code like '%.SZ' or ts_code like '%.SH') and trade_date <= 2025.02.01
+context by trade_date 
+// 假设股票持仓个数为 30 
+holdingNum = 30
+// 剔除不涉及的股票
+stockList = exec distinct(ts_code) from m where rank < holdingNum
+m = select * from m where ts_code in stockList
+// 计算每只股票在下一天：1.若未持有，是否是买入目标
+
+messageBar = select ts_code as symbol, concatDateTime(trade_date, 15:00:00.000) as tradeTime, open as open, low as low, high as high, close as close,
+100*vol$LONG as volume, 100*int(vol/close)$DOUBLE as amount, 0.0 as upLimitPrice, 0.0 as downLimitPrice, 
+open as prevClose, fixedLengthArrayVector([rank,factor_value]).double() as signal
+from m
+
+
+def initialize(mutable context, userParams){
+    context['holdingNum'] = userParams['holdingNum']
+    context['signalTableExist'] = 0
+}
+
+def beforeTrading(mutable context){
+    print ("beforeTrading: "+context["tradeDate"])
+}
+
+def onBar(mutable context, msg, indicator=null){
+    thisDate = context["tradeDate"]
+    // 1.根据操作表，结合开盘，执行信号
+    if(context['signalTableExist'] == 1){
+        signalTable = context['signalTable']
+        if(context['holdingTableExist'] == 1){
+            // 根据（上一天）信号表，结合当前持仓，先把当前持有的信号小于0的股票卖出
+            holdingTable = Backtest::getPosition(context["engine"])
+            holdingTable = select context["tradeTime"], symbol, longPosition from holdingTable where longPosition > 0;
+            // 得到持有股票的列
+            holdingStock = exec symbol from holdingTable
+            // 得到需要卖出的股票列
+            // 得到市场需要空仓的所有股票列
+            allShort = exec symbol from signalTable where value < 0
+            // 得到需要平仓的股票列
+            toCloseList = holdingStock[holdingStock in allShort]
+            // 平仓个数
+            toCloseNum = size(toCloseList)
+            if(toCloseNum > 0){
+                // 平仓
+                toCloseTable = select symbol, longPosition from holdingTable where symbol in toCloseList
+                orderMsg = select symbol, concatDateTime(thisDate, 09:00:00.000), 0, open, longPosition, 3 from lj(copy(toCloseTable), copy(msg), `symbol) where longPosition >= 100 and date(tradeTime) == thisDate
+                Backtest::submitOrder(context["engine"], orderMsg,"sell")
+            }
+            availableCash = Backtest::getAvailableCash(context["engine"])
+            holdingTable = Backtest::getPosition(context["engine"])
+            toBuyTable = select * from signalTable where symbol not in holdingStock and rank < toCloseNum
+            toLongNum = size(toBuyTable)
+            if(toLongNum > 0){
+                // 买入
+                toBuyTable = select symbol, 100*int((availableCash*value)\sum(value)\close\100) as amount, open from lj(toBuyTable, msg, `symbol) where date(tradeTime) = thisDate;
+                orderMsg = select symbol, concatDateTime(thisDate, 10:00:00.000), 0, open, amount, 1 from toBuyTable where amount >=100
+                Backtest::submitOrder(context["engine"], orderMsg,"buy")
+            }
+        }
+        else{
+            // 初始情况
+            // 买入
+            availableCash = Backtest::getAvailableCash(context["engine"])
+            // print(availableCash)
+            signalTable = context['signalTable']
+            toBuyList = exec symbol, value from signalTable where rank < context['holdingNum']
+            toBuyList = select symbol, 100*int((availableCash*value)\sum(value)\close\100) as amount, open from lj(toBuyList, msg, `symbol) where date(tradeTime) = thisDate;
+            orderMsg = select symbol, concatDateTime(thisDate, 10:00:00.000), 0, open, amount, 1 from toBuyList where amount >=100
+            Backtest::submitOrder(context["engine"], orderMsg,"buy")
+            // 更新持仓表（下一天提供给beforeTrading）
+            holdingTable = Backtest::getPosition(context["engine"])
+            holdingTable = select context["tradeDate"], symbol, longPosition from holdingTable where longPosition > 0;
+            context['holdingTableExist'] = 1
+        }
+    }
+
+    // 2.更新信号表（下一天提供给beforeTrading）
+    signalTable = table(100:5, `date`symbol`rank`value, [DATE,SYMBOL,DOUBLE,DOUBLE]);
+    istockInfo = select date(tradeTime) as date, symbol as symbol, signal[0] as rank, signal[1] as value from msg
+    signalTable.append!(istockInfo)
+    context['signalTable'] = signalTable
+    context['signalTableExist'] = 1
+}
+
+def onOrder(mutable context,orders){}
+def onTrade(mutable context,trades){}
+def afterTrading(mutable context){
+    holdingTable = Backtest::getPosition(context["engine"])
+    // print('当天num')
+    // print(size(holdingTable))
+}
+
+def finalized(mutable context){
+    // print(context['signalTable'])
+    // holdingTable = Backtest::getPosition(context["engine"])
+    // print(holdingTable)
+    // print('num')
+    // print(size(holdingTable))
+    // print(context['holdingTable'])
+    // availableCash = Backtest::getAvailableCash(context["engine"])
+    // print(availableCash)
+}
+
+go
+userConfig=dict(STRING,ANY)
+userConfig["startDate"] = 2023.01.01
+userConfig["endDate"] = 2024.01.01
+///策略类型,暂时固定股票///
+userConfig["strategyGroup"]= "stock"
+///以指定的频率通过逐笔数据合成快照
+userConfig["frequency"]= 0
+userConfig["cash"]= 2000000
+///手续费        
+userConfig["commission"]= 0.00000
+//印花税
+userConfig["tax"]= 0.000
+//行情类型，0：逐笔+快照，1：快照，2：快照+成交，3：分钟
+userConfig["dataType"]= 4
+//tick的数据格式，table或dict
+userConfig["msgAsTable"]= true
+
+strategyName="stockDailyStrategy"
+userParams = dict(STRING,ANY)
+userParams['holdingNum'] = holdingNum
+
+try{Backtest::dropBacktestEngine(strategyName)}catch(ex){print ex}
+engine = Backtest::createBacktestEngine(strategyName, userConfig,,initialize{,userParams}, beforeTrading,onBar,,onOrder,onTrade,afterTrading,finalized)
+go
+timer Backtest::appendQuotationMsg(engine,messageBar)
+messageTable=select top 1* from messageBar where tradeTime=max(tradeTime)
+update messageTable set symbol="END"
+update messageTable set tradeTime=concatDateTime(tradeTime.date(),16:00:00)
+Backtest::appendQuotationMsg(engine,messageTable)
+
+// step 4：获取回测结果
+//成交明细
+tradeDetails=Backtest::getTradeDetails(engine)
+//查询当前的未成交（未完成）订单列表
+openOrders=Backtest::getOpenOrders(long(engine))
+//每日持仓
+dailyPosition=Backtest::getDailyPosition(long(engine))
+//可用资金
+enableCash=Backtest::getAvailableCash(long(engine))
+//未成交订单明细
+openOrders=tradeDetails[tradeDetails.orderStatus==-3]
+//日组合指标展示
+totalPortfolios=Backtest::getTotalPortfolios(long(engine))
+//回测结果综合展示
+returnSummary=Backtest::getReturnSummary(long(engine))
+//获取策略每日权益指标
+totalPortfolios = Backtest::getDailyTotalPortfolios(engine)
+
+returnSummary

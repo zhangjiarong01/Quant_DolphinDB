@@ -1,0 +1,115 @@
+/**
+Author: Xinhai Tang
+DolphinDB server version: 2.00.12.3 2024.06.12
+Storage engine: OLAP
+Last modification time: 2025.02.06
+DevEnv: haMainDDB-cnode3
+*/
+
+/*
+对分组后的单个因子的向量数据做去极值处理
+@param
+factorValue: 单个因子值的向量
+*/
+def removeOutlier(factorValue){
+    factors = factorValue
+    sigmaCoef = 3
+    outer1 = mean(factorValue) + sigmaCoef*sqrt(var(factorValue))
+    outer2 = mean(factorValue) - sigmaCoef*sqrt(var(factorValue))
+    factors[factors > outer1] =  outer1
+    factors[factors < outer2] =  outer2
+    return factors
+}
+
+/*
+生成单因子去极值的 SQL 元编程代码
+@param
+colName: 因子名，同时也是因子表的列名
+@example1
+generateOutlierSQL("signal_size")
+*/
+def generateOutlierSQL(colName){
+    return "removeOutlier(" + colName + ") as " + colName
+}
+
+/*
+对多因子宽表按照交易日分组对单个因子去极值
+@param
+factorTB: 多因子宽表
+@example1
+factorRemoveOutlier(factorTB)
+*/
+def factorRemoveOutlier(factorTB){
+    factorNames = factorTB.columnNames()[5:]
+    selectText1 = "select ts_code,trade_date,close,forward_returns,total_mv,"
+    selectText2 = concat(each(generateOutlierSQL, factorNames), ", ")
+    selectText3 = " from factorTB context by trade_date" 
+    sqlText = selectText1 + selectText2 +selectText3
+    result = parseExpr(sqlText).eval()
+    return result
+}
+
+//调用函数
+factorTB = factorRemoveOutlier(factorTB)
+
+/*
+生成单因子标准化处理的 SQL 元编程代码
+@param
+colName: 因子名，同时也是因子表的列名
+@example1
+generateStdSQL("signal_size")
+*/
+def generateStdSQL(colName){
+    return "zscore(" + colName + ") as " + colName
+}
+
+/*
+对多因子宽表按照交易日分组对单个因子标准化处理
+@param
+factorTB: 多因子宽表
+@example1
+factorStandardize(factorTB)
+*/
+def factorStandardize(factorTB){
+    factorNames = factorTB.columnNames()[5:]
+    selectText1 = "select ts_code,trade_date,close,forward_returns,total_mv,"
+    selectText2 = concat(each(generateStdSQL, factorNames), ", ")
+    selectText3 = " from factorTB context by trade_date" 
+    sqlText = selectText1 + selectText2 +selectText3
+    result = parseExpr(sqlText).eval()
+    return result
+}
+
+//调用函数
+factorTB = factorStandardize(factorTB)
+
+/*
+生成单因子与市值做线性回归的 SQL 元编程代码
+@param
+colName: 因子名，同时也是因子表的列名
+@example1
+generateNeutralizationSQL("signal_size")
+*/
+def generateNeutralizationSQL(colName){
+    return "ols(" + colName + ", total_mv, 1, 2).Residual as "+ colName
+}
+
+/*
+对多因子宽表按照交易日分组对单个因子做市场中性化处理
+@param
+factorTB: 多因子宽表
+@example1
+sizeNeutralization(factorTB)
+*/
+def factorSizeNeutralization(factorTB){
+    factorNames = factorTB.columnNames()[5:]
+    selectText1 = "select ts_code,trade_date,close,forward_returns,total_mv,"
+    selectText2 = concat(each(generateNeutralizationSQL, factorNames), ", ")
+    selectText3 = " from factorTB context by trade_date" 
+    sqlText = selectText1 + selectText2 +selectText3
+    result = parseExpr(sqlText).eval()
+    return result
+}
+
+//调用函数
+factorTB = factorSizeNeutralization(factorTB)

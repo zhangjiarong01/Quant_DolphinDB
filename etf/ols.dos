@@ -1,0 +1,137 @@
+etf_prices = loadText("./etf_prices.csv")
+market_flows = loadText("./moneyflow_202409.csv")
+policy_events = loadText("./policy_events.csv")
+hsgt = loadText("./hsgt_all_2015_2025.csv")
+
+macro_scores = loadText("./macro_scores.csv")
+macro_scores = select *, date(temporalParse(string(month), "yyyyMM")) as date from macro_scores
+datelist = table(2015.01.01..2025.06.01 as date)
+macro_scores = select * from lj(datelist,macro_scores,`date)
+macro_scores.ffill!()
+// 合并数据
+// 方法1：确保trade_date和date都是DATE类型
+data = select * 
+from 
+    etf_prices
+    left join macro_scores on etf_prices.trade_date = macro_scores.date 
+where ts_code = `159915.SZ and trade_date>2015.01.01
+
+
+data = select * from lj(data,market_flows,`trade_date)
+// data = select * from lj(data,policy_events,`trade_date,`date)
+data = select * from lj(data,hsgt,`trade_date)
+
+
+data[`ret] = move(data[`pct_chg],-1)
+data[`log_sf] = log(data[`inc_month])
+
+
+
+prepareddata = select trade_date,close, ret, lpr_1y, cpi_yoy, ppi_yoy, pmi, log_sf , net_amount-mavg(buy_elg_amount, 20) as a , buy_elg_amount-mavg(buy_elg_amount, 10) as b , north_money-mavg(north_money, 10) as north_money, hgt from data where cpi_yoy is not null and net_amount is not null 
+
+
+// ================= 检验因子有效性 ===================
+// 构建回归自变量矩阵（可添加更多变量）
+X = prepareddata[["lpr_1y", "cpi_yoy", "ppi_yoy", "pmi", "log_sf","north_money"]]
+Y = prepareddata[`ret]
+
+normalize = def(col){ return (col - mean(col)) / std(col) }
+
+X_z = each(normalize, X)
+Y_z = normalize(Y)
+
+olsZ = ols(Y_z, X_z, , 1)
+
+// 构建回归自变量矩阵（可添加更多变量）
+X = prepareddata[["lpr_1y", "cpi_yoy", "ppi_yoy", "pmi", "log_sf","b"]]
+Y = prepareddata[`ret]
+
+normalize = def(col){ return (col - mean(col)) / std(col) }
+
+X_z = each(normalize, X)
+Y_z = normalize(Y)
+
+olsZ2 = ols(Y_z, X_z, , 1)
+
+
+
+
+
+//================== 回测 ===============
+// 1. 信号生成（避免未来函数）
+z_b = (prepareddata[`b] - mean(prepareddata[`b])) / std(prepareddata[`b])
+signal = iif(z_b > 0.5, 1, 0)  // 只在强流入时才触发
+trend = mavg(prepareddata[`close],3) > mavg(prepareddata[`close],20)
+macro_ok = prepareddata[`cpi_yoy] > 0
+
+
+// 滚动信号，不轻易退出
+min_hold = 3  // 最少持有3天
+hold_day = 0
+
+hold_signal = mavg(signal, min_hold, 1) > 0 and macro_ok and trend
+
+// 基准计算
+
+// 3. 收益计算
+ret = prepareddata[`ret]/100
+strategy_ret = iif(hold_signal, ret, 0)
+
+
+mean_ret = avg(ret)
+std_ret = std(ret)
+sharpe_base = mean_ret / std_ret * sqrt(250)
+cagr_base = pow(last(base_ret), 250.0 / rows(ret)) - 1
+
+// 4. 交易成本（更精确计算）
+fee_rate = 0.0015  // 单边手续费
+slippage = 0.0005 // 滑点
+daily_holding_cost = 0.002 / 365
+
+trade_signal = hold_signal != move(hold_signal, 1).nullFill(0)
+fee = (fee_rate*2 + slippage*2) * trade_signal
+strategy_ret_net = strategy_ret - fee - daily_holding_cost
+
+
+cumulative_ret_net = cumprod(1 + strategy_ret_net)
+
+// 5. 累计收益
+cumulative_ret = cumprod(1 + strategy_ret).nullFill(1)
+cumulative_ret_net = cumprod(1 + strategy_ret_net).nullFill(1)
+base_ret = cumprod(1 + ret.nullFill(0))
+hedge_ret = cumprod(1 + strategy_ret_net-0.1*ret)
+
+
+// 6. 绩效指标
+rf_daily = 0.02/250  // 无风险利率
+sharpe = (avg(strategy_ret) - rf_daily) / std(strategy_ret) * sqrt(250)
+sharpe_net = (avg(strategy_ret_net) - rf_daily) / std(strategy_ret_net) * sqrt(250)
+cagr = pow(last(cumulative_ret), 250.0/rows(ret)) - 1
+cagr_net = pow(last(cumulative_ret_net), 250.0/rows(ret)) - 1
+max_dd = max(1 - cumulative_ret/cummax(cumulative_ret))
+turnover = avg(abs(hold_signal - move(hold_signal, 1)))
+
+sum(hold_signal)\513
+
+alpha_daily = strategy_ret - ret
+information_ratio = avg(alpha_daily) / std(alpha_daily) * sqrt(250)
+tracking_error = std(strategy_ret - ret) * sqrt(250)
+
+// 7. 输出结果
+print("策略年化: ", cagr, " 净CAGR: ", cagr_net, " 基准CAGR: ", cagr_base)
+print("策略Sharpe: ", sharpe, " 净Sharpe: ", sharpe_net,"基准Sharpe: ", sharpe_base)
+print("最大回撤: ", max_dd, " 平均换手率: ", turnover)
+
+date = exec distinct trade_date from prepareddata
+
+// 8. 可视化
+plot([cumulative_ret, cumulative_ret_net, base_ret], date)
+plot(iif(hold_signal,1,0),date)
+plot(iif(trade_signal, 1, 0), date)
+
+// 超额收益曲线
+excess_return = cumulative_ret_net / base_ret
+
+// 可视化三条曲线
+plot([cumulative_ret_net,hedge_ret, base_ret], date)
+

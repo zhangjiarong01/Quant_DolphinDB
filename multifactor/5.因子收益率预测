@@ -1,0 +1,216 @@
+def Newye_West(ret,mutable q){
+    if (q>=ret.size()){
+        q = ret.size()-1
+    }
+    T = (shape ret)[0]
+    retnew = ret
+    code0 =  sqlColAlias(parseExpr(retnew.columnNames()[1:] + "-(mean(" +retnew.columnNames()[1:] + "))"),retnew.columnNames()[1:]) //Demean processing
+    retnew = sql(select = code0,from = retnew).eval()
+    cov = 1\(T-1)*transpose(matrix(retnew)) ** matrix(retnew) //V_F = 1/(T-1)SigmaSum(F_t**F_t') Sample Risk Matrix
+    for(i in 1..q){//calulate Γ1-Γq
+        code1 = parseExpr("move("+ retnew.columnNames() + ","+ string(i) + ")") //MA(q) adjustment
+        cov += (1-(i\(1+q)))*1\(T-1)*transpose(matrix(retnew)) ** matrix(sql(select = code1,from = retnew).eval())  
+        // Bartlett kernel weights  ： 1-(i\(1+q))
+    }
+    re = 1\2*cov+1\2*transpose(cov) //such that the matrix is symmetric and semi-positive definite
+    
+    return re
+}
+
+def BayesShrinkage(cov,weight,q=1){
+    names = cov.columnNames().regexReplace("code_","")
+    tb = table(names,matrix(sqrt(diag(cov))))
+    tb.rename!(`stock_code`volat)
+    tmp = select * from lj(tb,weight,`stock_code)
+    tmpRank = select stock_code,volat,weights,asof(quantileSeries(weights,0..9 \10),weights)+1 as rank from tmp order by rank
+    tmpRankvsn = select stock_code,volat,wavg(volat,weights) as vsn,rank from tmpRank context by rank
+    ranksum = select rank,count(*) from tmpRankvsn group by rank 
+    tmpRankvsn = select * from lj(tmpRankvsn,ranksum,rank)
+    tmpRanknow = select stock_code,volat,vsn,sqrt(sum(pow(volat-vsn,2))\count) as sum_sigma from  tmpRankvsn context by rank   //Appendix C C4
+    covnow = select stock_code,volat,vsn,q*abs(volat-vsn)\(sum_sigma+q*abs(volat-vsn)) as vn from tmpRanknow //Appendix C C3
+    covnow = select stock_code,volat*(1-vn)+vn*vsn as shrinkageSigma from covnow //Appendix C C1-C2
+    diags = exec shrinkageSigma from lj(tb,covnow,`stock_code)
+    return cov - diag(diag(cov))+ diag(diags)
+}
+
+def eigenCovAdjusted(covf,T=12,M = 500,lambdaP=0.00000001){
+    name = covf.columnNames()
+    rfname = name[0:first(at(name like "%industry%"))]
+    cov = covf[0:rfname.size()][0:rfname.size(),:]
+    cov = matrix(cov)
+    k = (shape cov)[0]
+    out = eig(cov) //Corresponds to Appendix B2, feature decomposition
+    vec = out.vectors
+    val = iif(out.values<=0,lambdaP,out.values)
+    vk = take(0,(shape cov)[0])
+    for(i in 1..M){ //Generating the covariance matrix of a simulation via Monte Carlo
+        setRandomSeed(i);
+        // Generate random numbers that obey a multivariate normal distribution. The returned result is a matrix.
+        bm = randMultivariateNormal(mean = take(0,k),covar = diag(val),count = T) 
+        fm = bm**vec  
+        covFm = fm.covarMatrix() 
+        out1 = eig(covFm) 
+        vecm = out1.vectors
+        dm = out1.values
+        dmslide = diag(transpose(vecm)**cov**vecm) 
+        vk+=dmslide\dm 
+    }
+    vk = sqrt(vk\M)
+    val = val*pow(vk,2)
+    // Splice factor return covariance matrix + other covariance matrices
+    tmp = concatMatrix([concatMatrix([vec**diag(val)**transpose(vec),covf[first(at(name like "%industry%")):,0:first(at(name like "%industry%"))]],false),covf[:,first(at(name like "%industry%")):]]) //Scaling is done by calculating the root of the feature
+    tmp.rename!(name)
+    return tmp
+} 
+
+defg getAllFactorValidate(y,x,w){
+    tmp = wls(y,x,w,true,2)
+    tmp2 = select * from tmp.RegressionStat where item = "R2" or item = "AdjustedR2"
+    re = dict(STRING,ANY)
+    re["beta"] = tmp.Coefficient.beta
+    re["tstat"] = tmp.Coefficient.tstat
+    re["Residual"] = tmp.Residual
+    re["R2"] = tmp2.statistics
+    return toStdJson(re)
+}
+
+def getFactorExposure(facTable,factors,day){    
+    m = matrix(sql(select=sqlCol(factors),from=facTable,where=expr(sqlCol("record_date"),==,day)).eval())
+    return concatMatrix((matrix(take(1.0,m.rows())),m))
+}
+factors=factorCols
+def predictRet(tmpFacTable,beta,res,factors,day){//day=days[0]
+    X = getFactorExposure(tmpFacTable,factors,day)
+    beta_day = select * from beta where record_date = day
+    residual = select * from res where record_date = day
+    predict_ret = X**transpose(matrix(beta_day[,1:]))+matrix(residual.special_ret)
+    return table(residual.stock_code as stock_code,residual.record_date as record_date,flatten(predict_ret) as predict_ret)
+}
+
+
+def getBiasStatistic(return_day,predict_vol){
+    bnt = each(\,return_day,predict_vol)
+    return std(bnt)
+}
+
+def getStockRisk(mutable rescov,tmpFacTable,res,shrink,modelWindow,day){
+    st = temporalAdd(day,-1*(modelWindow-1),"SZSE")
+    et = day
+    rescof = select toArray(special_ret) as newvalue from res where record_date >= st and record_date <= et group by record_date
+    sc = string(exec distinct stock_code from tmpFacTable order by stock_code).strReplace(".","_" )
+    weight = select stock_code.strReplace(".","_" ) as stock_code,weights from tmpFacTable where record_date = day
+    update weight set weights=weights/sum(weights)
+
+    tb = matrix(rescof.newvalue).covarMatrix()
+    tb.rename!(sc)
+    if(shrink){
+        iters = 10
+        bias = 1
+        for (i in 1..iters){
+            q = 2-abs(bias)
+            srisk = diag(BayesShrinkage(tb,weight,q))            
+            bias = getBiasStatistic(matrix(rescof.newvalue).covarMatrix(),srisk)
+            bias = sum(bias*weight.weights)
+            if (abs(bias-1)<=0.1){
+                break
+            }
+        }        
+    }
+    else{
+        srisk = diag(tb)
+    }
+    
+    tb = table(sc.strReplace("_","." ) as stock_code,srisk)
+    rescov[string(day)] = tb
+}
+
+def getFacRisk(mutable covf,tmpFacTable,beta,adjust,eigenfactor,modelWindow,day){
+    st = temporalAdd(day,-1*(modelWindow-1),"SZSE")
+    et = day
+    factors = beta.columnNames()[1:]
+    if(!adjust){
+        betaup = beta.unpivot(`record_date, factors)
+        x = select toArray(value) as newvalue from betaup where record_date >= st and record_date <= et  group by record_date        
+        countdate = exec nunique(record_date) from x
+        tb = matrix(x.newvalue).covarMatrix() //协方差矩阵，Appendix B:B1
+        tb.rename!(factors)
+        if(eigenfactor&&countdate>=12){
+            tb = eigenCovAdjusted(tb,10)
+        }
+        covf[string(day)] = tb
+    }else{
+        beta1 = select * from beta where record_date >= st and record_date <= day
+        countdate = exec nunique(record_date) from beta1 
+        tb = Newye_West(beta1,q=60)
+        tb.rename!(factors)
+        if(eigenfactor&&countdate>=12){
+            tb = eigenCovAdjusted(tb,10)
+        }          
+        covf[string(day)] = tb
+    }
+}
+
+
+def getOneDayBias(tmpFacTable,modelWindow,fac_risk,stock_risk,day){
+    st = temporalAdd(day,-1*(modelWindow-1),"SZSE")
+    // 因子暴露矩阵
+    factor_exposure = getFactorExposure(tmpFacTable,day)
+    // 收益率矩阵
+    ret_series = select return_day from tmpFacTable where record_date>=st,record_date<=day pivot by record_date,stock_code
+    // 市值权重
+    weight = exec weights from tmpFacTable where record_date==day order by stock_code
+    weight = weight/sum(weight)
+    // 预测波动
+    vol_predict = (factor_exposure**fac_risk[string(day)]**factor_exposure.transpose()).diag()+stock_risk[string(day)].srisk
+    // 计算每支股票窗口内的bias
+    b = getBiasStatistic(matrix(ret_series[,1:]),vol_predict)
+    return table(day as record_day,sum(weight*b) as bias)
+}
+
+
+
+// === Step 1. 准备变量 ===
+facTable = select ts_code as stock_code, trade_date as record_date, * from multifactorTB
+factorCols = facTable.columnNames()[7:]  // 从第6列起是因子名
+allCols = facTable.columnNames()
+
+// 筛选每日的各列因子值都不为空的scode
+nonnullCount =parseExpr( "select stock_code, count(*) as nonnull_count from facTable where " + concat(factorCols, " is not NULL and ") + " is not NULL group by stock_code").eval()
+totalDays = count(select distinct record_date from facTable)
+validStocks = select stock_code from nonnullCount where nonnull_count = totalDays
+
+tmpFacTable = select * from facTable where stock_code in validStocks order by record_date, stock_code 
+
+// === Step 2. 执行横截面回归 ===
+tmpDict = dict(STRING, ANY)
+tmpDict["getAllFactorValidate"] = getAllFactorValidate
+weights = take(1, count(validStocks))
+code = parseExpr("tmpDict['getAllFactorValidate'](forward_returns,[" + concat(factorCols, ",") + "],weights)")
+factorState = sql(select=(sqlCol(`record_date), sqlColAlias(code, `wlsResult)), from = tmpFacTable, groupBy = sqlCol(`record_date)).eval()
+wlsResult = factorState[`wlsResult].strReplace("NaN","0.0000")
+wlsResult = each(def(x){return parseExpr(x).eval()}, wlsResult)
+
+
+factorColsa=factorCols.append!(`constant)
+// === Step 3. 提取 beta / tstat / residual ===
+beta = table(factorState.record_date, matrix(transpose(double(each(find{,`beta}, wlsResult)))).rename!(factorCols.append!(`constant)))
+tstat = table(factorState.record_date, matrix(transpose(double(each(find{,`tstat}, wlsResult)))).rename!(factorCols))
+res = table(factorState.record_date, matrix(transpose(double(each(find{,`Residual}, wlsResult)))).rename!(exec distinct stock_code from tmpFacTable where record_date=min(record_date)))
+res = res.unpivot(`record_date, res.columnNames()[1:]).rename!(`record_date`stock_code`special_ret)
+
+// === Step 4. 获取预测收益 ===
+days = exec distinct record_date from tmpFacTable
+predict_ret = peach(predictRet{tmpFacTable, beta, res, factorCols, }, days).unionAll(false)
+
+// === Step 5. 获取 R²（可选）===
+stdR2 = peach(getStdR2{tmpFacTable, res, rf, }, days)
+R2 = table(factorState.record_date, matrix(transpose(double(each(find{,`R2}, wlsResult)))).rename!(take("R2", 1)))
+update R2 set stdR2 = stdR2
+
+// === Step 6. 因子协方差估计 ===
+cov = dict(STRING, ANY)
+peach(getFacRisk{cov, tmpFacTable, beta, adjust, eigenfactor, modelWindow, }, days)
+
+// === Step 7. 特质协方差估计 ===
+rescov = dict(STRING, ANY)
+peach(getStockRisk{rescov, tmpFacTable, res, shrink, modelWindow, }, days)

@@ -1,0 +1,69 @@
+/**
+Author: Xinhai Tang
+DolphinDB server version: 2.00.12.3 2024.06.12
+Storage engine: OLAP
+Last modification time: 2025.02.06
+DevEnv: haMainDDB-cnode3
+*/
+
+/*
+从分区表读取数据并计算因子
+@param
+startDate: 起始计算日期
+endDate: 结束计算日期
+@example1
+factorTB = factorCal(2018.01.01, 2025.01.07)
+*/
+def factorCal(startDate, endDate){
+    stockAdj = loadTable("dfs://stock_daily_prev", "stock_daily_prev")
+    stockInfo = loadTable("dfs://stock_daily_info", "stock_daily_info")
+    dataTmp =
+        select
+            ts_code,
+            trade_date,
+            close,
+            (next(close) - close) / close as forward_returns,
+            turn_over,
+            volume_ratio,
+            swing,
+            total_mv,
+            pe,
+            strength,
+            activity,
+            attack,
+            cumprod(1+pct_chg/100) as cum_ret
+        from ej(stockAdj, stockInfo, `ts_code`trade_date)
+        where trade_date between startDate and endDate, close>0, total_mv>10
+        context by ts_code
+        csort trade_date
+        order by ts_code, trade_date;
+    factorTB = 
+        select
+            ts_code,
+            trade_date,
+            close,
+            (next(close) - close) / close as forward_returns,
+            total_mv,
+            turn_over,
+            volume_ratio,
+            swing,
+            pe,
+            strength,
+            activity,
+            attack,
+            -sqrt(total_mv) as signal_size,
+            iif(move(cum_ret,21)==NULL, cum_ret-1, move(cum_ret,21)-1) as signal_m1,
+            iif(move(cum_ret,63)==NULL, cum_ret-1, move(cum_ret,63)-1) as signal_m3,
+            iif(move(cum_ret,252)==NULL, cum_ret-1, move(cum_ret,252)-1) as signal_m12
+        from dataTmp
+        context by ts_code;
+    return factorTB
+}
+
+//调用函数
+startDate = 2018.01.01
+endDate = 2025.01.07
+factorTB = factorCal(startDate, endDate)
+
+//用 0 填充 NULL 值
+factorTB = nullFill(factorTB, 0)

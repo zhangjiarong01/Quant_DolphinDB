@@ -1,0 +1,93 @@
+/**
+Author: Xinhai Tang
+DolphinDB server version: 2.00.12.3 2024.06.12
+Storage engine: OLAP
+Last modification time: 2025.02.06
+DevEnv: haMainDDB-cnode3
+*/
+
+/*
+对多因子宽表进行多因子相关性检验和处理
+@param
+factorTB: 多因子宽表
+@example1
+result = factorDropCollinearity(factorTB)
+*/
+def factorDropCollinearity(mutable factorTB, threshold=0.8){
+    factorCorrMatrix = corrMatrix(matrix(factorTB[:,5:]))
+    factorNum = shape(factorCorrMatrix)[0]
+    diagonal = 0.999999999
+    filterTB = table(
+        at(factorCorrMatrix>=threshold and factorCorrMatrix<=diagonal)/factorNum as i,
+        at(factorCorrMatrix>=threshold and factorCorrMatrix<=diagonal)%factorNum as j)
+    update filterTB set i=iif(i>j, j, i), j=iif(i>j, i, j)
+    filterTB = select * from filterTB context by i,j limit 1
+    filterIndex = exec distinct j from filterTB
+    factorNames = factorTB.columnNames()[5:]
+    filterCol = factorNames[filterIndex]
+    result = dropColumns!(factorTB, filterCol)
+    return result
+}
+
+//调用函数
+factorTB = factorDropCollinearity(factorTB)
+
+//导入 Alphalens 单因子评价功能模块
+use alphalens
+/*
+对单因子窄表进行 IC 分析，筛选出不符合要求的因子，返回不符合要求的因子名
+@param
+singleFactorTB: 单因子窄表
+factorName：因子名，也是列名
+*/
+def singleFactorTestFunc(singleFactorTB, factorName){
+    factor =
+        select trade_date as date, ts_code.string() as sym, value
+        from singleFactorTB;
+    price =
+        select close
+        from singleFactorTB
+        pivot by trade_date as date, ts_code.string() as sym;
+    factorData = get_clean_factor_and_forward_returns(factor,price,periods=[1,5,10])
+    infTearSheet = create_information_tear_sheet(
+                    factorData,
+                    group_neutral=false,
+                    by_group=false)
+    icMean = rowAvg(infTearSheet.Information_Analysis[1,1:])
+    icPvalue = rowAvg(infTearSheet.Information_Analysis[5,1:])
+    print("因子：" + factorName + "IC均值：" + icMean$STRING + "IC p值：" + icPvalue$STRING)
+    if(icMean < 0 and icPvalue > 0.1){            
+            print(factorName + "因子不有效，剔除该因子")
+            return factorName
+    }
+    return string(NULL)
+}
+
+/*
+对多因子宽表进行收益预测能力检验，删除不符合要求的因子列
+@param
+factorTB: 多因子宽表
+@example1
+result = singleFactorTestMT(factorTB)
+*/
+def singleFactorTestMT(mutable factorTB){
+    factorNames = factorTB.columnNames()[5:]
+    sqlText1 = "select trade_date, ts_code, close, "
+    sqlText2 = " as value from factorTB"
+    sqlText = sqlText1 + factorNames + sqlText2
+    sqlTexts = parseExpr(sqlText)
+    singleFactorTBs = array(any)
+    for(sqlText in sqlTexts){
+        tmp = sqlText.eval()
+        singleFactorTBs.append!(tmp)
+    }
+    dropCols = ploop(singleFactorTestFunc, singleFactorTBs, factorNames)
+    dropCols = dropCols.string().dropna()
+    if(size(dropCols) != 0){
+        factorTB.dropColumns!(dropCols)
+    }
+    return factorTB
+}
+
+//调用函数
+factorTB = singleFactorTestMT(factorTB)

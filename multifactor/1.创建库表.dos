@@ -1,0 +1,106 @@
+/*
+创建库表：沪深股票 - 行情数据 - 日线复权行情（前复权）
+@example1
+createStockDailyPrev()
+*/
+def createStockDailyPrev(){
+    dbName = "dfs://stock_daily_prev"
+    tbName = "stock_daily_prev"
+    if(existsDatabase(dbName)){
+        print("Database of " + dbName + " has already created, please check!")
+    }
+    else{
+        db = database(dbName, RANGE, date(datetimeAdd(1990.01M,0..100*12,'M')))
+        schemaTB = table(
+            array(SYMBOL, 0) as ts_code,
+            array(DATE, 0) as trade_date,
+            array(DOUBLE, 0) as open,
+            array(DOUBLE, 0) as high,
+            array(DOUBLE, 0) as low,
+            array(DOUBLE, 0) as close,
+            array(DOUBLE, 0) as pre_close,
+            array(DOUBLE, 0) as change,
+            array(DOUBLE, 0) as pct_chg,
+            array(DOUBLE, 0) as vol,
+            array(DOUBLE, 0) as amount,
+            array(DOUBLE, 0) as turnover_rate,
+            array(DOUBLE, 0) as volume_ratio,
+            array(DOUBLE, 0) as adj_factor,
+            array(DOUBLE, 0) as ma5,
+            array(DOUBLE, 0) as ma_v_5,
+            array(DOUBLE, 0) as ma20,
+            array(DOUBLE, 0) as ma_v_20,
+            array(DOUBLE, 0) as ma50,
+            array(DOUBLE, 0) as ma_v_50,
+            array(TIMESTAMP, 0) as update_time
+        )
+        db.createPartitionedTable(
+            table = schemaTB,
+            tableName = tbName, 
+            partitionColumns=`trade_date
+        )
+        print("Table of " + tbName + " created successfully!")
+    }
+}
+
+//调用函数
+createStockDailyPrev()
+
+/*
+创建库表：沪深股票 - 行情数据 - 备用行情
+@example1
+createStockDailyInfo()
+*/
+def createStockDailyInfo(){
+    dbName = "dfs://stock_daily_info"
+    tbName = "stock_daily_info"
+    if(existsDatabase(dbName)){
+        print("Database of " + dbName + " has already created, please check!")
+    }
+    else{
+        db = database(dbName, RANGE, date(datetimeAdd(1990.01M,0..100*12,'M')))
+        schemaTB = table(
+            array(SYMBOL, 0) as ts_code,
+            array(DATE, 0) as trade_date,
+            array(SYMBOL, 0) as name,
+            array(DOUBLE, 0) as pct_change,
+            array(DOUBLE, 0) as close,
+            array(DOUBLE, 0) as change,
+            array(DOUBLE, 0) as open,
+            array(DOUBLE, 0) as high,
+            array(DOUBLE, 0) as low,
+            array(DOUBLE, 0) as pre_close,
+            array(DOUBLE, 0) as vol_ratio,
+            array(DOUBLE, 0) as turn_over,
+            array(DOUBLE, 0) as swing,
+            array(DOUBLE, 0) as vol,
+            array(DOUBLE, 0) as amount,
+            array(DOUBLE, 0) as selling,
+            array(DOUBLE, 0) as buying,
+            array(DOUBLE, 0) as total_share,
+            array(DOUBLE, 0) as float_share,
+            array(DOUBLE, 0) as pe,
+            array(SYMBOL, 0) as industry,
+            array(SYMBOL, 0) as area,
+            array(DOUBLE, 0) as float_mv,
+            array(DOUBLE, 0) as total_mv,
+            array(DOUBLE, 0) as avg_price,
+            array(DOUBLE, 0) as strength,
+            array(DOUBLE, 0) as activity,
+            array(DOUBLE, 0) as avg_turnover,
+            array(DOUBLE, 0) as attack,
+            array(DOUBLE, 0) as interval_3,
+            array(DOUBLE, 0) as interval_6,
+            array(TIMESTAMP, 0) as update_time
+        )
+        db.createPartitionedTable(
+            table = schemaTB,
+            tableName = tbName, 
+            partitionColumns=`trade_date
+        )
+        print("Table of " + tbName + " created successfully!")
+    }
+}
+
+//调用函数
+createStockDailyInfo()
