@@ -1,0 +1,15 @@
+a = select * from loadTable("dfs://CopyDataInfo",`info)
+
+submitJobCopyStockDailyPrev(`192.198.1.42,8900,`admin,`123456,2005.01.01..2009.12.31,remoteBbName = "dfs://stock_daily_prev",remoteTbName = "stock_daily_prev")
+submitJobCopyStockDailyBasic(`192.198.1.42,8900,`admin,`123456,2005.01.01..2009.12.31,remoteBbName = "dfs://stock_daily_basic",remoteTbName = "stock_daily_basic")
+
+
+
+stock_daily_basic
+submitJobCopyStockLimit(remoteIP,remotePort,user,password,copyDays,remoteBbName = "dfs://stock_limit",remoteTbName = "stock_limit")
+
+// submitJobCopyL2StockSnapshotMulti((`192.198.1.42,8900,`admin,`123456,20.01.01..2025.06.12,remoteBbName = "dfs://l2StockDB",remoteTbName = "snapshotMulti")
+// submitJobCopyL2StockTrade((`192.198.1.42,8900,`admin,`123456,2010.01.01..2025.06.12,remoteBbName = "dfs://l2StockDB",remoteTbName = "trade")
+// submitJobCopyL2StockEntrust((`192.198.1.42,8900,`admin,`123456,2010.01.01..2025.06.12,remoteBbName = "dfs://l2StockDB",remoteTbName = "entrust")
+
+select count(*)  from loadTable("dfs://stock_daily_prev", "stock_daily_prev")

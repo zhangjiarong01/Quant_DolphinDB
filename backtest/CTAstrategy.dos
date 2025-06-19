@@ -77,7 +77,17 @@ def comboBacktest(holdingPeriod, stopLossPct, topN, startDate=2022.01.01) {
 
 
 portfolio = comboBacktest(holdingPeriod=6, stopLossPct=-0.03, topN=20)
-share(portfolio, `portfolio_combo)
+
+
+// === 持久化回测结果 ===
+months = 2020.01M..2030.12M
+db= database("dfs://crypto_backtest", VALUE, months, engine="TSDB")
+schema = table(1:0,
+    `rebalance_time`symbol`entryPrice`exitPrice`return`holdingHours,
+    [DATETIME, SYMBOL, DOUBLE, DOUBLE, DOUBLE, INT]
+)
+pt = db.createPartitionedTable(schema, `portfolio, `rebalance_time, sortColumns=`rebalance_time)
+pt.append!(portfolio)
 
 
 // === 分析回测结果 ===
